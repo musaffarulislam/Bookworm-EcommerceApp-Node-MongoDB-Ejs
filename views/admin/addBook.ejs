@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bookworm | <%= title%></title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" integrity="sha384-b6lVK+yci+bfDmaY1u0zE8YYJt0TZxLEAFyYSLHId4xoVvsrQu3INevFKo+Xir8e" crossorigin="anonymous">
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="../signup/css2/style.css">
+    <link href="../signup/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="main">
+
+        <div class="container">
+            <div class="booking-content">
+                <div class="booking-image">
+                    <img class="booking-img" src="../signup/images/form-img.jpg" alt="Booking Image">
+                </div>
+                <div class="booking-form">
+                    <form id="signup" action="/register" method="post" onsubmit="return submitform(event)">
+                        <h2>Sign Up</h2>
+                        <div id="error"></div>
+                        <% if(warning) {%>
+                            <div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >Book Already Exist</div>
+                        <% } %>
+                        <div class="form-group form-input">
+                            <input type="text" name="bookName" id="bookName" required/>
+                            <label for="bookName" class="form-label">Book Name</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="text" name="bookDetails" id="bookDetails" required/>
+                            <label for="bookDetails" class="form-label">Book Details</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="number" name="phoneNumber" id="phonenumber" value="" required />
+                            <label for="phonenumber" class="form-label">Your phone number</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="number" name="age" id="age" value="" required />
+                            <label for="age" class="form-label">Your Age</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="password" name="password" id="fpassword" value="" required />
+                            <label for="fpassword" class="form-label">Password</label>
+                        </div>
+                        <div class="form-group form-input">
+                            <input type="password" name="confirmpassword" id="spassword" value="" required />
+                            <label for="spassword" class="form-label">Confirm Password</label>
+                        </div>
+                        <div class="form-submit">
+                            <input type="submit" value="Sign Up" class="submit" id="submit" name="submit"/>
+                            <a href="/" class="vertify-booking">Already Sign Up</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="../signup/vendor/jquery/jquery.min.js"></script>
+    <script src="../signup/js2/main.js"></script>
+    <script src="../signup/javascripts/signupvalidation.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
