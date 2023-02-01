@@ -294,7 +294,7 @@
                                             </div>
                                             <div class="modal-body">
                                               <p><%= author.authorDetails%></p>
-                                            </div>
+                                             </div>
                                             <div class="modal-footer">
                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             </div>
@@ -334,6 +334,13 @@
                           <!--/ Bootstrap Dark Table -->
             </div>
             <!-- / Content -->
+            
+            <% authors.forEach((author) => { %>
+              <div class="modal-body">
+                <p id="authordetails"><%= author.authorName %></p>
+              </div>
+            <% } %>
+
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
@@ -344,13 +351,13 @@
 
 
       <script>
-        var authordetails = document.getElementById("author").innerHTML;
+        var authordetails = document.getElementById("authordetails").innerHTML;
         var chunks = [];
         while (authordetails.length > 0) {
           chunks.push(authordetails.substring(0, 65));
           authordetails = authordetails.substring(65);
         }
-        document.getElementById("author").innerHTML = chunks.join("<br>");
+        document.getElementById("authordetails").innerHTML = chunks.join("<br>");
       </script>
 
 
