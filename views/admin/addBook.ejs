@@ -13,6 +13,9 @@
     <!-- Main css -->
     <link rel="stylesheet" href="../signup/css2/style.css">
     <link href="../signup/css/bootstrap.css" rel="stylesheet" />
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+
 </head>
 <body>
 
@@ -25,7 +28,7 @@
                         <img class="booking-img" src="../signup/images/form-img.jpg" alt="Booking Image" style="height: 100%;">
                     </div>
                 <div class="booking-form">
-                    <form class="py-4" id="signup" action="/register" method="post" onsubmit="return submitform(event)">
+                    <form class="py-4" id="addBook" action="/admin/addBook" method="post" onsubmit="return submitform(event)">
                         <h2>Add Book</h2>
                         <div id="error"></div>
                         <% if(warning) {%>
@@ -41,42 +44,51 @@
                         </div> -->
                         <label style="color :#bebebe" class="pt-1">Book Details</label>
                         <div class="form-group form-input pt-2">
-                            <textarea name="bookDetails" class="form-control" id="bookDetails" style="background-color: #111; color: aliceblue; height: 150px;"></textarea>
+                            <textarea name="bookDetails" class="form-control" id="bookDetails" style="background-color: #111; color: aliceblue; height: 100px;"></textarea>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="form-group form-input pt-2 w-50">
                                 <label for="author" style="color :#bebebe">Author:</label>
                                 <select name="author" id="author" class="bg-dark" pt-1>
                                     <option value="">Select Author</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
+                                    <% authors.forEach((author) =>{ %>
+                                        <option value="<%= author._id %>"><%= author.authorName %></option>
+                                    <% }) %>
                                 </select>
                             </div>
                             <div class="pt-4">
-                                <button type="button" class="btn btn-danger btn-sm">Add Author</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#addAuthor">Add Author</button>
                             </div>
                         </div>
+                        
                         <div class="d-flex justify-content-between">
                             <div class="form-group form-input pt-2 w-50">
                                 <label for="genre" style="color :#bebebe">Genre:</label>
                                 <select name="genre" id="genre" class="bg-dark" pt-1>
                                     <option value="">Select Author</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
+                                    <% genres.forEach((genre) =>{ %>
+                                        <option value="<%= genre._id %>"><%= genre.genreName %></option>
+                                    <% }) %>
                                 </select>
                             </div>
                             <div class="pt-4">
-                                <button type="button" class="btn btn-danger btn-sm">Add Genre</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#addGenre">Add Genre</button>
                             </div>
+
+
+
                         </div>
-                        <div class="d-flex justify-content-between">
+                  
                             <div class="form-group form-input pt-2">
-                                <input type="file" name="photo" id="photo"  multiple required />
-                                <!-- <label for="rentPrice" class="form-label">Rent Price</label> -->
+                                <input type="file" name="photo1" id="photo" required />
                             </div>
-                        </div>
+                            <div class="form-group form-input pt-2">
+                                <input type="file" name="photo2" id="photo" required />
+                            </div>
+                            <div class="form-group form-input pt-2">
+                                <input type="file" name="photo3" id="photo" required />
+                            </div>
+                       
                         <div class="form-group form-input  w-30">
                             <input type="number" name="pages" id="pages" required />
                             <label for="pages" class="form-label">Pages</label>
@@ -100,8 +112,79 @@
             </div>
         </div>
 
+                <!-- ============================================-->
+              <!-- model login ============================-->
+
+              <div class="modal fade" id="addAuthor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <form id="editGenre" class="p-2" action="/admin/addAuthor" method="post">
+                        <div class="modal-header">
+                          <h5 class="modal-title text-dark" id="exampleModalLongTitle">Add Author</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                               </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-outline mb-1">
+                            <label class="form-label text-dark" for="typeUsernameX-1" style="position: static;">Enter Author</label>
+                            <input type="text" id="authorName" class="form-control form-control-lg mb-3" name="authorName"/>
+                            <label class="form-label text-dark" for="typeUsernameX-1" style="position: static; font-size: 14px;">Enter Author</label>
+                            <textarea name="authorDetails" class="form-control" id="authorDetails" style="height: 150px;"></textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- model login ============================-->
+                <!-- ============================================-->
+
+
+              <!-- ============================================-->
+              <!-- model login ============================-->
+
+              <div class="modal fade" id="addGenre" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <form id="addGenre" class="p-2" action="/admin/addGenre" method="post">
+                      <div class="modal-header">
+                        <h5 class="modal-title text-dark" id="exampleModalLongTitle">Add Genre</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="form-outline mb-1">
+                          <label class="form-label text-dark" for="typeUsernameX-1" style="position: static;">Enter Genre</label>
+                            <input type="text" id="genre" class="form-control form-control-lg" name="genre" />  
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            <!-- model login ============================-->
+            <!-- ============================================-->
+
+
     </div>
 
+
+    
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
 
 
     <!-- JS -->

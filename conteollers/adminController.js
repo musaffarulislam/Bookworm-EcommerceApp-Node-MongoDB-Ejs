@@ -54,15 +54,15 @@ const deleteUser = async (req,res) =>{
 
 
 const renderProductManagement = async (req,res) =>{
-    let users = await user.find({}).cursor().toArray()
-    // console.log(users)
+    let users = await user.find()
     res.render('admin/productManagement.ejs',{users});
 }
 
 const renderAddBook = async (req,res) => {
     const warning = false
-    let authors = await author.find({}).cursor().toArray()
-    res.render('admin/addBook.ejs',{title: 'Add Book',warning,authors});
+    let authors = await author.find()
+    let genres = await genre.find()
+    res.render('admin/addBook.ejs',{title: 'Add Book',warning,authors,genres});
 }
 
 const renderAuthorManagement = async (req,res) =>{
