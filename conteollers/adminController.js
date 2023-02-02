@@ -1,6 +1,7 @@
 const { response } = require('express');
 const user = require('../models/userModel');
 const author = require('../models/authorModel')
+const genre = require('../models/genreModel')
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const session = require('express-session');
@@ -74,7 +75,7 @@ const renderAddAuthor = (req,res) => {
     res.render('admin/addAuthor.ejs',{title: 'Add Author'});
 }
 
-const storeAuthor = async (req,res) => {
+const addAuthor = async (req,res) => {
     const newAuthor = new author({
         authorName : req.body.authorName,
         authorDetails : req.body.authorDetails,
@@ -112,6 +113,41 @@ const undeleteAuthor = async (req,res) =>{
     res.redirect('/admin/authorManagement');
 }
 
+const renderGenreManagement = async (req,res) =>{
+    let genres = await genre.find()
+    res.render('admin/genreManagement.ejs',{genres});
+}
+
+const addGenre = async (req,res) => {
+    const newGenre = new genre({
+        genreName : req.body.genre,
+        delete : true,
+    })
+    await newGenre.save();
+    res.redirect('/admin/genreManagement');
+}
+
+const editGenre = async (req,res) => {
+    await genre.updateOne({_id: req.params.id},
+        {$set: 
+            { 
+                genreName : req.body.genre,
+                delete : req.body.genreDelete,
+            }
+        })
+    res.redirect('/admin/genreManagement');
+}
+
+const deleteGenre = async (req,res) =>{
+    await genre.updateOne({_id: req.params.id},{$set: { delete: false }})
+    res.redirect('/admin/genreManagement');
+}
+
+const undeleteGenre = async (req,res) =>{
+    await genre.updateOne({_id: req.params.id},{$set: { delete: true }})
+    res.redirect('/admin/genreManagement');
+}
+
 const logout = (req,res)=>{
     req.session.adminemail = null;
     res.redirect("/admin");
@@ -129,10 +165,15 @@ module.exports = {
     renderAddBook,
     renderAuthorManagement,
     renderAddAuthor,
-    storeAuthor,
+    addAuthor,
     renderEditAuthor,
     editAuthor,
     deleteAuthor,
     undeleteAuthor,
+    renderGenreManagement,
+    addGenre,
+    editGenre,
+    deleteGenre,
+    undeleteGenre,
     logout
 }

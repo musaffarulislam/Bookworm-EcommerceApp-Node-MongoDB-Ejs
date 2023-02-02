@@ -56,23 +56,30 @@
     <link rel="stylesheet" href="../admin/assets/vendor/libs/apex-charts/apex-charts.css" />
 
 
-    <!-- Helpers -->
-    <script src="../admin/assets/vendor/js/helpers.js"></script>
-    <script src="../admin/assets/js/config.js"></script>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+
+
+
+
+    <!-- Helpers -->
+    <script src="../admin/assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../admin/assets/js/config.js"></script>
   </head>
 
   <body>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
-
-
         <!-- Menu -->
+
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="/admin/admin_panel" class="app-brand-link">
@@ -129,17 +136,16 @@
                 <div data-i18n="Tables">User</div>
               </a>
             </li>
-            
 
-            
             <li class="menu-item">
               <a href="/admin/productManagement" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">Book</div>
               </a>
             </li>
+
             
-            
+
             <!-- Tables -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Sub Managments</span></li>
             <!-- Tables -->
@@ -155,9 +161,10 @@
             <li class="menu-item active">
               <a href="/admin/genreManagement" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Genre</div>
+                <div data-i18n="Tables active">Genre</div>
               </a>
             </li>
+
 
           </ul>
         </aside>
@@ -165,9 +172,11 @@
 
         <!-- Layout container -->
         <div class="layout-page">
-          <!-- Navbar -->
 
-          <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+          <!-- Navbar -->
+          <nav
+            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            id="layout-navbar">
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
               <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
                 <i class="bx bx-menu bx-sm"></i>
@@ -265,96 +274,66 @@
               </ul>
             </div>
           </nav>
-
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
-            <!-- Content -->
+
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="d-flex justify-content-between">
-                <h4 class="fw-bold py-3 mb-4"> Author Management</h4>
-                <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#addAuthor" style="height: 50px;">Add Author</button>
-              </div>
+                <h4 class="fw-bold py-3 mb-4"> Genre Management</h4>
+               <button type="button" class="btn btn-danger" style="height: 50px;" data-toggle="modal" data-target="#exampleModal2">Add Genre</button>
+              </div>       
 
               <!-- ============================================-->
               <!-- model login ============================-->
 
-              <div class="modal fade" id="addAuthor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <form id="editGenre" action="/admin/addAuthor" method="post">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Add Author</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                             </button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="form-outline mb-1">
-                          <label class="form-label" for="typeUsernameX-1">Enter Author</label>
-                          <input type="text" id="authorName" class="form-control form-control-lg" name="authorName"/>
-                          <label class="form-label" for="typeUsernameX-1">Author Details</label>
-                          <textarea name="authorDetails" class="form-control" id="authorDetails" style="height: 150px;"></textarea>
+                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <form id="addGenre" action="/admin/addGenre" method="post">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
                         </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add</button>
-                      </div>
-                    </form>
+                        <div class="modal-body">
+                          <div class="form-outline mb-1">
+                            <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
+                              <input type="text" id="genre" class="form-control form-control-lg" name="genre" />  
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
-
               <!-- model login ============================-->
               <!-- ============================================-->
 
-                          <!-- Bootstrap Dark Table -->
+            
                           <div class="card">
-                            <h5 class="card-header">Author Management</h5>
-                            <div class="table-responsive  p-3">
+                            <h5 class="card-header">User Management</h5>
+                            <div class="table-responsive text-nowrap p-3">
                               <table class="table table-dark py-3" id="example">
                                 <thead>
                                   <tr>
-                                    <th>Author Name</th>
-                                    <th>Details</th>
+                                    <th>Genre</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                   </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                   <% let i = 1 %>
-                                  <% authors.forEach((author) => { %>
+                                  <% genres.forEach((genre) => { %>
                                     <tr>  
-                                      <td width="30%"><strong><%= author.authorName %></strong></td>
-                                      <!-- <td width="30%"><%= author.authorDetails %></td> -->
-
-
-                                      <td><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#view<%= author.authorName %>">View</button></td>
-                                      
-                                      <!-- Modal -->
-                                      <div class="modal fade" id="view<%= author.authorName %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                          <div class="modal-content">
-                                            <div class="modal-header">
-                                              <h5 class="modal-title" id="exampleModalLabel"><%= author.authorName %></h5>
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                              </button>
-                                            </div>
-                                            <div class="modal-body">
-                                              <p><%= author.authorDetails%></p>
-                                             </div>
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div> 
-                                                                      
-                                      
-                                      <% if (author.delete) {%>
+                                      <td width="30%"><strong><%= genre.genreName %></strong></td>
+     
+                                      <% if (genre.delete) {%>
                                         <td width="20%"><span class="badge bg-label-success me-1">Active</span></td>
                                       <% }else{ %>
                                         <td width="20%"><span class="badge bg-label-warning me-1">delete</span></td>
@@ -362,16 +341,16 @@
                                       <td width="20%">
                                         <div class="dropdown">
                                           <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                            <i class="bx bx-dots-vertical-rounded" style="color: aliceblue;"></i>
                                           </button>
                                           <div class="dropdown-menu">
-                                            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit<%= author.authorName %>"><i class="bx bx-edit-alt me-1"></i> Edit</button>
-                                            <% if (author.delete) {%>
-                                              <a class="dropdown-item" href="/admin/deleteAuthor/<%= author._id %>"><i class="bx bx-trash me-1"></i> Delete</a>
+                                            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#<%= genre.genreName %>"><i class="bx bx-edit-alt me-1"></i> Edit</button>
+                                            <% if (genre.delete) {%>
+                                              <a class="dropdown-item" href="/admin/deleteGenre/<%= genre._id %>"><i class="bx bx-trash me-1"></i> Delete</a>
                                             <% }else{ %>
-                                              <a class="dropdown-item" href="/admin/undeleteAuthor/<%= author._id %>"><i class="bx bx-recycle me-1"></i> Un Delete</a>
+                                              <a class="dropdown-item" href="/admin/undeleteGenre/<%= genre._id %>"><i class="bx bx-recycle me-1"></i> Un Delete</a>
                                             <% } %>
-                                            </div>
+                                          </div>
                                         </div>
                                       </td>
                                     </tr>
@@ -379,23 +358,21 @@
                                         <!-- ============================================-->
                                         <!-- model login ============================-->
 
-                                        <div class="modal fade" id="edit<%= author.authorName %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal fade" id="<%= genre.genreName %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                              <form id="editGenre" action="/admin/editAuthor/<%= author._id %>" method="post">
+                                              <form id="editGenre" action="/admin/editGenre/<%= genre._id %>" method="post">
                                                 <div class="modal-header">
-                                                  <h5 class="modal-title" id="exampleModalLongTitle">Edit Author</h5>
+                                                  <h5 class="modal-title" id="exampleModalLongTitle">Edit Genre</h5>
                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
                                                   <div class="form-outline mb-1">
-                                                    <label class="form-label" for="typeUsernameX-1">Enter Author</label>
-                                                    <input type="text" id="authorName" class="form-control form-control-lg" name="authorName" value="<%= author.authorName %>"/>
-                                                    <label class="form-label" for="typeUsernameX-1">Author Details</label>
-                                                    <textarea name="authorDetails" class="form-control" id="authorDetails" style="height: 150px;"><%= author.authorDetails %></textarea>
-                                                    <input type="hidden" id="genredelete" class="form-control form-control-lg" name="authorDelete" value="<%= author.delete%>"/>  
+                                                    <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
+                                                    <input type="text" id="genre" class="form-control form-control-lg" name="genre" value="<%= genre.genreName%>"/>
+                                                    <input type="hidden" id="genredelete" class="form-control form-control-lg" name="genreDelete" value="<%= genre.delete%>"/>  
                                                   </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -416,33 +393,27 @@
                               </table>
                             </div>
                           </div>
-                          <!--/ Bootstrap Dark Table -->
-            </div>
-            <!-- / Content -->
-            <div class="content-backdrop fade"></div>
+              </div>
           </div>
-          <!-- Content wrapper -->
         </div>
-        <!-- / Layout page -->
-      </div>
 
 
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-      <script>
-        $(document).ready(function() {
-          $('#example').DataTable();
-        });
-        $('#example').DataTable({
-        "searching": true
-        });
-      </script>
+      
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+        <script>
+          $(document).ready(function() {
+            $('#example').DataTable();
+          });
+          $('#example').DataTable({
+          "searching": true
+          });
+        </script>
 
 
-    <!-- Include Bootstrap JavaScript library -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

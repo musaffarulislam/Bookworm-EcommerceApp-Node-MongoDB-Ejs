@@ -12,6 +12,7 @@ const userRouter = require('./routes/user');
 const adminRouter = require('./routes/admin');
 
 const renderError = require('./midlewares/error')
+
 const connectdb = require('./server/database/connection')
 connectdb()
 

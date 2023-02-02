@@ -11,11 +11,11 @@ const bookScheme = new Scheme({
     },
     author : {
         type : mongoose.SchemaTypes.ObjectId,
-        ref : 'authors'
+        ref : 'author'
     },
-    category : {
-        type : String,
-        required : true
+    genre : {
+        type : mongoose.SchemaTypes.ObjectId,
+        ref : 'genre'
     },
     pages : {
         type : Number,

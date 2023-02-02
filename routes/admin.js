@@ -27,15 +27,25 @@ router.get('/authorManagement',midleware.adminSession,adminController.renderAuth
 
 router.get('/addAuthor',midleware.adminSession,adminController.renderAddAuthor);
 
-router.post('/addAuthor',adminController.storeAuthor);
+router.post('/addAuthor',adminController.addAuthor);
 
 router.get('/editAuthor/:id',adminController.renderEditAuthor);
 
-router.get('/editAuthor/:id',adminController.editAuthor);
+router.post('/editAuthor/:id',adminController.editAuthor);
 
 router.get('/deleteAuthor/:id',adminController.deleteAuthor);
 
 router.get('/undeleteAuthor/:id',adminController.undeleteAuthor);
+
+router.get('/genreManagement',midleware.adminSession,adminController.renderGenreManagement);
+
+router.post('/addGenre',adminController.addGenre);
+
+router.post('/editGenre/:id',adminController.editGenre);
+
+router.get('/deleteGenre/:id',adminController.deleteGenre);
+
+router.get('/undeleteGenre/:id',adminController.undeleteGenre);
 
 router.get('/logout',adminController.logout);
 
