@@ -91,6 +91,8 @@ const userSignup = async (req, res) => {
 
         const OTP = randomOTP;
         const expirationTime = Date.now() + 5 * 60 * 1000;
+
+        console.log(OTP);
     
         const newOTPVerification = new UserOTPVerification({
           email: User.email,
@@ -203,7 +205,7 @@ const resendOTP = async (req,res) =>{
           from: 'bookworm.ecommerce.project@gmail.com',
           to: User.email,
           subject: 'Resend OTP',
-          text: `You otp :${OTP}`,
+          text: `You otp : ${OTP}`,
           html: `
           <div style="border-bottom:1px solid #eee">
             <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Bookworm</a>

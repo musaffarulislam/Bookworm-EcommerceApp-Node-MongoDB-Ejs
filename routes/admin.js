@@ -1,9 +1,11 @@
 const { response } = require('express');
 const express = require('express');
 const adminController = require('../conteollers/adminController');
-const midleware = require('../midlewares/middleware') 
+const midleware = require('../midlewares/middleware');
+const upload = require('../midlewares/multer')
 const { get } = require('mongoose');
 const router = express.Router();
+
 
 router.get('/',adminController.renderLogin);
 
@@ -23,13 +25,11 @@ router.get('/productManagement',midleware.adminSession,adminController.renderPro
 
 router.get('/addBook',midleware.adminSession,adminController.renderAddBook);
 
+router.post('/addBook',upload.array('myFiles', 3),adminController.addBook);
+
 router.get('/authorManagement',midleware.adminSession,adminController.renderAuthorManagement);
 
-router.get('/addAuthor',midleware.adminSession,adminController.renderAddAuthor);
-
 router.post('/addAuthor',adminController.addAuthor);
-
-router.get('/editAuthor/:id',adminController.renderEditAuthor);
 
 router.post('/editAuthor/:id',adminController.editAuthor);
 

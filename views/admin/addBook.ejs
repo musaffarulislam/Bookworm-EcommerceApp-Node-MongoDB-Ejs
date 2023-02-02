@@ -24,24 +24,17 @@
         <div class="container">
             <div class="booking-content">
 
-                    <div class="booking-image">
-                        <img class="booking-img" src="../signup/images/form-img.jpg" alt="Booking Image" style="height: 100%;">
-                    </div>
+                <div class="booking-image">
+                    <img class="booking-img" src="../signup/images/form-img.jpg" alt="Booking Image" style="height: 100%;">
+                </div>
                 <div class="booking-form">
-                    <form class="py-4" id="addBook" action="/admin/addBook" method="post" onsubmit="return submitform(event)">
+                    <form class="py-4" id="addBook" action="/admin/addBook" method="post" enctype="multipart/form-data">
                         <h2>Add Book</h2>
                         <div id="error"></div>
-                        <% if(warning) {%>
-                            <div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >Book Already Exist</div>
-                        <% } %>
                         <div class="form-group form-input">
                             <input type="text" name="bookName" id="bookName" required/>
                             <label for="bookName" class="form-label">Book Name</label>
                         </div>
-                        <!-- <div class="form-group form-input">
-                            <input type="hidden" name="book" id="book" value="Book" required/>
-                            <label for="book" class="form-label">Book Details</label>
-                        </div> -->
                         <label style="color :#bebebe" class="pt-1">Book Details</label>
                         <div class="form-group form-input pt-2">
                             <textarea name="bookDetails" class="form-control" id="bookDetails" style="background-color: #111; color: aliceblue; height: 100px;"></textarea>
@@ -74,21 +67,11 @@
                             <div class="pt-4">
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#addGenre">Add Genre</button>
                             </div>
-
-
-
                         </div>
-                  
-                            <div class="form-group form-input pt-2">
-                                <input type="file" name="photo1" id="photo" required />
-                            </div>
-                            <div class="form-group form-input pt-2">
-                                <input type="file" name="photo2" id="photo" required />
-                            </div>
-                            <div class="form-group form-input pt-2">
-                                <input type="file" name="photo3" id="photo" required />
-                            </div>
-                       
+                        <div class="form-group form-input pt-2">
+                            <input type="file" name="myFiles" id="myFiles" multiple required />
+                            <div id="file-list"></div>
+                        </div>
                         <div class="form-group form-input  w-30">
                             <input type="number" name="pages" id="pages" required />
                             <label for="pages" class="form-label">Pages</label>
@@ -180,6 +163,51 @@
     </div>
 
 
+    <!-- <script>
+        const form = document.getElementById("addBook");
+        const input = document.getElementById("myFiles");
+        const fileList = document.getElementById("file-list");
+
+        const renderFiles = () => {
+        fileList.innerHTML = "";
+
+        for (let i = 0; i < input.files.length; i++) {
+            const li = document.createElement("li");
+            li.innerHTML = input.files[i].name;
+
+            const deleteBtn = document.createElement("button");
+            // deleteBtn.innerHTML = "Delete";
+            deleteBtn.addEventListener("click", () => {
+            input.files[i] = null;
+            renderFiles();
+            });
+
+            // li.appendChild(deleteBtn);
+            fileList.appendChild(li);
+        }
+        };
+
+        input.addEventListener("change", () => {
+        if (input.files.length > 3) {
+            alert("You can only upload 3 files");
+            input.value = "";
+        } else {
+            renderFiles();
+        }
+        });
+
+        form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        for (let i = 0; i < input.files.length; i++) {
+            formData.append("myFiles", input.files[i]);
+        }
+        });
+
+    </script> -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

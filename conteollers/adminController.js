@@ -1,7 +1,10 @@
 const { response } = require('express');
 const user = require('../models/userModel');
 const author = require('../models/authorModel')
+const book = require('../models/bookModel')
 const genre = require('../models/genreModel')
+
+
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const session = require('express-session');
@@ -65,15 +68,35 @@ const renderAddBook = async (req,res) => {
     res.render('admin/addBook.ejs',{title: 'Add Book',warning,authors,genres});
 }
 
+
+const addBook = async(req,res) =>{
+    try{
+        const newBook = new book({
+            bookName : req.body.bookName,
+            bookDetails : req.body.bookDetails,
+            author : req.body.author,
+            genre : req.body.genre,
+            image1 : req.files[0].filename,
+            image2 : req.files[1].filename,
+            image3 : req.files[2].filename,
+            pages : req.body.pages,
+            retailPrice : req.body.retailPrice,
+            rentPrice : req.body.rentPrice,
+            delete : true,
+        }) 
+        newBook.save()
+
+        res.redirect('/admin/productManagement');
+    }catch(err){
+        console.error(`Error Adding Book : ${err}`);
+    }
+}
+
 const renderAuthorManagement = async (req,res) =>{
     let authors = await author.find({}).cursor().toArray()
     res.render('admin/authorManagement.ejs',{authors});
 }
 
-
-const renderAddAuthor = (req,res) => {
-    res.render('admin/addAuthor.ejs',{title: 'Add Author'});
-}
 
 const addAuthor = async (req,res) => {
     const newAuthor = new author({
@@ -81,15 +104,10 @@ const addAuthor = async (req,res) => {
         authorDetails : req.body.authorDetails,
         delete : true,
     })
-
     await newAuthor.save();
     res.redirect('/admin/authorManagement');
 }
 
-const renderEditAuthor = async (req,res) =>{
-    const details = await author.findOne({_id: req.params.id})
-    res.render('admin/editAuthor.ejs',{title: 'Edit Author',details});
-}
 
 const editAuthor = async (req,res) => {
     await author.updateOne({_id: req.params.id},
@@ -162,11 +180,10 @@ module.exports = {
     unblockUser,
     deleteUser,
     renderProductManagement,
+    addBook,
     renderAddBook,
     renderAuthorManagement,
-    renderAddAuthor,
     addAuthor,
-    renderEditAuthor,
     editAuthor,
     deleteAuthor,
     undeleteAuthor,

@@ -6,7 +6,7 @@ const sessions = require('express-session');
 const logger = require('morgan');
 const app = express();
 const dotenv = require('dotenv');
-const mongoose = require('mongoose')
+
 
 const userRouter = require('./routes/user');
 const adminRouter = require('./routes/admin');
