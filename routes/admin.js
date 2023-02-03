@@ -6,6 +6,11 @@ const upload = require('../midlewares/multer')
 const { get } = require('mongoose');
 const router = express.Router();
 
+const bodyParser = require('body-parser');
+
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
+
 
 router.get('/',adminController.renderLogin);
 
@@ -27,6 +32,12 @@ router.get('/addBook',midleware.adminSession,adminController.renderAddBook);
 
 router.post('/addBook',upload.array('myFiles', 3),adminController.addBook);
 
+router.post('/editBook/:id',adminController.editBook);
+
+router.post('/addAuthorInAddBook',upload.single('authorImage'),adminController.addAuthorInAddBook);
+
+router.post('/addGenreInAddBook',adminController.addGenreInAddBook);
+
 router.post('/changeImage1/:id',upload.single('myFile1'),adminController.changeImage1);
 
 router.post('/changeImage2/:id',upload.single('myFile2'),adminController.changeImage2);
@@ -35,7 +46,9 @@ router.post('/changeImage3/:id',upload.single('myFile3'),adminController.changeI
 
 router.get('/authorManagement',midleware.adminSession,adminController.renderAuthorManagement);
 
-router.post('/addAuthor',adminController.addAuthor);
+router.post('/addAuthor',upload.single('authorImage'),adminController.addAuthor);
+
+router.post('/changeAuthorImage/:id',upload.single('authorImage'),adminController.changeAuthorImage);
 
 router.post('/editAuthor/:id',adminController.editAuthor);
 

@@ -145,14 +145,14 @@
             <!-- Tables -->
 
                         
-            <li class="menu-item">
+            <li class="menu-item active">
               <a href="/admin/authorManagement" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">Author</div>
               </a>
             </li>
             
-            <li class="menu-item active">
+            <li class="menu-item">
               <a href="/admin/genreManagement" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">Genre</div>
@@ -268,6 +268,30 @@
 
           <!-- / Navbar -->
 
+          <!-- Warning -->
+          <% if(warning) {%>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                    <button type="button" class="close" id="closeBtn" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <%= warning%>
+                  </div>
+                  <div class="modal-footer">
+                    <a href=""><button type="button" class="btn btn-primary" id="closeBtn" data-dismiss="modal">Close</button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <!-- / warning -->
+
+
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
@@ -278,12 +302,12 @@
               </div>
 
               <!-- ============================================-->
-              <!-- model login ============================-->
+              <!-- Add Author ============================-->
 
               <div class="modal fade" id="addAuthor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                  <form id="editGenre" action="/admin/addAuthor" method="post">
+                  <form id="editGenre" action="/admin/addAuthor" method="post" enctype="multipart/form-data">
                       <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Add Author</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -293,9 +317,11 @@
                       <div class="modal-body">
                         <div class="form-outline mb-1">
                           <label class="form-label" for="typeUsernameX-1">Enter Author</label>
-                          <input type="text" id="authorName" class="form-control form-control-lg" name="authorName"/>
-                          <label class="form-label" for="typeUsernameX-1">Author Details</label>
-                          <textarea name="authorDetails" class="form-control" id="authorDetails" style="height: 150px;"></textarea>
+                          <input type="text" id="authorName" class="form-control form-control-lg" name="authorName" required/>
+                          <label class="form-label mt-3" for="typeUsernameX-1">Author Details</label>
+                          <textarea name="authorDetails" class="form-control" id="authorDetails" style="height: 150px;" required></textarea>
+                          <label class="form-label mt-3" for="typeUsernameX-1">Author Image</label>
+                          <input type="file" id="myFile1" class="form-control form-control-lg" name="authorImage" required/>
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -307,7 +333,7 @@
                 </div>
               </div>
 
-              <!-- model login ============================-->
+              <!-- Add Author ============================-->
               <!-- ============================================-->
 
                           <!-- Bootstrap Dark Table -->
@@ -319,6 +345,7 @@
                                   <tr>
                                     <th>Author Name</th>
                                     <th>Details</th>
+                                    <th>Image</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                   </tr>
@@ -332,8 +359,9 @@
 
 
                                       <td><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#view<%= author._id %>">View</button></td>
+                                      <td><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#viewImage<%= author._id %>">View</button></td>
                                       
-                                      <!-- Modal -->
+                                      <!-- View  Author Details -->
                                       <div class="modal fade" id="view<%= author._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                           <div class="modal-content">
@@ -352,7 +380,59 @@
                                           </div>
                                         </div>
                                       </div> 
-                                                                      
+                                                      
+                                      <!-- View  Author Image -->
+                                      <div class="modal fade" id="viewImage<%= author._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel"><%= author.authorName %> - Image</h5>
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="d-flex justify-content-center border rounded border-dark p-2 my-2">
+                                                  <img src="../<%= author.authorImage %>" alt="Image 1" class="me-2" style="width: 80px;">
+                                                  <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#changeAuthor<%= author._id %>"><i class="bx bx-edit-alt me-1" ></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <!-- Change Author Image -->
+                                      <div class="modal fade" id="changeAuthor<%= author._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                          <div class="modal-content">
+                                            <form id="changeImage3" action="/admin/changeAuthorImage/<%= author._id %>" method="post"  enctype="multipart/form-data">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Change Author Image</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                <div class="form-outline mb-1">
+                                                  <label class="form-label" for="typeUsernameX-1">Change Image </label>
+                                                  <input type="file" id="authorImage" class="form-control form-control-lg" name="authorImage"/>
+                                                  <input type="hidden" name="authorFile" value="<%= author.authorImage %>">
+                                                  <input type="hidden" name="authorName" value="<%= author.authorName %>">
+                                                  <input type="hidden" name="authorDetails" value="<%= author.authorDetails %>">
+                                                </div>
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Change</button>
+                                              </div>
+                                            </form>
+                                          </div>
+                                        </div>
+                                      </div>
+
                                       
                                       <% if (author.delete) {%>
                                         <td width="20%"><span class="badge bg-label-success me-1">Active</span></td>
@@ -376,9 +456,9 @@
                                       </td>
                                     </tr>
 
-                                        <!-- ============================================-->
-                                        <!-- model login ============================-->
 
+                                       <!-- ============================================-->
+                                        <!-- Edit Author Details ============================-->
                                         <div class="modal fade" id="edit<%= author._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
@@ -395,6 +475,7 @@
                                                     <input type="text" id="authorName" class="form-control form-control-lg" name="authorName" value="<%= author.authorName %>"/>
                                                     <label class="form-label" for="typeUsernameX-1">Author Details</label>
                                                     <textarea name="authorDetails" class="form-control" id="authorDetails" style="height: 150px;"><%= author.authorDetails %></textarea>
+                                                    <input type="hidden" name="authorFile" value="<%= author.authorImage %>">
                                                     <input type="hidden" id="genredelete" class="form-control form-control-lg" name="authorDelete" value="<%= author.delete%>"/>  
                                                   </div>
                                                 </div>
@@ -406,8 +487,7 @@
                                             </div>
                                           </div>
                                         </div>
-
-                                      <!-- model login ============================-->
+                                      <!-- Edit Author Details ============================-->
                                       <!-- ============================================-->
 
                                   <% }) %>
@@ -438,6 +518,14 @@
         });
       </script>
 
+      <script>$
+        (document).ready(function(){
+        $('#myModal').modal('show');
+        $('#closeBtn').click(function(){
+          $('#myModal').modal('hide');
+        });
+        });
+      </script>
 
     <!-- Include Bootstrap JavaScript library -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

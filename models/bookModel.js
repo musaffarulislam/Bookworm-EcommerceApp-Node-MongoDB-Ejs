@@ -17,6 +17,10 @@ const bookScheme = new Scheme({
         type : mongoose.SchemaTypes.ObjectId,
         ref : 'genre'
     },
+    language : {
+        type : String,
+        required : true
+    },
     image1 : {
         type : String,
         required : true

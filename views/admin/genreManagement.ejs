@@ -276,6 +276,30 @@
           </nav>
           <!-- / Navbar -->
 
+          <!-- Warning -->
+          <% if(warning) {%>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                    <button type="button" class="close" id="closeBtn" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <%= warning%>
+                  </div>
+                  <div class="modal-footer">
+                    <a href=""><button type="button" class="btn btn-primary" id="closeBtn" data-dismiss="modal">Close</button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <!-- / warning -->
+
+
           <!-- Content wrapper -->
           <div class="content-wrapper">
 
@@ -301,7 +325,7 @@
                         <div class="modal-body">
                           <div class="form-outline mb-1">
                             <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
-                              <input type="text" id="genre" class="form-control form-control-lg" name="genre" />  
+                              <input type="text" id="genre" class="form-control form-control-lg" name="genre" required/>  
                           </div>
                         </div>
                         <div class="modal-footer">
@@ -371,8 +395,8 @@
                                                 <div class="modal-body">
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
-                                                    <input type="text" id="genre" class="form-control form-control-lg" name="genre" value="<%= genre.genreName%>"/>
-                                                    <input type="hidden" id="genredelete" class="form-control form-control-lg" name="genreDelete" value="<%= genre.delete%>"/>  
+                                                    <input type="text" id="genre" class="form-control form-control-lg" name="genre" value="<%= genre.genreName%>" required/>
+                                                    <input type="hidden" id="genredelete" class="form-control form-control-lg" name="genreDelete" value="<%= genre.delete%>" required/>  
                                                   </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -397,6 +421,8 @@
           </div>
         </div>
  
+
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
         <script>
@@ -409,8 +435,17 @@
         </script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>$
+      (document).ready(function(){
+      $('#myModal').modal('show');
+      $('#closeBtn').click(function(){
+        $('#myModal').modal('hide');
+      });
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
     <!-- Core JS -->

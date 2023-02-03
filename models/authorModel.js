@@ -3,6 +3,7 @@ const Scheme = mongoose.Schema
 const authorScheme = new Scheme({
     authorName : String,
     authorDetails : String,
+    authorImage : String,
     delete : Boolean,
 })
 

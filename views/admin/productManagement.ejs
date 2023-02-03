@@ -337,6 +337,7 @@
                                     <th>Book Details</th>
                                     <th>Author</th>
                                     <th>Genre</th>
+                                    <th>Language</th>
                                     <th>Images</th>
                                     <!-- <th>Image 2</th>
                                     <th>Image 3</th> -->
@@ -375,6 +376,8 @@
                                     <td><%= book?.author?.authorName %></td>
                                     
                                     <td><%= book?.genre?.genreName %></td>
+
+                                    <td><%= book.language %></td>
 
                                     <td><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#viewImage<%= book._id %>">View</button></td>
 
@@ -442,7 +445,7 @@
                                         <div class="modal fade" id="edit<%= book._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                              <form id="editBook" action="/admin/editAuthor/<%= book._id %>" method="post">
+                                              <form id="editBook" action="/admin/editBook/<%= book._id %>" method="post">
                                                 <div class="modal-header">
                                                   <h5 class="modal-title" id="exampleModalLongTitle">Edit Book</h5>
                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -453,30 +456,171 @@
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Enter Book</label>
                                                     <input type="text" id="bookrName" class="form-control form-control-lg" name="bookName" value="<%=book.bookName %>"/>
-                                                    <label class="form-label" for="typeUsernameX-1">Author Details</label>
+                                                    <label class="form-label mt-3" for="typeUsernameX-1">Author Details</label>
                                                     <textarea name="bookDetails" class="form-control" id="bookDetails" style="height: 100px;"><%= book.bookDetails %></textarea>
                                                     <div class="form-group form-input pt-2">
                                                       <div class="d-flex">
-                                                        <div class="me-2">
-                                                          <label for="author">Author:</label>
-                                                          <select name="author" id="author">
-                                                              <option value="<%= book?.author?._id %>"><%= book?.author?.authorName %></option>
+                                                        <div class="me-2 mt-3">
+                                                          <label for="author" style="color :#3e3e3e">Author:</label>
+                                                          <select name="author" id="author" style="color :#3e3e3e">
+                                                              <option value="<%= book?.author?._id %>" style="color :#3e3e3e"><%= book?.author?.authorName %></option>
                                                               <% authors.forEach((author) =>{ %>
-                                                                  <option value="<%= author._id %>"><%= author.authorName %></option>
+                                                                  <option value="<%= author._id %>" style="color :#3e3e3e"><%= author.authorName %></option>
                                                               <% }) %>
                                                           </select>
                                                         </div>
-                                                        <div>
-                                                          <label for="genre">Genre:</label>
-                                                          <select name="genre" id="genre">
-                                                              <option value="<%= book?.genre?._id %>"><%= book?.genre?.genreName %></option>
+                                                        <div class="mt-3">
+                                                          <label for="genre" style="color :#3e3e3e">Genre:</label>
+                                                          <select name="genre" id="genre" style="color :#3e3e3e">
+                                                              <option value="<%= book?.genre?._id %>" style="color :#3e3e3e"><%= book?.genre?.genreName %></option>
                                                               <% genres.forEach((genre) =>{ %>
-                                                                  <option value="<%= genre._id %>"><%= genre.genreName %></option>
+                                                                  <option value="<%= genre._id %>" style="color :#3e3e3e"><%= genre.genreName %></option>
                                                               <% }) %>
                                                           </select>
                                                         </div>
                                                       </div>
                                                     </div>
+                                                    <div class="form-group form-input pt-2 w-100">
+                                                      <label class="form-label" for="typeUsernameX-1" style="color :#3e3e3e">Language:</label>
+                                                      <select name="language" id="language" class=" ps-2" style="color :#3e3e3e">
+                                                          <option value="<%= book.language %>"><%= book.language %></option>
+                                                          <option value="Acholi">Acholi</option>
+                                                          <option value="Afrikaans">Afrikaans</option>
+                                                          <option value="Akan">Akan</option>
+                                                          <option value="Albanian">Albanian</option>
+                                                          <option value="Amharic">Amharic</option>
+                                                          <option value="Arabic">Arabic</option>
+                                                          <option value="Armenian">Armenian</option>
+                                                          <option value="Assamese">Assamese</option>
+                                                          <option value="Azerbaijani">Azerbaijani</option>
+                                                          <option value="Balochi">Balochi</option>
+                                                          <option value="Bamanankan">Bamanankan</option>
+                                                          <option value="Bashkir">Bashkir</option>
+                                                          <option value="Basque">Basque</option>
+                                                          <option value="Belarusian">Belarusian</option>
+                                                          <option value="Bengali">Bengali</option>
+                                                          <option value="Bhojpuri">Bhojpuri</option>
+                                                          <option value="Bosnian">Bosnian</option>
+                                                          <option value="Brahui">Brahui</option>
+                                                          <option value="Bulgarian">Bulgarian</option>
+                                                          <option value="Burmese">Burmese</option>
+                                                          <option value="Cantonese">Cantonese</option>
+                                                          <option value="Catalan">Catalan</option>
+                                                          <option value="Cebuano">Cebuano</option>
+                                                          <option value="Chechen">Chechen</option>
+                                                          <option value="Chhattisgarhi">Chhattisgarhi</option>
+                                                          <option value="Chittagonian">Chittagonian</option>
+                                                          <option value="Czech">Czech</option>
+                                                          <option value="Danish">Danish</option>
+                                                          <option value="Dari">Dari</option>
+                                                          <option value="Dholuo">Dholuo</option>
+                                                          <option value="Dutch">Dutch</option>
+                                                          <option value="English">English</option>
+                                                          <option value="Estonian">Estonian</option>
+                                                          <option value="Ewe">Ewe</option>
+                                                          <option value="Fijian">Fijian</option>
+                                                          <option value="Filipino">Filipino</option>
+                                                          <option value="Finnish">Finnish</option>
+                                                          <option value="French">French</option>
+                                                          <option value="Fula">Fula</option>
+                                                          <option value="Galician">Galician</option>
+                                                          <option value="Georgian">Georgian</option>
+                                                          <option value="German">German</option>
+                                                          <option value="Greek">Greek</option>
+                                                          <option value="Gujarati">Gujarati</option>
+                                                          <option value="Haitian Creole">Haitian Creole</option>
+                                                          <option value="Hakka">Hakka</option>
+                                                          <option value="Haryanvi">Haryanvi</option>
+                                                          <option value="Hausa">Hausa</option>
+                                                          <option value="Hawaiian">Hawaiian</option>
+                                                          <option value="Hebrew">Hebrew</option>
+                                                          <option value="Hiligaynon">Hiligaynon</option>
+                                                          <option value="Hindi">Hindi</option>
+                                                          <option value="Hmong">Hmong</option>
+                                                          <option value="Hungarian">Hungarian</option>
+                                                          <option value="Icelandic">Icelandic</option>
+                                                          <option value="Igbo">Igbo</option>
+                                                          <option value="Ilocano">Ilocano</option>
+                                                          <option value="Indonesian">Indonesian</option>
+                                                          <option value="Inuit">Inuit</option>
+                                                          <option value="Irish">Irish</option>
+                                                          <option value="Italian">Italian</option>
+                                                          <option value="Japanese">Japanese</option>
+                                                          <option value="Javanese">Javanese</option>
+                                                          <option value="Kannada">Kannada</option>
+                                                          <option value="Kazakh">Kazakh</option>
+                                                          <option value="Khmer">Khmer</option>
+                                                          <option value="Kinyarwanda">Kinyarwanda</option>
+                                                          <option value="Kirundi">Kirundi</option>
+                                                          <option value="Konkani">Konkani</option>
+                                                          <option value="Korean">Korean</option>
+                                                          <option value="Kurdish">Kurdish</option>
+                                                          <option value="Lao">Lao</option>
+                                                          <option value="Latvian">Latvian</option>
+                                                          <option value="Lithuanian">Lithuanian</option>
+                                                          <option value="Luxembourgish">Luxembourgish</option>
+                                                          <option value="Macedonian">Macedonian</option>
+                                                          <option value="Malagasy">Malagasy</option>
+                                                          <option value="Malay">Malay</option>
+                                                          <option value="Malayalam">Malayalam</option>
+                                                          <option value="Maltese">Maltese</option>
+                                                          <option value="Mandarin">Mandarin</option>
+                                                          <option value="Marathi">Marathi</option>
+                                                          <option value="Mongolian">Mongolian</option>
+                                                          <option value="Nepali">Nepali</option>
+                                                          <option value="Norwegian">Norwegian</option>
+                                                          <option value="Oriya">Oriya</option>
+                                                          <option value="Oromo">Oromo</option>
+                                                          <option value="Pashto">Pashto</option>
+                                                          <option value="Persian">Persian</option>
+                                                          <option value="Polish">Polish</option>
+                                                          <option value="Portuguese">Portuguese</option>
+                                                          <option value="Punjabi">Punjabi</option>
+                                                          <option value="Quechua">Quechua</option>
+                                                          <option value="Romanian">Romanian</option>
+                                                          <option value="Russian">Russian</option>
+                                                          <option value="Samoan">Samoan</option>
+                                                          <option value="Sanskrit">Sanskrit</option>
+                                                          <option value="Sardinian">Sardinian</option>
+                                                          <option value="Serbian">Serbian</option>
+                                                          <option value="Shona">Shona</option>
+                                                          <option value="Sindhi">Sindhi</option>
+                                                          <option value="Sinhalese">Sinhalese</option>
+                                                          <option value="Slovak">Slovak</option>
+                                                          <option value="Slovenian">Slovenian</option>
+                                                          <option value="Somali">Somali</option>
+                                                          <option value="Spanish">Spanish</option>
+                                                          <option value="Sudanese">Sudanese</option>
+                                                          <option value="Swahili">Swahili</option>
+                                                          <option value="Swedish">Swedish</option>
+                                                          <option value="Tagalog">Tagalog</option>
+                                                          <option value="Tajik">Tajik</option>
+                                                          <option value="Tamil">Tamil</option>
+                                                          <option value="Tatar">Tatar</option>
+                                                          <option value="Telugu">Telugu</option>
+                                                          <option value="Thai">Thai</option>
+                                                          <option value="Tibetan">Tibetan</option>
+                                                          <option value="Tigrinya">Tigrinya</option>
+                                                          <option value="Tongan">Tongan</option>
+                                                          <option value="Turkish">Turkish</option>
+                                                          <option value="Turkmen">Turkmen</option>
+                                                          <option value="Ukrainian">Ukrainian</option>
+                                                          <option value="Urdu">Urdu</option>
+                                                          <option value="Uzbek">Uzbek</option>
+                                                          <option value="Vietnamese">Vietnamese</option>
+                                                          <option value="Welsh">Welsh</option>
+                                                          <option value="Xhosa">Xhosa</option>
+                                                          <option value="Yiddish">Yiddish</option>
+                                                          <option value="Yoruba">Yoruba</option>
+                                                          <option value="Zulu">Zulu</option>
+                                                      </select>
+                                                    </div>
+                                                    <label class="form-label" for="typeUsernameX-1">Page</label>
+                                                    <input type="text" id="pages" class="form-control form-control-lg" name="pages" value="<%= book.pages %>"/>
+                                                    <label class="form-label" for="typeUsernameX-1">Retail Price</label>
+                                                    <input type="text" id="retailPrice" class="form-control form-control-lg" name="retailPrice" value="<%=book.retailPrice %>"/>
+                                                    <label class="form-label" for="typeUsernameX-1">Rent Price</label>
+                                                    <input type="text" id="rentPrice" class="form-control form-control-lg" name="rentPrice" value="<%=book.rentPrice %>"/>
                                                     <div class="form-group form-input pt-2">
                                
                                                     </div>
@@ -532,6 +676,7 @@
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Change Image 1</label>
                                                     <input type="file" id="myFile1" class="form-control form-control-lg" name="myFile1" />
+                                                    <input type="hidden" name="image1" value="<%= book.image1 %>">
                                                   </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -563,6 +708,7 @@
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Change Image 2</label>
                                                     <input type="file" id="myFile2" class="form-control form-control-lg" name="myFile2"/>
+                                                    <input type="hidden" name="image2" value="<%= book.image2 %>">
                                                   </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -594,6 +740,7 @@
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Change Image 3</label>
                                                     <input type="file" id="myFile2" class="form-control form-control-lg" name="myFile3"/>
+                                                    <input type="hidden" name="image3" value="<%= book.image3 %>">
                                                   </div>
                                                 </div>
                                                 <div class="modal-footer">
