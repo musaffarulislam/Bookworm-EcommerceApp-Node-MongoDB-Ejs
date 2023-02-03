@@ -27,6 +27,12 @@ router.get('/addBook',midleware.adminSession,adminController.renderAddBook);
 
 router.post('/addBook',upload.array('myFiles', 3),adminController.addBook);
 
+router.post('/changeImage1/:id',upload.single('myFile1'),adminController.changeImage1);
+
+router.post('/changeImage2/:id',upload.single('myFile2'),adminController.changeImage2);
+
+router.post('/changeImage3/:id',upload.single('myFile3'),adminController.changeImage3);
+
 router.get('/authorManagement',midleware.adminSession,adminController.renderAuthorManagement);
 
 router.post('/addAuthor',adminController.addAuthor);

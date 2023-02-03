@@ -57,12 +57,15 @@ const deleteUser = async (req,res) =>{
 
 
 const renderProductManagement = async (req,res) =>{
-    let users = await user.find()
-    res.render('admin/productManagement.ejs',{users});
+    let books = await book.find().populate('author').populate('genre')
+    let authors = await author.find()
+    let genres = await genre.find()
+    res.render('admin/productManagement.ejs',{books,genres,authors});
 }
 
 const renderAddBook = async (req,res) => {
-    const warning = false
+    const warning = req.session.errormsg;
+    req.session.error = false;
     let authors = await author.find()
     let genres = await genre.find()
     res.render('admin/addBook.ejs',{title: 'Add Book',warning,authors,genres});
@@ -71,6 +74,12 @@ const renderAddBook = async (req,res) => {
 
 const addBook = async(req,res) =>{
     try{
+        const existingBookName = await user.findOne({ bookName: req.body.bookName });
+        if (existingBookName) {
+            req.session.errormsg = 'Book Already Exit';
+            return res.redirect('/admin//addBook');
+        }
+      
         const newBook = new book({
             bookName : req.body.bookName,
             bookDetails : req.body.bookDetails,
@@ -91,6 +100,37 @@ const addBook = async(req,res) =>{
         console.error(`Error Adding Book : ${err}`);
     }
 }
+
+const changeImage1 = async (req,res) => {
+    await book.updateOne({_id: req.params.id},
+        {$set: 
+            { 
+                image1 : req.file.filename,
+            }
+        })
+    res.redirect('/admin/productManagement');
+}
+
+const changeImage2 = async (req,res) => {
+    await book.updateOne({_id: req.params.id},
+        {$set: 
+            { 
+                image2 : req.file.filename,
+            }
+        })
+    res.redirect('/admin/productManagement');
+}
+
+const changeImage3 = async (req,res) => {
+    await book.updateOne({_id: req.params.id},
+        {$set: 
+            { 
+                image3 : req.file.filename,
+            }
+        })
+    res.redirect('/admin/productManagement');
+}
+
 
 const renderAuthorManagement = async (req,res) =>{
     let authors = await author.find({}).cursor().toArray()
@@ -181,6 +221,9 @@ module.exports = {
     deleteUser,
     renderProductManagement,
     addBook,
+    changeImage1,
+    changeImage2,
+    changeImage3,
     renderAddBook,
     renderAuthorManagement,
     addAuthor,

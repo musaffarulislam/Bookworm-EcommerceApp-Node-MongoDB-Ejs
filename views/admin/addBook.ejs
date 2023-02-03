@@ -31,6 +31,9 @@
                     <form class="py-4" id="addBook" action="/admin/addBook" method="post" enctype="multipart/form-data">
                         <h2>Add Book</h2>
                         <div id="error"></div>
+                        <% if(warning) {%>
+                          <div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" ><%= warning %></div>
+                        <% } %>
                         <div class="form-group form-input">
                             <input type="text" name="bookName" id="bookName" required/>
                             <label for="bookName" class="form-label">Book Name</label>
