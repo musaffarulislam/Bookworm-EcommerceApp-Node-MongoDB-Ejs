@@ -132,6 +132,18 @@ const editBook = async (req,res) => {
 }
 
 
+const deleteBook = async (req,res) =>{
+    await book.updateOne({_id: req.params.id},{$set: { delete: false }})
+    res.redirect('/admin/productManagement');
+}
+
+
+const undeleteBook = async (req,res) =>{
+    await book.updateOne({_id: req.params.id},{$set: { delete: true }})
+    res.redirect('/admin/productManagement');
+}
+
+
 const addAuthorInAddBook = async (req,res) => {
 
     const existingAuthor = await genre.findOne({ authorName: req.body.authorName});
@@ -389,6 +401,8 @@ module.exports = {
     renderProductManagement,
     addBook,
     editBook,
+    deleteBook,
+    undeleteBook,
     addAuthorInAddBook,
     addGenreInAddBook,
     changeImage1,

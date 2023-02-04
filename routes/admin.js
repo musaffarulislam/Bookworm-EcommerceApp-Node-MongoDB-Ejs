@@ -34,6 +34,10 @@ router.post('/addBook',upload.array('myFiles', 3),adminController.addBook);
 
 router.post('/editBook/:id',adminController.editBook);
 
+router.get('/deleteBook/:id',adminController.deleteBook);
+
+router.get('/undeleteBook/:id',adminController.undeleteBook);
+
 router.post('/addAuthorInAddBook',upload.single('authorImage'),adminController.addAuthorInAddBook);
 
 router.post('/addGenreInAddBook',adminController.addGenreInAddBook);

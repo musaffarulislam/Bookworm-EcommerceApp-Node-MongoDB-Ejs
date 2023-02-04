@@ -428,7 +428,7 @@
                                     <% if (book.delete) {%>
                                       <td><span class="badge bg-label-success me-1">Active</span></td>
                                     <% }else{ %>
-                                      <td><span class="badge bg-label-primary me-1">Block</span></td>
+                                      <td><span class="badge bg-label-warning me-1">Delete</span></td>
                                     <% } %>
                                     <td>
                                       <div class="dropdown">
@@ -440,7 +440,7 @@
                                           <% if (book.delete) {%>
                                             <a class="dropdown-item" href="/admin/deleteBook/<%= book._id %>" ><i class="bx bx-block me-1"></i> Delete</a>
                                           <% }else{ %>
-                                            <a class="dropdown-item" href="/admin/undeletBook/<%= book._id %>"><i class="bx bx-lock-open-alt me-1"></i> Undelete</a>
+                                            <a class="dropdown-item" href="/admin/undeleteBook/<%= book._id %>"><i class="bx bx-lock-open-alt me-1"></i> Undelete</a>
                                           <% } %>
                                         </div>
                                       </div>
