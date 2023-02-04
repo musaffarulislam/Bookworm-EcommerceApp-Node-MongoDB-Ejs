@@ -33,6 +33,10 @@ const bookScheme = new Scheme({
         type : String,
         required : true
     },
+    rating : {
+        type : Number,
+        required : true
+    },
     pages : {
         type : Number,
         required : true

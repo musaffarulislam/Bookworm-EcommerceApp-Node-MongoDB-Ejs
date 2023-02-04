@@ -336,20 +336,18 @@
                           <!-- Bootstrap Dark Table -->
                           <div class="card">
                             <h5 class="card-header">Product Management</h5>
-                            <div class="table-responsive text-nowrap p-3">
+                            <div class="table-responsive p-3">
                               <table class="table table-dark py-3" id="example">
                                 <thead>
                                   <tr>
                                     <th>Book Name</th>
                                     <th>Book Details</th>
-                                    <th>Author</th>
-                                    <th>Genre</th>
-                                    <th>Language</th>
+                                    <th>Other Information</th>
+                                    <!-- <th>Genre</th>
+                                    <th>Language</th> -->
                                     <th>Images</th>
-                                    <!-- <th>Image 2</th>
-                                    <th>Image 3</th> -->
-                                    <th>Retail Price</th>
-                                    <th>Rent Price</th>
+                                    <!-- <th>Retail Price</th>
+                                    <th>Rent Price</th> -->
                                     <th>Status</th>
                                     <th>Actions</th>
                                   </tr>
@@ -380,11 +378,50 @@
                                         </div>
                                       </div>
 
-                                    <td><%= book?.author?.authorName %></td>
+                                    <!-- <td><%= book?.author?.authorName %></td>
                                     
-                                    <td><%= book?.genre?.genreName %></td>
+                                    <td><%= book?.genre?.genreName %></td> -->
 
-                                    <td><%= book.language %></td>
+                                    <!-- <td><%= book.language %></td> -->
+
+                                    <td class="ps-5"><button type="button" class="btn btn-light btn-xs" data-toggle="modal" data-target="#viewOtherInfo<%= book._id %>">View Other Info</button></td>
+
+                                      <!-- View Other Info -->
+                                      <div class="modal fade" id="viewOtherInfo<%= book._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel"><%= book.bookName %></h5>
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div>
+                                            <div class="modal-body">
+                                              <label class="form-label bg-danger text-white" for="typeUsernameX-1">Author Name</label>
+                                              <p><b><%= book?.author?.authorName %></b></p>
+                                              <label class="form-label  bg-danger text-white" for="typeUsernameX-1">Author Details</label>
+                                              <p><%= book?.author?.authorDetails %></p>
+                                              <div class="d-flex justify-content-between">
+                                                <div>
+                                                  <label class="form-label  bg-danger text-white" for="typeUsernameX-1">Language</label>
+                                                  <p><%= book.language %></p>
+                                                </div>
+                                                <div>
+                                                  <label class="form-label  bg-danger text-white" for="typeUsernameX-1">Retail Price</label>
+                                                  <p><%= book.retailPrice %></p>
+                                                </div>
+                                                <div>
+                                                  <label class="form-label  bg-danger text-white" for="typeUsernameX-1">Rent Price</label>
+                                                  <p><%= book.rentPrice %></p>
+                                                </div>
+                                              </div>
+                                             </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
 
                                     <td class="ps-4"><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#viewImage<%= book._id %>">View</button></td>
 
@@ -423,8 +460,8 @@
                                     </div>
                                   </div>
 
-                                    <td class="ps-5"><%= book.retailPrice %></td>
-                                    <td class="ps-5"><%= book.rentPrice %></td>
+                                    <!-- <td class="ps-5"><%= book.retailPrice %></td>
+                                    <td class="ps-5"><%= book.rentPrice %></td> -->
                                     <% if (book.delete) {%>
                                       <td><span class="badge bg-label-success me-1">Active</span></td>
                                     <% }else{ %>
@@ -618,6 +655,8 @@
                                                           <option value="Zulu">Zulu</option>
                                                       </select>
                                                     </div>
+                                                    <label class="form-label" for="typeUsernameX-1">Rating</label>
+                                                    <input type="text" id="rating" class="form-control form-control-lg" name="rating" value="<%= book.rating %>"/>
                                                     <label class="form-label" for="typeUsernameX-1">Page</label>
                                                     <input type="text" id="pages" class="form-control form-control-lg" name="pages" value="<%= book.pages %>"/>
                                                     <label class="form-label" for="typeUsernameX-1">Retail Price</label>

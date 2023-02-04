@@ -1,5 +1,8 @@
 const { response } = require('express');
 const user = require('../models/userModel');
+const author = require('../models/authorModel')
+const book = require('../models/bookModel')
+const genre = require('../models/genreModel')
 const UserOTPVerification = require('../models/userOTPVerification');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
@@ -7,11 +10,12 @@ const crypto = require('crypto');
 
 
 
-const renderHome = (req,res)=>{
+const renderHome = async (req,res)=>{
+    let books = await book.find().populate('author').populate('genre')
     let session = req.session.email;
     let warning = req.session.errormsg;
     req.session.errormsg = false;
-    res.render('index',{ title: "Home",session,warning});
+    res.render('index',{ title: "Home",books,session,warning});
 }
 
 const loginVarification = async(req,res)=>{
