@@ -43,9 +43,10 @@ const loginVarification = async(req,res)=>{
             req.session.errormsg = "Incorrect Email Id";
             res.redirect('/')
         }
-    }catch(err){
-        console.log("err");
-    } 
+      }catch(err){
+        console.error(`Error Login Varification : ${err}`);
+        res.redirect('/');
+    }
 }
 
 const renderSignup = (req,res)=>{
@@ -64,9 +65,6 @@ const transporter = nodemailer.createTransport({
       pass: 'vbkxsqzybfuaaylt'
     }
   });
-
-
-const randomOTP = Math.floor(1000 + Math.random() * 9000).toString()
    
 const userSignup = async (req, res) => {
     try {
@@ -89,19 +87,20 @@ const userSignup = async (req, res) => {
         };
 
 
-        const OTP = randomOTP;
-        const expirationTime = Date.now() + 5 * 60 * 1000;
+        const OTP = Math.floor(1000 + Math.random() * 9000).toString();
+        const expirationTime = new Date(Date.now() + 5 * 60 * 1000);
 
         console.log(OTP);
     
+        await UserOTPVerification.deleteMany({email: User.email})
+
         const newOTPVerification = new UserOTPVerification({
           email: User.email,
           otp: OTP,
           expiresAt: expirationTime
         });
-    
         await newOTPVerification.save();
-    
+
         const mailOptions = {
           from: 'bookworm.ecommerce.project@gmail.com',
           to: User.email,
@@ -128,17 +127,18 @@ const userSignup = async (req, res) => {
             console.error(`Error sending email: ${error}`);
           }
           console.log(`OTP sent to ${User.email}: ${OTP}`);
-          res.redirect(`/otp?userName=${User.username}&email=${User.email}&phoneNumber=${User.phoneNumber}&age=${User.age}&password=${User.password}&block=${User.block}`);
+          res.redirect(`/otp?userName=${User.username}&email=${User.email}&phoneNumber=${User.phoneNumber}&age=${User.age}&password=${User.password}&block=${User.block}&expiresAt=${expirationTime}`);
         });
-      } catch (err) {
-        console.error(`Error inserting user: ${err}`);
-      }
+      }catch(err){
+        console.error(`Error User Signup: ${err}`);
+        res.redirect('/signup');
+    }
 };
   
 
 const renderOTP = (req,res) => {
-    const userInfo = req.query
-    console.log(userInfo);
+    const userInfo = req.query;
+    warning = false;
     res.render('otp',{title: 'Otp',userInfo})
 }
 
@@ -146,7 +146,18 @@ const renderOTP = (req,res) => {
 const verifyOTP = async (req,res)=> {
     try{
         const userOtp = await UserOTPVerification.findOne({email : req.body.email});
+        const userInfo = {
+          userName: req.body.userName,
+          email: req.body.email,
+          phoneNumber: req.body.phoneNumber,
+          age: req.body.age,
+          password: req.body.password,
+          expiresAt : req.body.expirationTime,
+          block: true,
+        };
         if(req.body.otp == userOtp.otp){
+          let date = new Date(Date.now());
+          if(date < userOtp.expiresAt){
             const newUser = new user({
                 username: req.body.userName,
                 email: req.body.email,
@@ -155,24 +166,27 @@ const verifyOTP = async (req,res)=> {
                 password: req.body.password,
                 block: true,
             });
-          
+            response.email=req.body.email;
+            req.session.email = response.email;
             await newUser.save();
             await UserOTPVerification.deleteOne({email : req.body.email});
 
             res.redirect("/");
+          }else{
+              req.session.errormsg = "OTP Expired";
+              warning = req.session.errormsg;
+              req.session.errormsg = false;
+              res.render('otp',{title: 'Otp',warning,userInfo});
+          }
         }else{
-            const userInfo = {
-                username: req.body.userName,
-                email: req.body.email,
-                phoneNumber: req.body.phoneNumber,
-                age: req.body.age,
-                password: req.body.password,
-                block: true,
-            };
-            res.render('otp',{title: 'Otp',invalid:"Invalid OTP",userInfo});
+            req.session.errormsg = "Invalid Otp";
+            warning = req.session.errormsg;
+            req.session.errormsg = false;
+            res.render('otp',{title: 'Otp',warning,userInfo});
         }
-    }catch(error){
-        console.log(error);
+      }catch(err){
+        console.error(`Error Add Genre : ${err}`);
+        res.redirect('/');
     }
 }
 
@@ -190,9 +204,12 @@ const resendOTP = async (req,res) =>{
             block: true,
         };
 
-        const OTP = randomOTP;
-        const expirationTime = Date.now() + 5 * 60 * 1000;
+        const OTP = Math.floor(1000 + Math.random() * 9000).toString();
+        console.log(OTP);
+        const expirationTime = new Date(Date.now() + 5 * 60 * 1000);
     
+        await UserOTPVerification.deleteMany({email: User.email})
+
         const newOTPVerification = new UserOTPVerification({
           email: User.email,
           otp: OTP,
@@ -227,11 +244,12 @@ const resendOTP = async (req,res) =>{
             console.error(`Error sending email: ${error}`);
           }
           console.log(`OTP sent to ${User.email}: ${OTP}`);
-          res.redirect(`/otp?userName=${User.username}&email=${User.email}&phoneNumber=${User.phoneNumber}&age=${User.age}&password=${User.password}&block=${User.block}`);
+          res.redirect(`/otp?userName=${User.username}&email=${User.email}&phoneNumber=${User.phoneNumber}&age=${User.age}&password=${User.password}&block=${User.block}&expiresAt=${expirationTime}`);
         });
-    }catch (err) {
-        console.error(`Error inserting user: ${err}`);
-      }
+    }catch(err){
+        console.error(`Error Resend OTP : ${err}`);
+        res.redirect('/signup');
+    }
 }
 
 

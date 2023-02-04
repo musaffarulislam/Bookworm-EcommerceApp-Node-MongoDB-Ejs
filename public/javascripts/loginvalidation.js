@@ -3,8 +3,6 @@ const email = form.querySelector("#email");
 const password = form.querySelector("#password");
 const errorElement = form.querySelector('#alert');
 
-console.log("Musaffar")
-
 function hideErrorMessage(){
     errorElement.innerHTML="";
 }
@@ -15,7 +13,7 @@ form.submitform = () =>{
     // e.preventDefault()
     // console.log(email.value)
     if(email.value === ""){
-        showErrorMessage("Name is required");
+        showErrorMessage("Email is required");
         return false;
     }
 
@@ -27,8 +25,8 @@ form.submitform = () =>{
         return false;
       }
     
-    if(email.value.length >30){
-        showErrorMessage("Name must be less than 15");
+    if(email.value.length >60){
+        showErrorMessage("Email must be less than 60");
         return false;
     }
 

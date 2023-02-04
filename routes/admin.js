@@ -24,8 +24,6 @@ router.get('/blockUser/:id',adminController.blockUser);
 
 router.get('/unblockUser/:id',adminController.unblockUser);
 
-router.get('/deleteUser/:id',adminController.deleteUser);
-
 router.get('/productManagement',midleware.adminSession,adminController.renderProductManagement);
 
 router.get('/addBook',midleware.adminSession,adminController.renderAddBook);
