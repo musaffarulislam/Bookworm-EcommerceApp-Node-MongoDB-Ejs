@@ -1,4 +1,5 @@
 const { response } = require('express');
+const fs = require('fs');
 const user = require('../models/userModel');
 const author = require('../models/authorModel')
 const book = require('../models/bookModel')
@@ -12,10 +13,10 @@ const crypto = require('crypto');
 
 const renderHome = async (req,res)=>{
     let books = await book.find().populate('author').populate('genre')
-    let session = req.session.email;
+    let userDetails = req.session.user;
     let warning = req.session.errormsg;
     req.session.errormsg = false;
-    res.render('index',{ title: "Home",books,session,warning});
+    res.render('index',{ title: "Home",books,userDetails,warning});
 }
 
 const loginVarification = async(req,res)=>{
@@ -29,9 +30,9 @@ const loginVarification = async(req,res)=>{
           if(userdb.block){
             bcrypt.compare(password,userdb.password).then((status)=>{
                 if(status){
-                    response.email=userdb;
-                    req.session.email = response.email;
-                    console.log(req.session.email)
+                    response.username=userdb;
+                    req.session.user = response.username;
+                    console.log(req.session.user)
                     console.log("Login success")
                     res.redirect('/');
                 }else{
@@ -68,7 +69,7 @@ const transporter = nodemailer.createTransport({
       user: 'bookworm.ecommerce.project@gmail.com',
       pass: 'vbkxsqzybfuaaylt'
     }
-  });
+});
    
 const userSignup = async (req, res) => {
     try {
@@ -170,10 +171,13 @@ const verifyOTP = async (req,res)=> {
                 password: req.body.password,
                 block: true,
             });
-            response.email=req.body.email;
-            req.session.email = response.email;
+
             await newUser.save();
             await UserOTPVerification.deleteOne({email : req.body.email});
+
+            const userdb = await user.findOne({ email: req.body.email});
+            response.username=userdb;
+            req.session.user = response.username;
 
             res.redirect("/");
           }else{
@@ -257,21 +261,131 @@ const resendOTP = async (req,res) =>{
 }
 
 
-const logout = (req,res)=>{
-    req.session.email = null;
-    res.redirect("/");
+const userProfile = async (req,res) =>{
+  const userId = req.params.id;
+  const userDetails = await user.findOne({_id: userId})
+  res.render('userProfile',{ title: "User Profile",userDetails});
+}
+
+
+const editUser = async (req,res) =>{
+  try{
+    await user.updateOne({_id: req.params.id},
+      {$set:
+        {
+          username: req.body.userName,
+          email: req.body.email,
+          phoneNumber: req.body.phoneNumber,
+          age: req.body.age,
+        }
+      })
+      res.redirect(`/userProfile/${req.params.id}`);
+  }catch(err){
+    console.error(`Error Edit User Info : ${err}`);
+    res.redirect(`/userProfile/${req.params.id}`);
+  }
+}
+
+
+const address = async (req,res) =>{
+  try{
+    await user.updateOne({_id: req.params.id},
+      {$set:
+        {
+          address:{
+            houseName: req.body.houseName,
+            streetName: req.body.streetName,
+            town: req.body.town,
+            state: req.body.state,
+            country: req.body.country,
+            zipCode: req.body.zipCode
+          }
+        }
+      })
+      res.redirect(`/userProfile/${req.params.id}`);
+  }catch(err){
+    console.error(`Error Edit User Info : ${err}`);
+    res.redirect(`/userProfile/${req.params.id}`);
+  }
+}
+
+const addUserImage = async (req,res) =>{
+  console.log("add user working ");
+  try{
+    await user.findOneAndUpdate({_id: req.params.id},
+      {$set: 
+          { 
+              userImage : req.file.filename,
+          }
+      });
+
+      const directoryPath = "public/" + req.body.userImageLocation;
+      fs.unlink(directoryPath , (err) => {
+          try{
+              if (err) {
+                  throw err;
+              }
+              console.log("Delete User Name successfully.");
+          }catch(err){
+              console.error(`Error Deleting Book : ${err}`);
+          }
+      });
+      res.redirect(`/userProfile/${req.params.id}`);
+
+  }catch(err){
+      console.error(`Error Add User Image : ${err}`);
+      res.redirect(`/userProfile/${req.params.id}`);
+  }
 }
 
 const renderBook = (req,res)=>{
-    let session = req.session.email;
+    let userDetails = req.session.user;
     let warning = req.session.errormsg;
-    res.render('book',{title: 'Book',session,warning});
+    res.render('book',{title: 'Book',userDetails,warning});
 }
 
-const bookDetails = (req,res)=>{
-    let session = req.session.email;
+const bookDetails = async (req,res)=>{
+    console.log(req.params.id);
+    const books = await book.findOne({_id: req.params.id}).populate('author').populate('genre');
+    console.log(books);
+    let userDetails = req.session.user;
     let warning = req.session.errormsg;
-    res.render('book-detail',{title: 'Bookdetails',session,warning});
+    req.session.errormsg = false;
+    res.render('book-detail',{title: 'Bookdetails',books,userDetails,warning});
+}
+
+
+const addToCart = async (req,res) => {
+  try{
+    const userId = req.query.userId;
+    const productId = req.query.productId;
+    const userdb = await user.findOne({_id: userId});
+    req.session.user = userdb;
+    const existingProduct = await user.findOne({"cart.product": productId})
+
+    if(existingProduct){
+      req.session.errormsg = "Product Already Added"
+      console.log(req.session.errormsg);
+      return res.redirect('/');
+    }
+    await user.updateOne({_id: userId},
+      {$push:
+        {
+          cart : {
+            product : productId
+          }
+        }
+      })
+      res.redirect("/");
+  }catch(err){
+      console.error(`Error Add To Cart Product : ${err}`);
+      res.redirect("/");
+  }
+}
+
+const logout = (req,res)=>{
+  req.session.user = null;
+  res.redirect("/");
 }
 
 
@@ -281,10 +395,15 @@ module.exports = {
     loginVarification,
     userSignup,
     renderSignup,
-    logout,
-    renderBook,
-    bookDetails,
     renderOTP,
     verifyOTP,
     resendOTP,
+    userProfile,
+    editUser,
+    address,
+    addUserImage,
+    renderBook,
+    bookDetails,
+    addToCart,
+    logout,
 }

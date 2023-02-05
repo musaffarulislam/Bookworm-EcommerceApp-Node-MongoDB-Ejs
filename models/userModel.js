@@ -10,6 +10,25 @@ const userScheme = new Scheme({
     phoneNumber : Number,
     age : Number,
     password : String,
+    userImage : String,
+    address : {
+        houseName: String,
+        streetName: String,
+        town: String,
+        state: String,
+        country: String,
+        zipCode: String,
+    },
+    cart: [{
+        product : {
+            type : mongoose.SchemaTypes.ObjectId,
+            ref : 'author'
+        },
+        quantity : {
+            type : Number,
+            default : 1
+        },
+    }],
     block : Boolean,
 });
 

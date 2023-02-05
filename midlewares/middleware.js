@@ -1,5 +1,14 @@
 // session user
 
+const signupSession = (req, res, next) => {
+    if (req.session.email) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+};
+
+
 const userSession = (req, res, next) => {
     if (req.session.email) {
         res.redirect('/');
@@ -20,6 +29,7 @@ const adminSession = (req, res, next) => {
 
 
 module.exports = {
+    signupSession,
     userSession,
     adminSession
 }

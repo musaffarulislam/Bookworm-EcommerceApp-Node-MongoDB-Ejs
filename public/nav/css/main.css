@@ -5789,3 +5789,14 @@ label {
     color: #ffba00; }
 
 /*# sourceMappingURL=main.css.map */
+
+
+
+
+@media (min-width: 991px) {
+  .cartText {
+    display: none; } }
+
+@media (max-width: 991px) {
+    .cartIcon {
+      display: none; } }

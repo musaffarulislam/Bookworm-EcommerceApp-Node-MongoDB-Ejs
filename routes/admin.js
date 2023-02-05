@@ -6,12 +6,6 @@ const upload = require('../midlewares/multer')
 const { get } = require('mongoose');
 const router = express.Router();
 
-const bodyParser = require('body-parser');
-
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
-
-
 router.get('/',adminController.renderLogin);
 
 router.post('/adminLogin',adminController.adminLogin);

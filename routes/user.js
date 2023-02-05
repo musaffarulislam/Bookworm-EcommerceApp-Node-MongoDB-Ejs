@@ -2,15 +2,16 @@ const { response } = require('express');
 const express = require('express');
 const userController = require('../conteollers/userController');
 const midleware = require('../midlewares/middleware') 
+const upload = require('../midlewares/multer')
 const router = express.Router();
 
 router.get('/',userController.renderHome);
 
 router.post('/login',userController.loginVarification);
 
-router.get('/signup',midleware.userSession,userController.renderSignup);
+router.get('/signup',midleware.signupSession,userController.renderSignup);
 
-router.get('/otp',midleware.userSession,userController.renderOTP);
+router.get('/otp',midleware.signupSession,userController.renderOTP);
 
 router.post('/verifyOTP',userController.verifyOTP);
 
@@ -18,9 +19,19 @@ router.post('/resendOTP',userController.resendOTP);
 
 router.post('/register',userController.userSignup);
 
+router.get('/userProfile/:id',midleware.userSession,userController.userProfile);
+
+router.post('/editUser/:id',userController.editUser);
+
+router.post('/address/:id',userController.address);
+
+router.post('/addUserImage/:id',upload.single('userImage'),userController.addUserImage);
+
 router.get('/book',userController.renderBook);
 
-router.get('/book-details',userController.bookDetails);
+router.get('/book-details/:id',userController.bookDetails);
+
+router.get('/addToCart',userController.addToCart);
 
 router.get('/logout',userController.logout);
 
