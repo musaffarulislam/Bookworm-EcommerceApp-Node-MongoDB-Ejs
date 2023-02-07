@@ -14,9 +14,9 @@ router.get('/admin_panel',midleware.adminSession,adminController.adminPanel);
 
 router.get('/userManagement',midleware.adminSession,adminController.renderUserManagement);
 
-router.get('/blockUser/:id',adminController.blockUser);
+router.get('/blockUser/:id',midleware.adminSession,adminController.blockUser);
 
-router.get('/unblockUser/:id',adminController.unblockUser);
+router.get('/unblockUser/:id',midleware.adminSession,adminController.unblockUser);
 
 router.get('/productManagement',midleware.adminSession,adminController.renderProductManagement);
 
@@ -24,11 +24,11 @@ router.get('/addBook',midleware.adminSession,adminController.renderAddBook);
 
 router.post('/addBook',upload.array('myFiles', 3),adminController.addBook);
 
-router.post('/editBook/:id',adminController.editBook);
+router.post('/editBook/:id',midleware.adminSession,adminController.editBook);
 
-router.get('/deleteBook/:id',adminController.deleteBook);
+router.get('/deleteBook/:id',midleware.adminSession,adminController.deleteBook);
 
-router.get('/undeleteBook/:id',adminController.undeleteBook);
+router.get('/undeleteBook/:id',midleware.adminSession,adminController.undeleteBook);
 
 router.post('/addAuthorInAddBook',upload.single('authorImage'),adminController.addAuthorInAddBook);
 
@@ -48,9 +48,9 @@ router.post('/changeAuthorImage/:id',upload.single('authorImage'),adminControlle
 
 router.post('/editAuthor/:id',adminController.editAuthor);
 
-router.get('/deleteAuthor/:id',adminController.deleteAuthor);
+router.get('/deleteAuthor/:id',midleware.adminSession,adminController.deleteAuthor);
 
-router.get('/undeleteAuthor/:id',adminController.undeleteAuthor);
+router.get('/undeleteAuthor/:id',midleware.adminSession,adminController.undeleteAuthor);
 
 router.get('/genreManagement',midleware.adminSession,adminController.renderGenreManagement);
 
@@ -58,9 +58,9 @@ router.post('/addGenre',adminController.addGenre);
 
 router.post('/editGenre/:id',adminController.editGenre);
 
-router.get('/deleteGenre/:id',adminController.deleteGenre);
+router.get('/deleteGenre/:id',midleware.adminSession,adminController.deleteGenre);
 
-router.get('/undeleteGenre/:id',adminController.undeleteGenre);
+router.get('/undeleteGenre/:id',midleware.adminSession,adminController.undeleteGenre);
 
 router.get('/logout',adminController.logout);
 

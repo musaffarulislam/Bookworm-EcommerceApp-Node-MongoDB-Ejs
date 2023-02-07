@@ -5,6 +5,7 @@ const midleware = require('../midlewares/middleware')
 const upload = require('../midlewares/multer')
 const router = express.Router();
 
+
 router.get('/',userController.renderHome);
 
 router.post('/login',userController.loginVarification);
@@ -31,7 +32,9 @@ router.get('/book',userController.renderBook);
 
 router.get('/book-details/:id',userController.bookDetails);
 
-router.get('/addToCart',userController.addToCart);
+router.get('/cart/:id',midleware.userSession,userController.renderCart);
+
+router.put('/addToCart',userController.addToCart);
 
 router.get('/logout',userController.logout);
 

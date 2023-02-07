@@ -3300,7 +3300,7 @@ label {
   box-shadow: 0 10px 10px rgba(153, 153, 153, 0.1); }
 .sidebar-categories .main-nav-list a {
   font-size: 14px;
-  display: block;
+  /* display: block; */
   line-height: 50px;
   padding-left: 10px;
   border-bottom: 1px solid #eee; }

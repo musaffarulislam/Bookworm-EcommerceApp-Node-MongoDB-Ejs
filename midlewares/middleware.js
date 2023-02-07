@@ -1,7 +1,7 @@
 // session user
 
 const signupSession = (req, res, next) => {
-    if (req.session.email) {
+    if (req.session.user) {
         res.redirect('/');
     } else {
         next();
@@ -10,10 +10,10 @@ const signupSession = (req, res, next) => {
 
 
 const userSession = (req, res, next) => {
-    if (req.session.email) {
-        res.redirect('/');
-    } else {
+    if (req.session.user) {
         next();
+    } else {
+        res.redirect('/');
     }
 };
 

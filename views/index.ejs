@@ -92,10 +92,9 @@
                   <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
                   <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
                   <% if (userDetails) { %>
-                    <li class="nav-item cartText"><a class="nav-link" href="/">Cart</a></li>
-                    <li class="nav-item cartIcon"><a class="nav-link" href="/"><i class="fas fa-shopping-cart"></i></a></li>
+                    <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
+                    <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i></a></li>
                   <% }else{ %>
-                    <% let i %>
                     <li class="nav-item cartText"><a id="cartIdText" class="nav-link">Cart</a></li>
                     <li class="nav-item cartIcon"><a id="cartIdIcon" class="nav-link"><i class="fas fa-shopping-cart"></i></a></li>
                     <script>
@@ -341,15 +340,16 @@
             <li class="filter-button active" data-filter="all">All</li>
             <li class="filter-button" data-filter="Romance">Romance</li>
             <li class="filter-button" data-filter="Malayalam">Malayalam</li>
-            <!-- <li class="filter-button" data-filter="Vaikam Muhammed Basheer">Vaikam Muhammed Basheer</li> -->
             <li class="filter-button" data-filter="English">English</li>
+            <li class="filter-button" data-filter="5">Rating 5</li>
+            <li class="filter-button" data-filter="4">Rating 4</li>
           </ul>
 
           <div class="filters-content">
             <div class="row grid">
               <% books.forEach((book,index) =>{ %>
                 <% if(index < 12) { %>
-                  <div class="col-sm-6 col-lg-4 item <%= book?.genre?.genreName %> <%= book.language %>">
+                  <div class="col-sm-6 col-lg-4 item <%= book?.genre?.genreName %> <%= book.language %> <%= book.rating %>">
                     <div class="box">
                       <div>
                           <div class="img-box">

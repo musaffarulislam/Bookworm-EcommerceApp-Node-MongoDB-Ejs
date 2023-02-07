@@ -1,6 +1,7 @@
 const { response } = require('express');
 const fs = require('fs');
 const user = require('../models/userModel');
+const cart = require('../models/cartModel')
 const author = require('../models/authorModel')
 const book = require('../models/bookModel')
 const genre = require('../models/genreModel')
@@ -12,7 +13,8 @@ const crypto = require('crypto');
 
 
 const renderHome = async (req,res)=>{
-    let books = await book.find().populate('author').populate('genre')
+    let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre')
+    console.log(books);
     let userDetails = req.session.user;
     let warning = req.session.errormsg;
     req.session.errormsg = false;
@@ -32,7 +34,6 @@ const loginVarification = async(req,res)=>{
                 if(status){
                     response.username=userdb;
                     req.session.user = response.username;
-                    console.log(req.session.user)
                     console.log("Login success")
                     res.redirect('/');
                 }else{
@@ -262,9 +263,11 @@ const resendOTP = async (req,res) =>{
 
 
 const userProfile = async (req,res) =>{
+  const warning = req.session.errormsg;
+  req.session.errormsg = false;
   const userId = req.params.id;
   const userDetails = await user.findOne({_id: userId})
-  res.render('userProfile',{ title: "User Profile",userDetails});
+  res.render('userProfile',{ title: "User Profile",userDetails,warning});
 }
 
 
@@ -355,28 +358,71 @@ const bookDetails = async (req,res)=>{
 }
 
 
+const renderCart = async (req,res) => {
+  try{
+    const warning = req.session.errormsg;
+    req.session.errormsg = false;
+    const userDetails = await user.findOne({_id: req.params.id})
+    const carts = await cart.find({user: req.params.id}).populate('user').populate('product').
+    populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
+    const count = await cart.find({user: req.params.id}).count()
+    const totalAmount = productTotal(carts)
+    if(carts){
+    res.render('cart',{carts,userDetails,totalAmount,count,warning});
+    }else{
+      res.redirect('/')
+    }
+  }catch(err){
+    console.error(`Error Render Cart Page : ${err}`);
+    res.redirect("/");
+  }
+}
+
+function productTotal(books){
+  let totalPrice = 0;
+  for(let i=0; i< books.length; i++){
+    let book = books[i];
+    totalPrice += book.product.retailPrice * book.quantity;
+  }
+  if(totalPrice>400){
+    return totalPrice;
+  }else{
+    shippinTotalPrice = totalPrice + 40;
+    return shippinTotalPrice;
+  }
+}
+
+
 const addToCart = async (req,res) => {
   try{
     const userId = req.query.userId;
     const productId = req.query.productId;
-    const userdb = await user.findOne({_id: userId});
+    const userdb = await user.findOne({_id: userId})
     req.session.user = userdb;
-    const existingProduct = await user.findOne({"cart.product": productId})
 
+
+    console.log(userId);
+    console.log(productId);
+
+    const existingProduct = await cart.findOne({ user: userId, product: productId })
+    console.log(existingProduct);
     if(existingProduct){
-      req.session.errormsg = "Product Already Added"
-      console.log(req.session.errormsg);
-      return res.redirect('/');
-    }
-    await user.updateOne({_id: userId},
-      {$push:
-        {
-          cart : {
-            product : productId
-          }
+      await cart.findOneAndUpdate({ user: userId, product: productId },
+      {$inc:{
+        quantity : 1
         }
       })
-      res.redirect("/");
+      return res.redirect('/');
+    } 
+
+    console.log("Add To cart");
+    const newCart = new cart({
+      user : userId,
+      product : productId
+    });
+    await newCart.save()
+    res.redirect("/");
+
   }catch(err){
       console.error(`Error Add To Cart Product : ${err}`);
       res.redirect("/");
@@ -404,6 +450,7 @@ module.exports = {
     addUserImage,
     renderBook,
     bookDetails,
+    renderCart,
     addToCart,
     logout,
 }
