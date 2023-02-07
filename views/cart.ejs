@@ -284,16 +284,16 @@
                       </td>
                       <td width="65">
                         <!-- <input type="text" class="form-control" placeholder="1"> -->
-                        <div class="wrap-num-product flex-w">
+                        <div class="wrap-num-product flex-w"> 
                             <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                <i class="fs-16 zmdi zmdi-minus"></i>
-                            </div>
+                              <a id="decCart" onclick="productDecrement('<%= cart._id %>')" style="text-decoration: none;"><i class="fs-16 zmdi zmdi-minus"></i>
+                              </a></div>
 
-                            <input class="mtext-104 cl3 txt-center num-product" type="number" name="countProduct" value="<%= cart.quantity %>">
+                            <input class="mtext-104 cl3 txt-center num-product" type="number" name="countProduct" min="1" step="1" value="<%= cart.quantity %>">
 
-                            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                            <a href="" style="text-decoration: none;"><div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                 <i class="fs-16 zmdi zmdi-plus"></i>
-                            </div>
+                            </div></a>
                         </div>
                       </td>
                       <td>
@@ -307,51 +307,7 @@
               </div>
             </div>
             <% }) %>
-            <!-- <div class="ibox-content">
-              <div class="table-responsive">
-                <table class="table shoping-cart-table">
-                  <tbody>
-                    <tr>
-                      <td width="90">
-                        <div class="cart-product-imitation">
-                        </div>
-                      </td>
-                      <td class="desc">
-                        <h3>
-                          <a href="#" class="text-navy">
-                            Text editor
-                          </a>
-                        </h3>
-                        <p class="">
-                          There are many variations of passages of Lorem Ipsum available
-                        </p>
-                        <dl class=" m-b-none">
-                          <dt>Description lists</dt>
-                          <dd>List is perfect for defining terms.</dd>
-                        </dl>
-                        <div class="m-t-sm">
-                          <a href="#" class="text-muted"><i class="fa fa-gift"></i> Add gift package</a>
-                          |
-                          <a href="#" class="text-muted"><i class="fa fa-trash"></i> Remove item</a>
-                        </div>
-                      </td>
-                      <td>
-                        $50,00
-                        <s class=" text-muted">$63,00</s>
-                      </td>
-                      <td width="65">
-                        <input type="text" class="form-control" placeholder="2">
-                      </td>
-                      <td>
-                        <h4>
-                          $100,00
-                        </h4>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div> -->
+
 
             <div class="ibox-content">
               <button class="btn btn-primary pull-right"><i class="fa fa fa-shopping-cart"></i> Checkout</button>
@@ -439,6 +395,23 @@
       </div>
     </div>
   </div>
+
+
+  <script>
+    function productDecrement(cartId) {
+      const url = window.location.origin;
+      console.log(url);
+      fetch(`${url}/productDec?cartId=${cartId}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then((response)=>{
+        location.reload()
+      })
+    }
+  </script>
 
 
   

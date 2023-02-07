@@ -34,7 +34,9 @@ router.get('/book-details/:id',userController.bookDetails);
 
 router.get('/cart/:id',midleware.userSession,userController.renderCart);
 
-router.put('/addToCart',userController.addToCart);
+router.post('/addToCart',userController.addToCart);
+
+router.post('/productDec',userController.productDec);
 
 router.get('/logout',userController.logout);
 

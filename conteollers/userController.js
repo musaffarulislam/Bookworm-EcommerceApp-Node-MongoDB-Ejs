@@ -9,12 +9,13 @@ const UserOTPVerification = require('../models/userOTPVerification');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const { count } = require('console');
 
 
 
 const renderHome = async (req,res)=>{
     let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre')
-    console.log(books);
+    // console.log(books);
     let userDetails = req.session.user;
     let warning = req.session.errormsg;
     req.session.errormsg = false;
@@ -397,15 +398,10 @@ const addToCart = async (req,res) => {
   try{
     const userId = req.query.userId;
     const productId = req.query.productId;
-    const userdb = await user.findOne({_id: userId})
-    req.session.user = userdb;
-
-
-    console.log(userId);
-    console.log(productId);
+    // const userdb = await user.findOne({_id: userId})
+    // req.session.user = userdb;
 
     const existingProduct = await cart.findOne({ user: userId, product: productId })
-    console.log(existingProduct);
     if(existingProduct){
       await cart.findOneAndUpdate({ user: userId, product: productId },
       {$inc:{
@@ -415,16 +411,34 @@ const addToCart = async (req,res) => {
       return res.redirect('/');
     } 
 
-    console.log("Add To cart");
     const newCart = new cart({
       user : userId,
       product : productId
     });
     await newCart.save()
-    res.redirect("/");
 
   }catch(err){
       console.error(`Error Add To Cart Product : ${err}`);
+      res.redirect("/");
+  }
+}
+
+
+const productDec = async (req,res) => {
+  try{
+    const cartId = req.query.cartId;
+    const countCheckeOne = await cart.findOne({_id: cartId})
+    if(countCheckeOne.quantity != 1){
+      await cart.findOneAndUpdate({_id: cartId},
+      {$inc:{
+        quantity : -1
+        }
+      })
+    }else{
+      await cart.deleteOne({_id: cartId})
+    }
+  }catch(err){
+      console.error(`Error Product Count Deccriment : ${err}`);
       res.redirect("/");
   }
 }
@@ -452,5 +466,6 @@ module.exports = {
     bookDetails,
     renderCart,
     addToCart,
+    productDec,
     logout,
 }

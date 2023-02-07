@@ -395,7 +395,7 @@
                                 ₹ <%= book.retailPrice %>
                               </h6>
                               <% if(userDetails) {%>
-                                <a id="addCart<%= book._id %>" style="cursor: pointer;">
+                                <a id="addCart<%= book._id %>" onclick="addCart('<%= book._id %>','<%= userDetails._id %>')" style="cursor: pointer;">
                                   <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                                     <g>
                                       <g>
@@ -428,9 +428,9 @@
                                       icon: 'success',
                                       confirmButtonColor: '#3085d6',
                                       confirmButtonText: 'Ok',
-                                      preConfirm: () => {
-                                        window.location.href = `/addToCart?productId=<%= book._id %>&userId=<%= userDetails._id %>`;
-                                      }
+                                      // preConfirm: () => {
+                                      //   window.location.href = `/addToCart?productId=<%= book._id %>&userId=<%= userDetails._id %>`;
+                                      // }
                                     })
                                   });
                                 </script>
@@ -718,6 +718,21 @@
 
 
 
+    <script>
+      function addCart(bookId, userId) {
+        const url = window.location.origin;
+        console.log(url);
+        fetch(`${url}/addToCart?productId=${bookId}&userId=${userId}`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+      }
+    </script>
+
+
 
     <!-- ===============================================-->
     <!--    Template JavaScripts-->
@@ -771,8 +786,8 @@
     <!-- ===============================================-->
     <script src="/javascripts/loginvalidation.js"></script>
 
-    <script>$
-      (document).ready(function(){
+    <script>
+    $(document).ready(function(){
       $('#myModal').modal('show');
       $('#closeBtn').click(function(){
         $('#myModal').modal('hide');
