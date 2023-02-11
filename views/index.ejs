@@ -30,6 +30,7 @@
     <!-- ===============================================-->
     <link href="template/assets/css/theme.css" rel="stylesheet" />
 
+    
 
     <!-- ===============================================-->
     <!--    Card Style  -->
@@ -60,6 +61,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/js/materialdesignicons.min.js" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"></script>
 
 
+
+  </style>
   </head>
 
 
@@ -93,7 +96,8 @@
                   <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
                   <% if (userDetails) { %>
                     <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
-                    <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i></a></li>
+                    <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
+                      <span class="badge rounded-pill badge-notification bg-danger">1</span></a></li>
                   <% }else{ %>
                     <li class="nav-item cartText"><a id="cartIdText" class="nav-link">Cart</a></li>
                     <li class="nav-item cartIcon"><a id="cartIdIcon" class="nav-link"><i class="fas fa-shopping-cart"></i></a></li>
@@ -143,7 +147,8 @@
                       <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false"><i class="fas fa-user-circle me-2"></i></a>
                       <ul class="dropdown-menu">
-                        <li class="nav-item"><a class="nav-link" href="/userProfile/<%= userDetails._id %>"><%= userDetails.username %></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/myProfile/<%= userDetails._id %>"><%= userDetails.username %></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/myOrder/<%= userDetails._id %>">My Orders<%= userDetails.username %></a></li>
                         <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                       </ul>
                     </li>
@@ -165,24 +170,22 @@
 
       <% if(warning) {%>
       <!-- Modal -->
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
-              <button type="button" class="close" id="closeBtn" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <%= warning%>
-            </div>
-            <div class="modal-footer">
-              <a href=""><button type="button" class="btn btn-primary" id="closeBtn" data-dismiss="modal">Close</button></a>
-            </div>
-          </div>
-        </div>
-      </div>
+     <script>
+      window.addEventListener("load", ()=>{
+        Swal.fire({
+          title: 'Warning',
+          text: "<%= warning %>",
+          icon: 'warning',
+          buttons: true,
+          dangerMode: true,
+          buttons: 'cancel'
+        }).then((result) => {
+          if (result) {
+            $('#exampleModalCenter').modal('show');
+          }
+        })
+      })
+     </script>
       <% } %>
 
       <!-- Incorrect Warning ============================-->
@@ -204,6 +207,7 @@
 
             <div class="modal-body">
                 <form id="login" action="/login" method="post" onsubmit="return submitform(event)">
+                <!-- <form id="login" onsubmit="return submitform(event)"> -->
                     <div id="alert"></div>
                     <div class="form-outline mb-1">
                       <label class="form-label" for="typeUsernameX-1">Email</label>
@@ -428,9 +432,6 @@
                                       icon: 'success',
                                       confirmButtonColor: '#3085d6',
                                       confirmButtonText: 'Ok',
-                                      // preConfirm: () => {
-                                      //   window.location.href = `/addToCart?productId=<%= book._id %>&userId=<%= userDetails._id %>`;
-                                      // }
                                     })
                                   });
                                 </script>
@@ -719,9 +720,47 @@
 
 
     <script>
+
+      // function login() {
+      //   const loginEmail = document.getElementById('email').value;
+      //   const loginEmailPassword = document.getElementById('password').value;
+      //   const url = window.location.origin;
+      //   fetch(`${url}/login`, {
+      //     method: 'POST',
+      //     headers: {
+      //       'Accept': 'application/json',
+      //       'Content-Type': 'application/json'
+      //     },
+      //     body: JSON.stringify({
+      //       email : loginEmail,
+      //       password : loginEmailPassword,
+      //     })
+      //   }).then((response)=> {
+      //     if(response.status === 200){
+      //       return response.json().then(() => {
+      //           console.log("Success");
+      //           location.reload();
+      //       });
+      //     }else if(response.status === 401){
+      //       return response.json().then((data) => {
+      //           Swal.fire({
+      //             title: 'Warning',
+      //             text: data.message,
+      //             icon: 'warning',
+      //             buttons: true,
+      //             dangerMode: true,
+      //             buttons: 'cancel'
+      //           });
+      //       });
+      //     }
+      //   })
+      // }
+
+
+
+      
       function addCart(bookId, userId) {
         const url = window.location.origin;
-        console.log(url);
         fetch(`${url}/addToCart?productId=${bookId}&userId=${userId}`, {
           method: 'POST',
           headers: {

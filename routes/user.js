@@ -20,7 +20,9 @@ router.post('/resendOTP',userController.resendOTP);
 
 router.post('/register',userController.userSignup);
 
-router.get('/userProfile/:id',midleware.userSession,userController.userProfile);
+router.get('/myProfile/:id',midleware.userSession,userController.renderMyProfile);
+
+router.get('/myOrder/:id',midleware.userSession,userController.renderOrder);
 
 router.post('/editUser/:id',userController.editUser);
 
@@ -37,6 +39,14 @@ router.get('/cart/:id',midleware.userSession,userController.renderCart);
 router.post('/addToCart',userController.addToCart);
 
 router.post('/productDec',userController.productDec);
+
+router.post('/productInc',userController.productInc);
+
+router.post('/productRemove',userController.productRemove);
+
+router.get('/checkout/:id',midleware.userSession,userController.renderCheckout);
+
+router.post('/cashOnDelivary',userController.cashOnDelivary);
 
 router.get('/logout',userController.logout);
 

@@ -1,7 +1,8 @@
 const { response } = require('express');
 const fs = require('fs');
 const user = require('../models/userModel');
-const cart = require('../models/cartModel')
+const cart = require('../models/cartModel');
+const order = require('../models/orderModel')
 const author = require('../models/authorModel')
 const book = require('../models/bookModel')
 const genre = require('../models/genreModel')
@@ -15,8 +16,11 @@ const { count } = require('console');
 
 const renderHome = async (req,res)=>{
     let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre')
-    // console.log(books);
-    let userDetails = req.session.user;
+    let userId = req.session.user;
+    let userDetails = false;
+    if(userId){
+      userDetails = await user.findOne({_id: userId})
+    }
     let warning = req.session.errormsg;
     req.session.errormsg = false;
     res.render('index',{ title: "Home",books,userDetails,warning});
@@ -33,20 +37,26 @@ const loginVarification = async(req,res)=>{
           if(userdb.block){
             bcrypt.compare(password,userdb.password).then((status)=>{
                 if(status){
-                    response.username=userdb;
-                    req.session.user = response.username;
+                    response._id=userdb._id;
+                    req.session.user = response._id;
                     console.log("Login success")
+                    // res.status(200).send({message:"Success"})
                     res.redirect('/');
                 }else{
+                    // console.log("Incorrect Password");
                     req.session.errormsg = "Incorrect Password";
+                    // res.status(401).send({message:"Incorrect Password"})
                     res.redirect('/');
                 }
             })
           }else{
+            // res.status(401).send({message:"This Email Id Blocked"})
             req.session.errormsg = "Email Id Blocked";
             res.redirect('/');
           }
         }else {
+            // console.log("Incorrect Email")
+            // res.status(401).send({message:"Incorrect Email"})
             req.session.errormsg = "Incorrect Email Id";
             res.redirect('/')
         }
@@ -263,7 +273,7 @@ const resendOTP = async (req,res) =>{
 }
 
 
-const userProfile = async (req,res) =>{
+const renderMyProfile = async (req,res) =>{
   const warning = req.session.errormsg;
   req.session.errormsg = false;
   const userId = req.params.id;
@@ -313,6 +323,7 @@ const address = async (req,res) =>{
   }
 }
 
+
 const addUserImage = async (req,res) =>{
   console.log("add user working ");
   try{
@@ -342,8 +353,22 @@ const addUserImage = async (req,res) =>{
   }
 }
 
-const renderBook = (req,res)=>{
-    let userDetails = req.session.user;
+
+const renderOrder = async (req,res) =>{
+  const warning = req.session.errormsg;
+  req.session.errormsg = false;
+  const userId = req.params.id;
+  const userDetails = await user.findOne({_id: userId})
+  res.render('order',{ title: "order Profile",userDetails,warning});
+}
+
+
+const renderBook = async (req,res)=>{
+    let userId = req.session.user;
+    let userDetails = false;
+    if(userId){
+      userDetails = await user.findOne({_id: userId})
+    }
     let warning = req.session.errormsg;
     res.render('book',{title: 'Book',userDetails,warning});
 }
@@ -352,7 +377,11 @@ const bookDetails = async (req,res)=>{
     console.log(req.params.id);
     const books = await book.findOne({_id: req.params.id}).populate('author').populate('genre');
     console.log(books);
-    let userDetails = req.session.user;
+    let userId = req.session.user;
+    let userDetails = false;
+    if(userId){
+      userDetails = await user.findOne({_id: userId})
+    }
     let warning = req.session.errormsg;
     req.session.errormsg = false;
     res.render('book-detail',{title: 'Bookdetails',books,userDetails,warning});
@@ -367,9 +396,14 @@ const renderCart = async (req,res) => {
     const carts = await cart.find({user: req.params.id}).populate('user').populate('product').
     populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
     const count = await cart.find({user: req.params.id}).count()
-    const totalAmount = productTotal(carts)
+    let totalAmount = productTotal(carts)
+    let shipping = false;
+    if(totalAmount<400){
+      totalAmount = totalAmount + 40;
+      shipping = true;
+    }
     if(carts){
-    res.render('cart',{carts,userDetails,totalAmount,count,warning});
+    res.render('cart',{carts,userDetails,totalAmount,shipping,count,warning});
     }else{
       res.redirect('/')
     }
@@ -379,19 +413,16 @@ const renderCart = async (req,res) => {
   }
 }
 
+
 function productTotal(books){
   let totalPrice = 0;
   for(let i=0; i< books.length; i++){
     let book = books[i];
     totalPrice += book.product.retailPrice * book.quantity;
   }
-  if(totalPrice>400){
-    return totalPrice;
-  }else{
-    shippinTotalPrice = totalPrice + 40;
-    return shippinTotalPrice;
-  }
+  return totalPrice;
 }
+
 
 
 const addToCart = async (req,res) => {
@@ -437,11 +468,115 @@ const productDec = async (req,res) => {
     }else{
       await cart.deleteOne({_id: cartId})
     }
+    res.status(200).send({
+      data: "this is data"
+    })
   }catch(err){
       console.error(`Error Product Count Deccriment : ${err}`);
       res.redirect("/");
   }
 }
+
+
+const productInc = async (req,res) => {
+  try{
+    const cartId = req.query.cartId;
+    await cart.findOneAndUpdate({_id: cartId},
+    {$inc:{
+      quantity : 1
+      }
+    })
+    res.status(200).send({
+      data: "this is data"
+    })
+  }catch(err){
+      console.error(`Error Product Count Incriment : ${err}`);
+      res.redirect("/");
+  }
+}
+
+
+const productRemove = async (req,res) => {
+  try{
+    const cartId = req.query.cartId;
+    await cart.deleteOne({_id: cartId})
+    res.status(200).send({
+      data: "this is data"
+    })
+  }catch(err){
+      console.error(`Error Product Remove : ${err}`);
+      res.redirect("/");
+  }
+}
+
+
+
+const renderCheckout = async (req,res) => {
+  try{
+    const warning = req.session.errormsg;
+    req.session.errormsg = false;
+    const userDetails = await user.findOne({_id: req.params.id})
+    const carts = await cart.find({user: req.params.id}).populate('user').populate('product').
+    populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
+    const count = await cart.find({user: req.params.id}).count()
+    let totalAmount = productTotal(carts)
+    let shipping = false;
+    if(totalAmount<400){
+      totalAmount = totalAmount + 40;
+      shipping = true;
+    }
+    if(carts){
+    res.render('checkout',{carts,userDetails,totalAmount,shipping,count,warning});
+    }else{
+      res.redirect('/')
+    }
+  }catch(err){
+    console.error(`Error Render Cart Page : ${err}`);
+    res.redirect("/");
+  }
+}
+
+
+
+const cashOnDelivary = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const cartItems = await cart.find({ user: userId });
+
+    const productArray = cartItems.map(item => {
+      return { productId: item.product, quantity: item.quantity };
+    });
+
+    const lastOrder = await order.find().sort({ _id: -1 }).limit(1);
+    let orderId = 'BKWM000001';
+    if (lastOrder.length > 0) {
+      const lastOrderId = lastOrder[0].orderId;
+      const orderIdNumber = parseInt(lastOrderId.slice(4));
+      orderId = `BKWM${("000000" + (orderIdNumber + 1)).slice(-6)}`;
+    }
+
+    const newOrder = new order({
+      user: userId,
+      product: productArray,
+      address: req.body.address,
+      paymentMethod: "COD",
+      orderId
+    });
+
+    await newOrder.save();
+
+    await cart.deleteMany({ user: userId });
+
+    res.status(200).send({ orderId });
+  } catch (err) {
+    console.error(`Error Product Remove: ${err}`);
+    res.status(500).send("Internal server error");
+    res.redirect("/");
+  }
+};
+
+
+
 
 const logout = (req,res)=>{
   req.session.user = null;
@@ -458,14 +593,19 @@ module.exports = {
     renderOTP,
     verifyOTP,
     resendOTP,
-    userProfile,
+    renderMyProfile,
     editUser,
     address,
     addUserImage,
+    renderOrder,
     renderBook,
     bookDetails,
     renderCart,
     addToCart,
     productDec,
+    productInc,
+    productRemove,
+    renderCheckout,
+    cashOnDelivary,
     logout,
 }

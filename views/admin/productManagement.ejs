@@ -436,12 +436,23 @@
                                           </button>
                                         </div>
                                         <div class="modal-body">
-                                          <div class="d-flex justify-content-between">
+                                          <div class="d-flex justify-content-around">
+                                            <% if(book.coverImage) { %>
+                                            <div class="d-flex justify-content-center border rounded border-dark p-2 my-2">
+                                              <img src="../<%= book.coverImage %>" alt="coverImage" class="me-2" style="width: 80px;">
+                                              <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#change1<%= book._id %>"><i class="bx bx-edit-alt me-1" ></i></button>
+                                            </div>
+                                            <% }else{ %>
+                                              <div class="d-flex justify-content-center border rounded border-dark p-2 my-2">
+                                                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#coverImage<%= book._id %>" style="height: 20px;">Add Cover Image</button>
+                                              </div>
+                                            <% } %> 
                                             <div class="d-flex justify-content-center border rounded border-dark p-2 my-2">
                                               <img src="../<%= book.image1 %>" alt="Image 1" class="me-2" style="width: 80px;">
                                               <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#change1<%= book._id %>"><i class="bx bx-edit-alt me-1" ></i></button>
                                             </div>
-
+                                          </div>
+                                          <div class="d-flex justify-content-around">
                                             <div class="d-flex justify-content-center border rounded border-dark p-3 my-2">
                                               <img src="../<%= book.image2 %>" alt="Image 2" class="me-2" style="width: 80px;">
                                               <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#change2<%= book._id %>"><i class="bx bx-edit-alt me-1" ></i></button>
@@ -681,6 +692,40 @@
                                       <!-- Edit Book Details ============================-->
                                       <!-- ============================================-->
 
+
+
+                                      
+                                        <!-- ============================================-->
+                                        <!-- Covr Image ============================-->
+
+                                        <div class="modal fade" id="coverImage<%= book._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                          <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                              <form id="changeImage1" action="/admin/coverImage/<%= book._id %>" method="post"  enctype="multipart/form-data">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLongTitle">Cover Image</h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <div class="form-outline mb-1">
+                                                    <label class="form-label" for="typeUsernameX-1">Add/change cover image</label>
+                                                    <input type="file" id="myFile1" class="form-control form-control-lg" name="myCover" />
+                                                    <input type="hidden" name="coverImage" value="<%= book.coverImage %>">
+                                                  </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                  <button type="submit" class="btn btn-primary">Change</button>
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      <!-- Change Image 1 ============================-->
+                                      <!-- ============================================-->
 
                                         <!-- ============================================-->
                                         <!-- Change Image 1 ============================-->

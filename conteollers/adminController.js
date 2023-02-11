@@ -240,6 +240,34 @@ const addGenreInAddBook = async (req,res) => {
 }
 
 
+const coverImage = async (req,res) => {
+    try{
+        await book.updateOne({_id: req.params.id},
+            {$set: 
+                { 
+                    coverImage : req.file.filename,
+                }
+            })
+
+            const directoryPath = "public/" + req.body.coverImage;
+            fs.unlink(directoryPath , (err) => {
+                try{
+                    if (err) {
+                        throw err;
+                    }
+                    console.log("Delete Cover Image successfully.");
+                }catch(err){
+                    console.error(`Error Deleting Book : ${err}`);
+                }
+            });
+        res.redirect('/admin/productManagement');
+
+    }catch(err){
+        console.error(`Error Change Image 1 : ${err}`);
+        res.redirect('/admin/productManagement');
+    }
+}
+
 const changeImage1 = async (req,res) => {
     try{
 
@@ -531,6 +559,7 @@ module.exports = {
     undeleteBook,
     addAuthorInAddBook,
     addGenreInAddBook,
+    coverImage,
     changeImage1,
     changeImage2,
     changeImage3,

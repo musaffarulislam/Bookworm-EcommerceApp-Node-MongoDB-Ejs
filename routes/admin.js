@@ -34,6 +34,8 @@ router.post('/addAuthorInAddBook',upload.single('authorImage'),adminController.a
 
 router.post('/addGenreInAddBook',adminController.addGenreInAddBook);
 
+router.post('/coverImage/:id',upload.single('myCover'),adminController.coverImage);
+
 router.post('/changeImage1/:id',upload.single('myFile1'),adminController.changeImage1);
 
 router.post('/changeImage2/:id',upload.single('myFile2'),adminController.changeImage2);
