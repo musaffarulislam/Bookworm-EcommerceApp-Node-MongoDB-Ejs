@@ -15,15 +15,15 @@ const { count } = require('console');
 
 
 const renderHome = async (req,res)=>{
-    let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre')
-    let userId = req.session.user;
-    let userDetails = false;
-    if(userId){
-      userDetails = await user.findOne({_id: userId})
-    }
-    let warning = req.session.errormsg;
-    req.session.errormsg = false;
-    res.render('index',{ title: "Home",books,userDetails,warning});
+  let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre')
+  let userId = req.session.user;
+  let userDetails = false;
+  if(userId){
+    userDetails = await user.findOne({_id: userId})
+  }
+  let warning = req.session.errormsg;
+  req.session.errormsg = false;
+  res.render('index',{ title: "Home",books,userDetails,warning});
 }
 
 const loginVarification = async(req,res)=>{
@@ -83,6 +83,7 @@ const transporter = nodemailer.createTransport({
     }
 });
    
+
 const userSignup = async (req, res) => {
     try {
         const existingUser = await user.findOne({ email: req.body.email });
@@ -355,11 +356,33 @@ const addUserImage = async (req,res) =>{
 
 
 const renderOrder = async (req,res) =>{
-  const warning = req.session.errormsg;
-  req.session.errormsg = false;
-  const userId = req.params.id;
-  const userDetails = await user.findOne({_id: userId})
-  res.render('order',{ title: "order Profile",userDetails,warning});
+  try{
+    console.log("hiiiiiiiiiiiiiiiiiiiii");
+    const warning = req.session.errormsg;
+    req.session.errormsg = false;
+    const userId = req.params.id;
+    const userDetails = await user.findOne({_id: userId})
+    const orders = await order.find().populate("user")
+    .populate({
+      path: "product.productId",
+      model: "book",
+      populate: [
+        {
+          path: "author",
+          model: "author"
+        },
+        {
+          path: "genre",
+          model: "genre"
+        }
+      ]
+    });
+    console.log(orders);
+    res.render('myOrder.ejs',{title: "my Order",userDetails,orders,warning});
+  }catch(err){
+    console.error(`Error Render myOrder page : ${err}`);
+    res.redirect("/");
+  }
 }
 
 
@@ -372,6 +395,7 @@ const renderBook = async (req,res)=>{
     let warning = req.session.errormsg;
     res.render('book',{title: 'Book',userDetails,warning});
 }
+
 
 const bookDetails = async (req,res)=>{
     console.log(req.params.id);
@@ -424,6 +448,44 @@ function productTotal(books){
 }
 
 
+const applyCoupon = async (req,res) => {
+    try {
+
+      const coupon = await coupon.findOne({ couponCode });
+      if (!coupon) {
+        return res.status(400).send({ error: "Invalid coupon code" });
+      } 
+
+      const currentDate = new Date();
+
+      if (coupon.validationDate < currentDate) {
+        return res.status(400).send({ error: "Coupan has expired" });
+      }
+
+      if (coupon.usedBy.includes(userId)) {
+        return res.status(400).send({ error: "You have already used this coupon" });
+      }
+
+      if (req.body.total < coupon.minimumTotal) {
+        return res.status(400).send({ error: "Total is below the minimum required to use this coupon" });
+      }
+
+      const discountPercentage = coupon.discountPercentage / 100;
+      const discountAmount = req.body.totalAmount * discountPercentage;
+
+      if (discountAmount > coupon.maximumDiscount) {
+        discountAmount = coupon.maximumDiscount;
+      }
+
+      coupon.users.push(userId);
+      await coupon.save();
+      
+      return res.send({ discountAmount });
+    } catch (err) {
+      console.error(`Error applying coupon: ${err}`);
+      return res.status(500).send("Internal server error");
+    }
+}
 
 const addToCart = async (req,res) => {
   try{
@@ -510,7 +572,6 @@ const productRemove = async (req,res) => {
 }
 
 
-
 const renderCheckout = async (req,res) => {
   try{
     const warning = req.session.errormsg;
@@ -537,7 +598,6 @@ const renderCheckout = async (req,res) => {
 }
 
 
-
 const cashOnDelivary = async (req, res) => {
   try {
     const userId = req.query.userId;
@@ -556,11 +616,12 @@ const cashOnDelivary = async (req, res) => {
     }
 
     const newOrder = new order({
+      orderId,
       user: userId,
       product: productArray,
       address: req.body.address,
+      totalAmount: req.body.totalAmount,
       paymentMethod: "COD",
-      orderId
     });
 
     await newOrder.save();
@@ -574,8 +635,6 @@ const cashOnDelivary = async (req, res) => {
     res.redirect("/");
   }
 };
-
-
 
 
 const logout = (req,res)=>{

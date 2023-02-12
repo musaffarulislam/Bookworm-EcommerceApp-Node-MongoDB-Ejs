@@ -4,6 +4,8 @@ const user = require('../models/userModel');
 const author = require('../models/authorModel')
 const book = require('../models/bookModel')
 const genre = require('../models/genreModel')
+const coupon = require('../models/couponModel')
+const order = require('../models/orderModel')
 
 
 const bcrypt = require('bcrypt');
@@ -16,7 +18,7 @@ const renderLogin = (req,res) =>{
     try{
         const session = req.session.adminemail;
         if(session){
-            res.redirect('/admin/admin_panel');
+            res.redirect('/admin/admin_panel');r
         }else{
             res.render('adminLogin.ejs');
         }
@@ -539,6 +541,143 @@ const undeleteGenre = async (req,res) =>{
 }
 
 
+const renderCouponManagement = async (req,res) =>{
+    try{
+        let warning = req.session.errormsg;
+        req.session.errormsg = false;
+        let coupons = await coupon.find()
+        res.render('admin/couponManagement.ejs',{coupons,warning});
+    }catch(err){
+        console.error(`Error Get Coupon Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+
+const addCoupon = async (req,res) => {
+    try{
+        console.log(req.body);
+        const existingCoupon = await coupon.findOne({ couponName: req.body.couponName });
+        if (existingCoupon) {
+            req.session.errormsg = 'Coupon Already Exit';
+            return res.redirect('/admin/couponManagement');
+        }
+
+        const newCoupon = new coupon({
+            couponName : req.body.couponName,
+            discountPercentage : req.body.discountPercentage,
+            maximumDiscountPrice : req.body.maxDiscountPrice,
+            minimumTotal : req.body.minTotalAmount,
+            ExpiredDate : req.body.expDate,
+        })
+        await newCoupon.save();
+        res.redirect('/admin/couponManagement');
+    }catch(err){
+        console.error(`Error Add Genre : ${err}`);
+        res.redirect('/admin/couponManagement');
+    }
+}
+
+
+
+// Order Management
+
+const renderPendingManagement = async (req,res) =>{
+    try{
+        let orders = await order.find({status: "Pending"}).populate("user")
+        .populate({
+          path: "product.productId",
+          model: "book",
+          populate: [
+            {
+              path: "author",
+              model: "author"
+            },
+            {
+              path: "genre",
+              model: "genre"
+            }
+          ]
+        })
+        res.render('admin/orderPendingManagment.ejs',{orders});
+    }catch(err){
+        console.error(`Error Get Pending Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+
+const changeOnTheWayOrder = async (req,res) =>{
+    try{
+        await order.updateOne({_id: req.params.id},{$set: { status: "On The Way" }})
+        res.redirect('/admin/pendingManagement');
+    }catch(err){
+        console.error(`Error change On The Way Order : ${err}`);
+        res.redirect('/admin/genreManagement');
+    }
+}
+
+
+const renderOnTheWayManagement = async (req,res) =>{
+    try{
+        let orders = await order.find({status: "On The Way"}).populate("user")
+        .populate({
+          path: "product.productId",
+          model: "book",
+          populate: [
+            {
+              path: "author",
+              model: "author"
+            },
+            {
+              path: "genre",
+              model: "genre"
+            }
+          ]
+        })
+        res.render('admin/orderOnTheWayManagment.ejs',{orders});
+    }catch(err){
+        console.error(`Error Get Pending Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+
+const changeCompleteOrder = async (req,res) =>{
+    try{
+        await order.updateOne({_id: req.params.id},{$set: { status: "Complete" }})
+        res.redirect('/admin/onthewayManagement');
+    }catch(err){
+        console.error(`Error change Complete Order : ${err}`);
+        res.redirect('/admin/genreManagement');
+    }
+}
+
+const renderCompleteManagement = async (req,res) =>{
+    try{
+        let orders = await order.find({status: "Complete"}).populate("user")
+        .populate({
+          path: "product.productId",
+          model: "book",
+          populate: [
+            {
+              path: "author",
+              model: "author"
+            },
+            {
+              path: "genre",
+              model: "genre"
+            }
+          ]
+        })
+        res.render('admin/orderCompleteManagment.ejs',{orders});
+    }catch(err){
+        console.error(`Error Get Complete Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+
 const logout = (req,res)=>{
     req.session.adminemail = null;
     res.redirect("/admin");
@@ -575,5 +714,15 @@ module.exports = {
     editGenre,
     deleteGenre,
     undeleteGenre,
-    logout
+    renderCouponManagement,
+    addCoupon,
+
+    // order Management
+    renderPendingManagement,
+    changeOnTheWayOrder,
+    renderOnTheWayManagement,
+    changeCompleteOrder,
+    renderCompleteManagement,
+
+    logout,
 }

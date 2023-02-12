@@ -5,7 +5,7 @@ const error404 = function(err, req, res, next) {
         const warning = res.locals.message;
         // render the error page
         res.status(err.status || 500);
-        res.render('error',{warning});
+        // res.render('',{warning});
 }
 
 module.exports = error404;

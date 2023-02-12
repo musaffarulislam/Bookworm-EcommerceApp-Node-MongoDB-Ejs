@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const Scheme = mongoose.Schema
-const orderScheme = new Scheme({
+const orderSchema = new Scheme({
+    orderId: {
+        type: String,
+        unique: true
+    },
     user : {
         type : mongoose.SchemaTypes.ObjectId,
         ref : 'user'
@@ -13,14 +17,11 @@ const orderScheme = new Scheme({
         quantity: Number
     }],
     address: String,
-    orderId: {
-      type: String,
-      unique: true
-    },
     status: {
         type : String,
         default : "Pending"
     },
+    totalAmount : Number,
     paymentMethod : String,
     orderTime: {
         type: Date,
@@ -28,6 +29,6 @@ const orderScheme = new Scheme({
     },
 });
 
-const order = mongoose.model('order', orderScheme);
+const order = mongoose.model('order', orderSchema);
 
 module.exports = order;

@@ -64,6 +64,22 @@ router.get('/deleteGenre/:id',midleware.adminSession,adminController.deleteGenre
 
 router.get('/undeleteGenre/:id',midleware.adminSession,adminController.undeleteGenre);
 
+router.get('/couponManagement',midleware.adminSession,adminController.renderCouponManagement);
+
+router.post('/addCoupon',adminController.addCoupon);
+
+// Order management
+
+router.get('/pendingManagement',midleware.adminSession,adminController.renderPendingManagement);
+
+router.get('/changeOnTheWayOrder/:id',midleware.adminSession,adminController.changeOnTheWayOrder);
+
+router.get('/onthewayManagement',midleware.adminSession,adminController.renderOnTheWayManagement);
+
+router.get('/changeCompleteOrder/:id',midleware.adminSession,adminController.changeCompleteOrder);
+
+router.get('/completeManagement',midleware.adminSession,adminController.renderCompleteManagement);
+
 router.get('/logout',adminController.logout);
 
 module.exports=router;

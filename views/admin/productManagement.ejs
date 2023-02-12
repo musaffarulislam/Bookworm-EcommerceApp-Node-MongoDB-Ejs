@@ -106,71 +106,34 @@
               </a>
             </li>
 
-            <!-- Pages -->
+            <!-- Order -->
 
             <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Pages</span>
+              <span class="menu-header-text">Order</span>
             </li>
             <li class="menu-item">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">Account Settings</div>
+                <div data-i18n="Account Settings">Order Management</div>
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="pages-account-settings-account.ejs" class="menu-link">
-                    <div data-i18n="Account">Account</div>
+                  <a href="/admin/pendingManagement" class="menu-link">
+                    <div data-i18n="Account">Pending</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="pages-account-settings-notifications.ejs" class="menu-link">
-                    <div data-i18n="Notifications">Notifications</div>
+                  <a href="/admin/onthewayManagement" class="menu-link">
+                    <div data-i18n="On The Way">On the Way</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/admin/completeManagement" class="menu-link">
+                    <div data-i18n="Complete">Complete</div>
                   </a>
                 </li>
               </ul>
             </li>
-
-            <!-- <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-                <div data-i18n="Authentications">Authentications</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="auth-login-basic.ejs" class="menu-link" target="_blank">
-                    <div data-i18n="Basic">Login</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="auth-register-basic.ejs" class="menu-link" target="_blank">
-                    <div data-i18n="Basic">Register</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="auth-forgot-password-basic.ejs" class="menu-link" target="_blank">
-                    <div data-i18n="Basic">Forgot Password</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                <div data-i18n="Misc">Misc</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="pages-misc-error.ejs" class="menu-link">
-                    <div data-i18n="Error">Error</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="pages-misc-under-maintenance.ejs" class="menu-link">
-                    <div data-i18n="Under Maintenance">Under Maintenance</div>
-                  </a>
-                </li>
-              </ul>
-            </li> -->
             
 
             <!-- Tables -->
@@ -211,6 +174,12 @@
               </a>
             </li>
 
+            <li class="menu-item">
+              <a href="/admin/couponManagement" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-table"></i>
+                <div data-i18n="Tables active">Coupon</div>
+              </a>
+            </li>
 
 
           </ul>
