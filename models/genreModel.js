@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const Scheme = mongoose.Schema
-const genreSchema = new Scheme({
+const genreScheme = new Scheme({
     genreName : String,
     delete : Boolean,
 })
 
-const genre = mongoose.model('genre', genreSchema);
+const genre = mongoose.model('genre', genreScheme);
 
 module.exports = genre;

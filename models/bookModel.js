@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Scheme = mongoose.Schema
-const bookSchema = new Scheme({
+const bookScheme = new Scheme({
     bookName : {
         type : String,
         required : true
@@ -21,6 +21,10 @@ const bookSchema = new Scheme({
         type : String,
         required : true
     },
+    coverImage : {
+        type : String,
+        required : true
+    },
     image1 : {
         type : String,
         required : true
@@ -31,6 +35,10 @@ const bookSchema = new Scheme({
     },
     image3 : {
         type : String,
+        required : true
+    },
+    rating : {
+        type : Number,
         required : true
     },
     pages : {
@@ -48,6 +56,6 @@ const bookSchema = new Scheme({
     delete : Boolean,
 });
 
-const book = mongoose.model('book', bookSchema);
+const book = mongoose.model('book', bookScheme);
 
 module.exports = book;

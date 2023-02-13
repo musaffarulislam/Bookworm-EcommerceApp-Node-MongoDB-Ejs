@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Scheme = mongoose.Schema
-const orderSchema = new Scheme({
+const orderScheme = new Scheme({
     orderId: {
         type: String,
         unique: true
@@ -17,6 +17,10 @@ const orderSchema = new Scheme({
         quantity: Number
     }],
     address: String,
+    orderId: {
+      type: String,
+      unique: true
+    },
     status: {
         type : String,
         default : "Pending"
@@ -29,6 +33,6 @@ const orderSchema = new Scheme({
     },
 });
 
-const order = mongoose.model('order', orderSchema);
+const order = mongoose.model('order', orderScheme);
 
 module.exports = order;

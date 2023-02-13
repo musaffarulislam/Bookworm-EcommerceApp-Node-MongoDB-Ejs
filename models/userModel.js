@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Scheme = mongoose.Schema
-const userSchema = new Scheme({
+const userScheme = new Scheme({
     username : String,
     email : {
         type : String,
@@ -32,6 +32,6 @@ const userSchema = new Scheme({
     block : Boolean,
 });
 
-const user = mongoose.model('user', userSchema);
+const user = mongoose.model('user', userScheme);
 
 module.exports = user;
