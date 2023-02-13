@@ -48,6 +48,10 @@ router.get('/checkout/:id',midleware.userSession,userController.renderCheckout);
 
 router.post('/cashOnDelivary',userController.cashOnDelivary);
 
+router.post('/onlinePayment',userController.onlinePayment);
+
+router.post('/verifyOnlinePayment',userController.verifyOnlinePayment);
+
 router.get('/logout',userController.logout);
 
 

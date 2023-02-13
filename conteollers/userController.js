@@ -1,5 +1,12 @@
 const { response } = require('express');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+const { count } = require('console');
+const Razorpay = require('razorpay'); 
+
+
 const user = require('../models/userModel');
 const cart = require('../models/cartModel');
 const order = require('../models/orderModel')
@@ -7,11 +14,6 @@ const author = require('../models/authorModel')
 const book = require('../models/bookModel')
 const genre = require('../models/genreModel')
 const UserOTPVerification = require('../models/userOTPVerification');
-const bcrypt = require('bcrypt');
-const nodemailer = require('nodemailer');
-const crypto = require('crypto');
-const { count } = require('console');
-
 
 
 const renderHome = async (req,res)=>{
@@ -35,30 +37,22 @@ const loginVarification = async(req,res)=>{
 
         if(userdb) {
           if(userdb.block){
-            bcrypt.compare(password,userdb.password).then((status)=>{
-                if(status){
+            bcrypt.compare(password,userdb.password).then((result)=>{
+                if(result){
                     response._id=userdb._id;
                     req.session.user = response._id;
-                    console.log("Login success")
-                    // res.status(200).send({message:"Success"})
-                    res.redirect('/');
-                }else{
-                    // console.log("Incorrect Password");
-                    req.session.errormsg = "Incorrect Password";
-                    // res.status(401).send({message:"Incorrect Password"})
-                    res.redirect('/');
+                    res.status(200).send({message:"Success",status:200})
+                }else{                  
+                    console.log("Incorrect Password");
+                    res.status(401).send({message:"Incorrect Password",status:401})
                 }
             })
           }else{
-            // res.status(401).send({message:"This Email Id Blocked"})
-            req.session.errormsg = "Email Id Blocked";
-            res.redirect('/');
+            res.status(401).send({message:"This Email Id Blocked",status:401})
           }
-        }else {
-            // console.log("Incorrect Email")
-            // res.status(401).send({message:"Incorrect Email"})
-            req.session.errormsg = "Incorrect Email Id";
-            res.redirect('/')
+        }else {        
+            console.log("Incorrect Email")
+            res.status(401).send({message:"Incorrect Email",status:401})
         }
       }catch(err){
         console.error(`Error Login Varification : ${err}`);
@@ -630,11 +624,97 @@ const cashOnDelivary = async (req, res) => {
 
     res.status(200).send({ orderId });
   } catch (err) {
-    console.error(`Error Product Remove: ${err}`);
+    console.error(`Error Product Remove:`,err);
     res.status(500).send("Internal server error");
     res.redirect("/");
   }
 };
+
+
+const onlinePayment = async (req, res) => {
+  try {
+    const amount = req.body.totalAmount;
+    const lastOrder = await order.find().sort({ _id: -1 }).limit(1);
+    let orderId = 'BKWM000001';
+    if (lastOrder.length > 0) {
+      const lastOrderId = lastOrder[0].orderId;
+      const orderIdNumber = parseInt(lastOrderId.slice(4));
+      orderId = `BKWM${("000000" + (orderIdNumber + 1)).slice(-6)}`;
+    }
+
+    const razorpayInstance = new Razorpay({
+      key_id: "rzp_test_ifEOe80qfCYvOK",
+      key_secret: "PIw0PiNYutnX30GerxbnYZNZ"
+    });
+
+    let options = await razorpayInstance.orders.create({
+      amount: amount * 100, 
+      currency: "INR",
+      receipt: orderId
+    });
+
+    const userId = req.query.userId;
+    const userDetails = await user.findOne({_id: userId});
+
+    res.status(201).json({
+      success: true,
+      options,
+      userDetails,
+      amount
+    });
+  } catch (err) {
+    console.error(`Error Online Payment:`, err);
+    res.status(500).json({
+      success: false,
+      error: "Internal server error"
+    });
+  }
+};
+
+
+const verifyOnlinePayment = async (req, res) => {
+  try {
+    console.log(req.body);
+    const payment = req.body.payment;
+    const orderDetails = req.body.order
+    let hmac = crypto.createHmac('sha256','PIw0PiNYutnX30GerxbnYZNZ')
+    hmac.update(payment.razorpay_order_id +'|'+ payment.razorpay_payment_id)
+    hmac=hmac.digest('hex')
+
+    if(hmac == payment.razorpay_signature){
+      const userId = req.body.userId;
+      const cartItems = await cart.find({ user: userId });
+
+      let productArray = cartItems.map(item => {
+        return { productId: item.product, quantity: item.quantity };
+      });
+
+      const newOrder = new order({
+        orderId : orderDetails.receipt,
+        user: userId,
+        product: productArray,
+        address: req.body.address,
+        totalAmount: orderDetails.amount/100,
+        paymentMethod: "Online",
+      });
+  
+      await newOrder.save();
+  
+      await cart.deleteMany({ user: userId });
+  
+      const orderId = orderDetails.receipt
+      res.status(200).send({ orderId });
+    }
+
+  } catch (err) {
+    console.error(`Error Verify Online Payment:`, err);
+    res.status(500).json({
+      success: false,
+      error: "Internal server error"
+    });
+  }
+};
+
 
 
 const logout = (req,res)=>{
@@ -666,5 +746,7 @@ module.exports = {
     productRemove,
     renderCheckout,
     cashOnDelivary,
+    onlinePayment,
+    verifyOnlinePayment,
     logout,
 }
