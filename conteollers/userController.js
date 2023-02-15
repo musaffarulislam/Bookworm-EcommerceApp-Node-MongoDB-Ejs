@@ -349,14 +349,14 @@ const addUserImage = async (req,res) =>{
 }
 
 
-const renderOrder = async (req,res) =>{
+const renderMyOrder = async (req,res) =>{
   try{
-    console.log("hiiiiiiiiiiiiiiiiiiiii");
+
     const warning = req.session.errormsg;
     req.session.errormsg = false;
     const userId = req.params.id;
     const userDetails = await user.findOne({_id: userId})
-    const orders = await order.find().populate("user")
+    const orders = await order.find({user : userId}).populate("user")
     .populate({
       path: "product.productId",
       model: "book",
@@ -370,12 +370,29 @@ const renderOrder = async (req,res) =>{
           model: "genre"
         }
       ]
-    });
+    }).sort({orderTime : -1});
+    const count =  await order.find({user : userId}).count()
     console.log(orders);
-    res.render('myOrder.ejs',{title: "my Order",userDetails,orders,warning});
+    console.log(orders?.product);
+    res.render('myOrder',{title: "my Order",userDetails,orders,count,warning});
   }catch(err){
     console.error(`Error Render myOrder page : ${err}`);
     res.redirect("/");
+  }
+}
+
+
+
+const orderDelete = async (req,res) => {
+  try{
+    const orderId = req.query.orderId;
+    await order.deleteOne({_id: orderId})
+    res.status(200).send({
+      data: "this is data"
+    })
+  }catch(err){
+      console.error(`Error Product Remove : ${err}`);
+      res.redirect("/");
   }
 }
 
@@ -429,16 +446,6 @@ const renderCart = async (req,res) => {
     console.error(`Error Render Cart Page : ${err}`);
     res.redirect("/");
   }
-}
-
-
-function productTotal(books){
-  let totalPrice = 0;
-  for(let i=0; i< books.length; i++){
-    let book = books[i];
-    totalPrice += book.product.retailPrice * book.quantity;
-  }
-  return totalPrice;
 }
 
 
@@ -511,27 +518,89 @@ const addToCart = async (req,res) => {
 }
 
 
-const productDec = async (req,res) => {
-  try{
+const productDec = async (req, res) => {
+  try {
     const cartId = req.query.cartId;
-    const countCheckeOne = await cart.findOne({_id: cartId})
-    if(countCheckeOne.quantity != 1){
-      await cart.findOneAndUpdate({_id: cartId},
-      {$inc:{
-        quantity : -1
+    const userId = req.query.userId;
+    console.log(userId);
+    let totalAmount = 0;
+    let shipping = false;
+    let quantityZero = false;
+    let product = false;
+    let productPriceAndQuantity = false;
+
+    const countCheckOne = await cart.findOne({ _id: cartId });
+    // if (countCheckOne.quantity != 1) {
+      await cart.findOneAndUpdate({ _id: cartId },
+        {
+          $inc: {
+            quantity: -1,
+          },
         }
-      })
-    }else{
-      await cart.deleteOne({_id: cartId})
-    }
+      );
+
+      const carts = await cart
+        .find({ user: userId })
+        .populate("user")
+        .populate("product")
+        .populate({ path: "product", populate: { path: "author" } })
+        .populate({ path: "product", populate: { path: "genre" } });
+
+      totalAmount = productTotal(carts);
+
+      if (totalAmount < 400) {
+        totalAmount = totalAmount + 40;
+        shipping = true;
+      }
+
+      product = await cart.findOne({ _id: cartId }).populate('product');
+      if(product.quantity == 0){
+        await cart.deleteOne({ _id: cartId });
+          quantityZero = true;
+      }
+      console.log("Product : ",product);
+      console.log("Product retail price : ",product.product.retailPrice);
+      console.log("Product : ",product.quantity);
+      productPriceAndQuantity = parseInt(product.product.retailPrice*product.quantity)
+      console.log(productPriceAndQuantity);
+      // const productTotal = product.retailPrice * product.quantity
+    // } else {
+    //   const carts = await cart
+    //   .find({ user: userId })
+    //   .populate("user")
+    //   .populate("product")
+    //   .populate({ path: "product", populate: { path: "author" } })
+    //   .populate({ path: "product", populate: { path: "genre" } });
+
+    //   totalAmount = productTotal(carts);
+
+    //   if (totalAmount < 400) {
+    //     totalAmount = totalAmount + 40;
+    //     shipping = true;
+    //   }
+
+    //   product = await cart.findOne({ _id: cartId }).populate('product');
+    //   await cart.deleteOne({ _id: cartId });
+    //   quantityZero = true;
+    // }
+
+    console.log(totalAmount, "totalAmount");
+
     res.status(200).send({
-      data: "this is data"
-    })
-  }catch(err){
-      console.error(`Error Product Count Deccriment : ${err}`);
-      res.redirect("/");
+      data: "this is data",
+      totalAmount,
+      shipping,
+      count,
+      product,
+      productPriceAndQuantity,
+      quantityZero,
+    });
+  } catch (err) {
+    console.error(`Error Product Count Deccriment : ${err}`);
+    res.redirect("/");
   }
-}
+};
+
 
 
 const productInc = async (req,res) => {
@@ -563,6 +632,17 @@ const productRemove = async (req,res) => {
       console.error(`Error Product Remove : ${err}`);
       res.redirect("/");
   }
+}
+
+function productTotal(books){
+  console.log("Product total: ",books);
+  let totalPrice = 0;
+  for(let i=0; i< books.length; i++){
+    let book = books[i];
+    totalPrice += book.product.retailPrice * book.quantity;
+  }
+  console.log(totalPrice);
+  return totalPrice;
 }
 
 
@@ -736,7 +816,8 @@ module.exports = {
     editUser,
     address,
     addUserImage,
-    renderOrder,
+    renderMyOrder,
+    orderDelete,
     renderBook,
     bookDetails,
     renderCart,

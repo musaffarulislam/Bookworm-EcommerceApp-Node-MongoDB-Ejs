@@ -374,11 +374,11 @@ const renderAuthorManagement = async (req,res) =>{
 
 const addAuthor = async (req,res) => {
     try{
-        const existingAuthor = await genre.findOne({ authorName: req.body.authorName});
-        if (existingAuthor) {
-            req.session.errormsg = 'Author Already Exit';
-            return res.redirect('/admin/authorManagement');
-        }
+        // const existingAuthor = await genre.findOne({ authorName: req.body.authorName});
+        // if (existingAuthor) {
+        //     req.session.errormsg = 'Author Already Exit';
+        //     return res.redirect('/admin/authorManagement');
+        // }
         const newAuthor = new author({
             authorName : req.body.authorName,
             authorDetails : req.body.authorDetails,

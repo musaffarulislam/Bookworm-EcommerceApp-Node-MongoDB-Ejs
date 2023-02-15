@@ -23,7 +23,6 @@ const bookScheme = new Scheme({
     },
     coverImage : {
         type : String,
-        required : true
     },
     image1 : {
         type : String,

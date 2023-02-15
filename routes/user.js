@@ -22,7 +22,9 @@ router.post('/register',userController.userSignup);
 
 router.get('/myProfile/:id',midleware.userSession,userController.renderMyProfile);
 
-router.get('/myOrder/:id',midleware.userSession,userController.renderOrder);
+router.get('/myOrder/:id',midleware.userSession,userController.renderMyOrder);
+
+router.post('/orderDelete',userController.orderDelete);
 
 router.post('/editUser/:id',userController.editUser);
 

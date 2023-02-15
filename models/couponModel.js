@@ -19,7 +19,7 @@ const couponSchema = new Schema({
     required: true
   },
   ExpiredDate: {
-    type: Date,
+    type: String,
     required: true
   },
   users: [

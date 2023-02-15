@@ -17,10 +17,6 @@ const orderScheme = new Scheme({
         quantity: Number
     }],
     address: String,
-    orderId: {
-      type: String,
-      unique: true
-    },
     status: {
         type : String,
         default : "Pending"

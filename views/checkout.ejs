@@ -229,49 +229,44 @@
 
 <body style="font-size: 14px;">
 
-    <!-- ============================================-->
-    <!-- Navbar ============================-->
-    <header class="header_area sticky-header">
-        <div class="main_menu">
-            <nav class="navbar navbar-expand-lg navbar-light main_box">
-                <div class="container">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="/"><img class="w-25" src="../nav/img/logo3.png"
-                            alt="Bookworm logo"></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
-                            <li class="nav-item cartText"><a class="nav-link" href="/">Cart</a></li>
-                            <li class="nav-item cartIcon"><a class="nav-link" href="/"><i class="fas fa-shopping-cart"
-                                        style="color: #ffb30e;"></i></a></li>
-                            <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false"><i
-                                        class="fas fa-user-circle me-2"></i></a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="/userProfile/<%= userDetails._id %>">
-                                            <%= userDetails.username %>
-                                        </a></li>
-                                    <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+      <!-- ============================================-->
+      <!-- Navbar ============================-->
+      <header class="header_area sticky-header">
+        <div class="main_menu" style="background-color: #ffffff;">
+          <nav class="navbar navbar-expand-lg navbar-light main_box">
+            <div class="container">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <a class="navbar-brand logo_h" href="/"><img class="w-25" src="../nav/img/logo3.png" alt="Bookworm logo"></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
+                <ul class="nav navbar-nav menu_nav ml-auto">
+                  <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
+                  <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
+                  <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
+                  <li class="nav-item submenu dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                      aria-expanded="false"><i class="fas fa-user-circle me-2"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item"><a class="nav-link" href="/myProfile/<%= userDetails._id %>"><%= userDetails.username %></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/myOrder/<%= userDetails._id %>">My Orders</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
         </div>
-    </header>
-    <!-- Navbar ============================-->
-    <!-- ============================================-->
+      </header>
+      <!-- Navbar ============================-->
+      <!-- ============================================-->
 
     <div class="container mt-5 pt-5" style="background: rgb(239, 239, 239);">
         <div class="wrapper wrapper-content animated fadeInRight">
@@ -407,12 +402,8 @@
             </div>
         </div>
     </div>
-
-
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
     <script>
-
         function cashOnDelivary(userId){
             const ordertotalAmount = document.getElementById('totalAmount').innerText;
             const orderAddress = document.getElementById('checkoutAddress').innerText;
@@ -444,10 +435,10 @@
                     button: "Okay",
                 })
                     .then(() => {
-                        window.location.href = `/cart/${userId}`;
+                        window.location.href = `/myOrder/${userId}`;
                     });
                     setTimeout(() => {
-                        window.location.href = `/cart/${userId}`;
+                        window.location.href = `/myOrder/${userId}`;
                     }, 3000);
                 })
                 .catch((error) => {
@@ -461,18 +452,14 @@
                 });
                 });
         }
-
-
-
         // function onlinePayment(userId){
             document.getElementById("rzp-button1").addEventListener("click", async function(e) {
                 e.preventDefault();
-
                 const userId = "<%= userDetails._id %>";
                 const orderTotalAmount = document.getElementById("totalAmount").innerText;
                 const orderAddress = document.getElementById("checkoutAddress").innerText;
                 const url = window.location.origin;
-
+                console.log(url);
                 try {
                     let response = await fetch(`${url}/onlinePayment?userId=${userId}`, {
                     method: "POST",
@@ -485,10 +472,7 @@
                         totalAmount: orderTotalAmount
                     })
                     });
-
                     let orderData = await response.json();
-                    console.log(orderData.options.receipt || 'Receipt not available');
-
                     var options = {
                     key: "rzp_test_ifEOe80qfCYvOK",
                     amount: orderTotalAmount * 100,
@@ -511,14 +495,12 @@
                         color: "#ffb30e"
                     }
                     };
-
                     var rzp1 = new Razorpay(options);
                     rzp1.open();
                 } catch (error) {
                     console.error("Error fetching order data:", error);
                 }
                 });
-
                 function storeOrderData(payment, order, userId, address) {
                 const url = window.location.origin;
                 console.log(url);
@@ -549,10 +531,10 @@
                         button: "Okay",
                     })
                         .then(() => {
-                            window.location.href = `/cart/${userId}`;
+                            window.location.href = `/myOrder/${userId}`;
                         });
                         setTimeout(() => {
-                            window.location.href = `/cart/${userId}`;
+                            window.location.href = `/myOrder/${userId}`;
                         }, 3000);
                     })
                     .catch((error) => {
@@ -566,8 +548,6 @@
                     });
                     });
             }
-
-
     </script>
           <!-- setTimeout(() => {
         }, 5000); -->
