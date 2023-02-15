@@ -242,48 +242,44 @@
 
 <body style="font-size: 14px;">
 
-    <!-- ============================================-->
-    <!-- Navbar ============================-->
-    <header class="header_area sticky-header">
-        <div class="main_menu">
-            <nav class="navbar navbar-expand-lg navbar-light main_box">
-                <div class="container">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="/"><img class="w-25" src="../nav/img/logo3.png" alt="Bookworm logo"></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
-                            <li class="nav-item cartText"><a class="nav-link" href="/">Cart</a></li>
-                            <li class="nav-item cartIcon"><a class="nav-link" href="/"><i
-                                        class="fas fa-shopping-cart"></i></a></li>
-                            <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false"><i
-                                        class="fas fa-user-circle me-2"></i></a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="/userProfile/<%= userDetails._id %>">
-                                            <%= userDetails.username %>
-                                        </a></li>
-                                    <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+      <!-- ============================================-->
+      <!-- Navbar ============================-->
+      <header class="header_area sticky-header">
+        <div class="main_menu" style="background-color: #ffffff;">
+          <nav class="navbar navbar-expand-lg navbar-light main_box">
+            <div class="container">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <a class="navbar-brand logo_h" href="/"><img class="w-25" src="../nav/img/logo3.png" alt="Bookworm logo"></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
+                <ul class="nav navbar-nav menu_nav ml-auto">
+                  <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
+                  <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
+                  <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
+                  <li class="nav-item submenu dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                      aria-expanded="false"><i class="fas fa-user-circle me-2"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item"><a class="nav-link" href="/myProfile/<%= userDetails._id %>"><%= userDetails.username %></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/myOrder/<%= userDetails._id %>">My Orders</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
         </div>
-    </header>
-    <!-- Navbar ============================-->
-    <!-- ============================================-->
+      </header>
+      <!-- Navbar ============================-->
+      <!-- ============================================-->
 
   <% if(count != 0) {%>
   <div class="container mt-5 pt-5" style="background: rgb(248, 248, 248);">
@@ -317,7 +313,7 @@
                           <dd><%= cart?.product?.genre?.genreName %> | <%= cart?.product?.language %></dd>
                         </dl>
                         <div class="m-t-sm">
-                          <a id="removeCart" onclick="productRemove('<%= cart._id %>')" class="text-muted" style="cursor: pointer;"><i class="fa fa-trash"></i> Remove item</a>
+                          <a id="removeCart" onclick="productRemove('<%= cart._id %>','<%= userDetails._id %>')" class="text-muted" style="cursor: pointer;"><i class="fa fa-trash"></i> Remove item</a>
                         </div>
                       </td>
                       <td>
@@ -332,7 +328,7 @@
                           </div>
                           </a>
                             <input id="productQuantity<%=cart.product._id %>" class="mtext-104 cl3 txt-center num-product" type="number" name="countProduct" min="1" step="1" value="<%= cart.quantity %>">
-                            <a id="incCart" onclick="productIncriment('<%= cart._id %>')" style="text-decoration: none;"> 
+                            <a id="incCart" onclick="productIncriment('<%= cart._id %>','<%= userDetails._id %>')" style="text-decoration: none;"> 
                               <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                   <i class="fs-16 zmdi zmdi-plus"></i>
                               </div>
@@ -453,7 +449,6 @@
         }
       }).then((response)=>response.json())
       .then((data)=>{
-        console.log(data,'This is data');
         document.getElementById('totalAmount').innerText = "₹" + data.totalAmount
         document.getElementById(`productQuantity${data.product.product._id}`).value = data.product.quantity
         document.getElementById(`productPriceAndQuantity${data.product.product._id}`).innerText = "₹" +  data.productPriceAndQuantity
@@ -463,42 +458,54 @@
           document.getElementById('shippingFee').innerText = "Shipping Fee : Free"
         }
         if(data.quantityZero == true){
-          console.log(data.quantityZero,"Zero quantity")
           document.getElementById(`cart${data.product.product._id}`).remove()
         }
-        // location.reload()
       })
     }
 
-    function productIncriment(cartId) {
+
+    function productIncriment(cartId,userId) {
       const url = window.location.origin;
       console.log(url);
-      fetch(`${url}/productInc?cartId=${cartId}`, {
+      console.log(userId);
+      fetch(`${url}/productInc?cartId=${cartId}&userId=${userId}`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         }
-      }).then((response)=>response)
+      }).then((response)=>response.json())
       .then((data)=>{
-        console.log(data,'This is data');
-        location.reload()
+        document.getElementById('totalAmount').innerText = "₹" + data.totalAmount
+        document.getElementById(`productQuantity${data.product.product._id}`).value = data.product.quantity
+        document.getElementById(`productPriceAndQuantity${data.product.product._id}`).innerText = "₹" +  data.productPriceAndQuantity
+        if(data.shipping){
+          document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
+        }else{
+          document.getElementById('shippingFee').innerText = "Shipping Fee : Free"
+        }
       })
     }
 
-    function productRemove(cartId) {
+
+    function productRemove(cartId,userId) {
       const url = window.location.origin;
       console.log(url);
-      fetch(`${url}/productRemove?cartId=${cartId}`, {
+      fetch(`${url}/productRemove?cartId=${cartId}&userId=${userId}`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         }
-      }).then((response)=>response)
+      }).then((response)=>response.json())
       .then((data)=>{
-        console.log(data,'This is data');
-        location.reload()
+        document.getElementById('totalAmount').innerText = "₹" + data.totalAmount
+        if(data.shipping){
+          document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
+        }else{
+          document.getElementById('shippingFee').innerText = "Shipping Fee : Free"
+        }
+        document.getElementById(`cart${data.product.product._id}`).remove()
       })
     }
   </script>

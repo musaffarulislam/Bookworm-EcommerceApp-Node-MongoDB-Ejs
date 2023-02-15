@@ -523,14 +523,9 @@ const productDec = async (req, res) => {
     const cartId = req.query.cartId;
     const userId = req.query.userId;
     console.log(userId);
-    let totalAmount = 0;
     let shipping = false;
     let quantityZero = false;
-    let product = false;
-    let productPriceAndQuantity = false;
 
-    const countCheckOne = await cart.findOne({ _id: cartId });
-    // if (countCheckOne.quantity != 1) {
       await cart.findOneAndUpdate({ _id: cartId },
         {
           $inc: {
@@ -539,14 +534,11 @@ const productDec = async (req, res) => {
         }
       );
 
-      const carts = await cart
-        .find({ user: userId })
-        .populate("user")
-        .populate("product")
-        .populate({ path: "product", populate: { path: "author" } })
+      const carts = await cart.find({ user: userId }).populate("user")
+        .populate("product").populate({ path: "product", populate: { path: "author" } })
         .populate({ path: "product", populate: { path: "genre" } });
 
-      totalAmount = productTotal(carts);
+      let totalAmount = productTotal(carts);
 
       if (totalAmount < 400) {
         totalAmount = totalAmount + 40;
@@ -554,47 +546,19 @@ const productDec = async (req, res) => {
       }
 
       product = await cart.findOne({ _id: cartId }).populate('product');
+
       if(product.quantity == 0){
         await cart.deleteOne({ _id: cartId });
-          quantityZero = true;
+        quantityZero = true;
       }
-      console.log("Product : ",product);
-      console.log("Product retail price : ",product.product.retailPrice);
-      console.log("Product : ",product.quantity);
+
       productPriceAndQuantity = parseInt(product.product.retailPrice*product.quantity)
       console.log(productPriceAndQuantity);
-      // const productTotal = product.retailPrice * product.quantity
-    // } else {
-    //   const carts = await cart
-    //   .find({ user: userId })
-    //   .populate("user")
-    //   .populate("product")
-    //   .populate({ path: "product", populate: { path: "author" } })
-    //   .populate({ path: "product", populate: { path: "genre" } });
 
-    //   totalAmount = productTotal(carts);
+      res.status(200).send({
+        data: "this is data",totalAmount,shipping,product,productPriceAndQuantity,quantityZero,
+      });
 
-    //   if (totalAmount < 400) {
-    //     totalAmount = totalAmount + 40;
-    //     shipping = true;
-    //   }
-
-    //   product = await cart.findOne({ _id: cartId }).populate('product');
-    //   await cart.deleteOne({ _id: cartId });
-    //   quantityZero = true;
-    // }
-
-    console.log(totalAmount, "totalAmount");
-
-    res.status(200).send({
-      data: "this is data",
-      totalAmount,
-      shipping,
-      count,
-      product,
-      productPriceAndQuantity,
-      quantityZero,
-    });
   } catch (err) {
     console.error(`Error Product Count Deccriment : ${err}`);
     res.redirect("/");
@@ -604,19 +568,43 @@ const productDec = async (req, res) => {
 
 
 const productInc = async (req,res) => {
-  try{
+ try {
     const cartId = req.query.cartId;
-    await cart.findOneAndUpdate({_id: cartId},
-    {$inc:{
-      quantity : 1
+    const userId = req.query.userId;
+    console.log(userId);
+    let shipping = false;
+
+      await cart.findOneAndUpdate({ _id: cartId },
+        {
+          $inc: {
+            quantity: 1,
+          },
+        }
+      );
+
+      const carts = await cart.find({ user: userId }).populate("user")
+        .populate("product").populate({ path: "product", populate: { path: "author" } })
+        .populate({ path: "product", populate: { path: "genre" } });
+
+      let totalAmount = productTotal(carts);
+
+      if (totalAmount < 400) {
+        totalAmount = totalAmount + 40;
+        shipping = true;
       }
-    })
-    res.status(200).send({
-      data: "this is data"
-    })
-  }catch(err){
-      console.error(`Error Product Count Incriment : ${err}`);
-      res.redirect("/");
+
+      product = await cart.findOne({ _id: cartId }).populate('product');
+
+      productPriceAndQuantity = parseInt(product.product.retailPrice*product.quantity)
+      console.log(productPriceAndQuantity);
+
+      res.status(200).send({
+        data: "this is data",totalAmount,shipping,product,productPriceAndQuantity,
+      });
+      
+  } catch (err) {
+    console.error(`Error Product Count Increment : ${err}`);
+    res.redirect("/");
   }
 }
 
@@ -624,9 +612,27 @@ const productInc = async (req,res) => {
 const productRemove = async (req,res) => {
   try{
     const cartId = req.query.cartId;
+    const userId = req.query.userId;
+    console.log(userId);
+    let shipping = false;
+
+    const product = await cart.findOne({ _id: cartId }).populate('product');
+    
     await cart.deleteOne({_id: cartId})
+
+    const carts = await cart.find({ user: userId }).populate("user")
+    .populate("product").populate({ path: "product", populate: { path: "author" } })
+    .populate({ path: "product", populate: { path: "genre" } });
+
+    let totalAmount = productTotal(carts);
+
+    if (totalAmount < 400) {
+      totalAmount = totalAmount + 40;
+      shipping = true;
+    }
+
     res.status(200).send({
-      data: "this is data"
+      data: "this is data",totalAmount,shipping,product,
     })
   }catch(err){
       console.error(`Error Product Remove : ${err}`);
@@ -641,7 +647,6 @@ function productTotal(books){
     let book = books[i];
     totalPrice += book.product.retailPrice * book.quantity;
   }
-  console.log(totalPrice);
   return totalPrice;
 }
 
