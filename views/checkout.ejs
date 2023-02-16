@@ -227,7 +227,7 @@
 
 </head>
 
-<body style="font-size: 14px;">
+<body style="font-size: 12px;">
 
       <!-- ============================================-->
       <!-- Navbar ============================-->
@@ -246,7 +246,7 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
                 <ul class="nav navbar-nav menu_nav ml-auto">
-                  <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                   <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
                   <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
                   <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
@@ -268,18 +268,18 @@
       <!-- Navbar ============================-->
       <!-- ============================================-->
 
-    <div class="container mt-5 pt-5" style="background: rgb(239, 239, 239);">
+    <div class="container mt-5 pt-5" style="background:rgb(248, 248, 248);">
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-md-9">
-                    <div class="ibox">
-                        <div class="ibox-title">
+                    <div class="ibox shadow rounded">
+                        <div class="ibox-title shadow rounded">
                             <span class="pull-right">(<strong> <%= count %> </strong>) items</span>
                             <h6>Checkout</h6>
                         </div>
 
                         <% carts.forEach((cart)=>{ %>
-                            <div class="ibox-content">
+                            <div class="ibox-content shadow rounded">
                                 <div class="table-responsive">
                                     <table class="table shoping-cart-table">
                                         <tbody>
@@ -309,29 +309,6 @@
                                                 <td>
                                                     Quantity : <%= cart.quantity %>
                                                 </td>
-                                                <!-- <td width="65"> -->
-                                                <!-- <div class="wrap-num-product flex-w">
-                                                            <a id="decCart"
-                                                                onclick="productDecrement('<%= cart._id %>')"
-                                                                style="text-decoration: none;">
-                                                                <div
-                                                                    class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                                                    <i class="fs-16 zmdi zmdi-minus"></i>
-                                                                </div>
-                                                            </a>
-                                                            <input class="mtext-104 cl3 txt-center num-product"
-                                                                type="number" name="countProduct" min="1" step="1"
-                                                                value="<%= cart.quantity %>">
-                                                            <a id="incCart"
-                                                                onclick="productIncriment('<%= cart._id %>')"
-                                                                style="text-decoration: none;">
-                                                                <div
-                                                                    class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                                                    <i class="fs-16 zmdi zmdi-plus"></i>
-                                                                </div>
-                                                            </a>
-                                                        </div> -->
-                                                <!-- </td> -->
                                                 <td>
                                                     <h4>
                                                         ₹ <%= cart?.product?.retailPrice * cart.quantity %>
@@ -343,14 +320,46 @@
                                 </div>
                             </div>
                         <% }) %>
-                        <div class="ibox-content">
+                        <div class="ibox-content d-flex justify-content-between">
                             <a href="/cart/<%= userDetails._id %>"><button class="btn btn-white btn-sm my-3"><i class="fa fa-arrow-left"></i> Go To Cart</button></a>
+                            <!-- <div class="input-group my-3" style="width:60%">
+                                <div id="couponMessage"></div>
+                                <input type="text" id="couponName" class="form-control text-uppercase rounded" placeholder="Coupon Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                  <button class="btn btn-warning" type="button" onclick="addCoupon('<%= userDetails._id %>')"><b style="color: white;">Add</b></button>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="ibox">
-                        <div class="ibox-title">
+                    <!-- <div class="ibox shadow rounded">
+                        <div class="ibox-title shadow rounded">
+                          <h5>Payment Method</h5>
+                        </div>
+                        <div class="ibox-content text-center">
+                            <button class="btn btn-primary btn-sm btn-block my-2" onclick="cashOnDelivary('<%= userDetails._id %>')">Chash On
+                                delivary</button>
+                            <button class="btn btn-danger btn-sm btn-block my-2" id="rzp-button1">Online Payment</button>
+                        </div>
+                    </div> -->
+                    <div class="ibox shadow rounded">
+                        <div class="ibox-title shadow rounded">
+                          <h5>Address</h5>
+                        </div>
+                        <div class="ibox-content text-center">
+                          <div>
+                          <span class="">
+                            <%= userDetails.address.houseName %>, <%= userDetails.address.streetName %>, <%= userDetails.address.town %>,
+                            <%= userDetails.address.state %>, <%= userDetails.address.zipCode %>, <%= userDetails.address.country %>
+                          </span>
+                        </div>
+                          <a href="#" class="btn btn-outline btn-primary btn-sm my-3">Change</a>
+                        </div>
+                        
+                    </div>
+                    <div class="ibox shadow rounded">
+                        <div class="ibox-title shadow rounded">
                             <h6>Bill</h6>
                         </div>
                         <div class="ibox-content">
@@ -361,41 +370,49 @@
                                 </span>
                             <% }) %>
                             <hr>
+                            <b>
                             <% if (shipping) { %>
                                 <span class="text-danger">
                                     Shipping Fee : ₹ 40
                                 </span>
                             <% }else{ %>
-                                    <span class="text-success">
+                                    <span class="text-danger">
                                         Shipping Fee : Free
                                     </span>
                             <% } %>
+                            </b>
                             <hr>
-                            <span>
-                                Total
+                            <div class="d-flex">
+                                <span>
+                                  Total : 
+                                </span>
+                                <h4 id="totalAmount" class="font-bold ms-2" style="font-weight:700;">
+                                  ₹ <%= totalAmount %>
+                                </h4>
+                                </div>
+                            <hr>
+                            <span class="text-muted ">
+                                *If the total amount is more than <b class="text-dark"> ₹ 400 </b> rupees, there will be no shipping charge
                             </span>
-                            <h4 class="font-bold d-flex">
-                            ₹ <div id="totalAmount"><%= totalAmount %></div>
-                            </h4>
                             <hr>
+                            <div class="input-group mb-3">
+                                <div id="couponMessage"></div>
+                                <input type="text" id="couponName" class="form-control text-uppercase" placeholder="Coupon Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                  <button class="btn btn-warning" type="button" onclick="addCoupon('<%= userDetails._id %>')"><b style="color: white;">Add</b></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox shadow rounded">
+                        <div class="ibox-title shadow rounded">
+                          <h5>Payment Method</h5>
+                        </div>
+                        <div class="ibox-content text-center">
                             <button class="btn btn-primary btn-sm btn-block my-2" onclick="cashOnDelivary('<%= userDetails._id %>')">Chash On
                                 delivary</button>
                             <!-- <button class="btn btn-danger btn-sm btn-block my-2" onclick="onlinePayment('<%= userDetails._id %>')">OnlinePayment</button> -->
                             <button class="btn btn-danger btn-sm btn-block my-2" id="rzp-button1">Online Payment</button>
-                        </div>
-                    </div>
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>Address</h5>
-                        </div>
-                        <div class="ibox-content text-center">
-                            <!-- <h3>+43 100 783 001</h3> -->
-                            <div>
-                                <span id="checkoutAddress" class="address">
-                                    <%= userDetails.address.houseName %>, <%= userDetails.address.streetName %>, <%= userDetails.address.town %>,
-                                    <%= userDetails.address.state %>, <%= userDetails.address.zipCode %>, <%= userDetails.address.country %>
-                                </span>
-                            </div>
                         </div>
                     </div>
                 </div>

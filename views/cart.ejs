@@ -240,7 +240,7 @@
 
 </head>
 
-<body style="font-size: 14px;">
+<body style="font-size: 12px;">
 
       <!-- ============================================-->
       <!-- Navbar ============================-->
@@ -259,10 +259,10 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
                 <ul class="nav navbar-nav menu_nav ml-auto">
-                  <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                   <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
-                  <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
-                  <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
+                  <li class="nav-item active cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
+                  <li class="nav-item active cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
                   <li class="nav-item submenu dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                       aria-expanded="false"><i class="fas fa-user-circle me-2"></i></a>
@@ -286,13 +286,13 @@
     <div class="wrapper wrapper-content animated fadeInRight">
       <div class="row">
         <div class="col-md-9">
-          <div class="ibox">
-            <div class="ibox-title">
-              <span class="pull-right">(<strong><%= count %></strong>) items</span>
+          <div class="ibox  shadow rounded">
+            <div class="ibox-title shadow rounded">
+              <span class="pull-right d-flex">(<strong><div id="count"><%= count %></div></strong>) items</span>
               <h6>Items in your cart</h6>
             </div>
             <% carts.forEach((cart) =>{ %>
-            <div id="cart<%=cart.product._id %>" class="ibox-content">
+            <div id="cart<%=cart.product._id %>" class="ibox-content shadow rounded">
               <div class="table-responsive">
                 <table class="table shoping-cart-table">
                   <tbody>
@@ -356,32 +356,36 @@
         </div>
         <div class="col-md-3">
           <div class="ibox">
-            <div class="ibox-title">
+            <div class="ibox-title shadow rounded">
               <h6>Cart Summary</h6>
             </div>
-            <div class="ibox-content">
+            <div class="ibox-content shadow rounded">
               <% carts.forEach((cart) =>{ %>
-              <span>
-                <%= cart?.product?.bookName %> : ₹ <%= cart?.product?.retailPrice * cart.quantity %> <br>
+              <span id="cartSummary<%= cart._id %>" class="d-flex mt-2">
+                <div class="font-bold"><%= cart?.product?.bookName %> : </div><b><div id="productPriceAndQuantity2<%=cart.product._id %>" style="color: #686868;"> ₹ <%= cart?.product?.retailPrice * cart.quantity %></div></b> <br>
               </span>
               <% }) %>
               <hr>
+              <b>
               <% if (shipping) { %>
-                <span id="shippingFee" class="text-success">
+                <span id="shippingFee" class="text-danger">
                   Shipping Fee : ₹ 40
                 </span>
               <% }else{ %>
-                <span id="shippingFee" class="text-success">
+                <span id="shippingFee" class="text-danger">
                   Shipping Fee : Free
                 </span>
               <% } %>
+              </b>
               <hr>
+              <div class="d-flex">
               <span>
-                Total
+                Total : 
               </span>
-              <h4 id="totalAmount" class="font-bold">
+              <h4 id="totalAmount" class="font-bold ms-2" style="font-weight:700;">
                 ₹ <%= totalAmount %>
               </h4>
+              </div>
               <hr>
               <span class="text-muted ">
                 *If the total amount is more than <b class="text-dark"> ₹ 400 </b> rupees, there will be no shipping charge
@@ -392,22 +396,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="ibox">
-            <div class="ibox-title">
-              <h5>Address</h5>
-            </div>
-            <div class="ibox-content text-center">
-              <!-- <h3>+43 100 783 001</h3> -->
-              <div>
-              <span class="">
-                <%= userDetails.address.houseName %>, <%= userDetails.address.streetName %>, <%= userDetails.address.town %>,
-                <%= userDetails.address.state %>, <%= userDetails.address.zipCode %>, <%= userDetails.address.country %>
-              </span>
-            </div>
-              <a href="#" class="btn btn-outline btn-primary btn-sm my-3">Change</a>
-            </div>
-            
           </div>
         </div>
       </div>
@@ -436,7 +424,10 @@
      
      </div>
      <% } %>
+
+
 <script>
+
     function productDecrement(cartId,userId) {
       const url = window.location.origin;
       console.log(url);
@@ -452,6 +443,7 @@
         document.getElementById('totalAmount').innerText = "₹" + data.totalAmount
         document.getElementById(`productQuantity${data.product.product._id}`).value = data.product.quantity
         document.getElementById(`productPriceAndQuantity${data.product.product._id}`).innerText = "₹" +  data.productPriceAndQuantity
+        document.getElementById(`productPriceAndQuantity2${data.product.product._id}`).innerText = "₹" +  data.productPriceAndQuantity
         if(data.shipping){
           document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
         }else{
@@ -460,6 +452,7 @@
         if(data.quantityZero == true){
           document.getElementById(`cart${data.product.product._id}`).remove()
         }
+        document.getElementById('count').innerText = data.count
       })
     }
 
@@ -479,6 +472,7 @@
         document.getElementById('totalAmount').innerText = "₹" + data.totalAmount
         document.getElementById(`productQuantity${data.product.product._id}`).value = data.product.quantity
         document.getElementById(`productPriceAndQuantity${data.product.product._id}`).innerText = "₹" +  data.productPriceAndQuantity
+        document.getElementById(`productPriceAndQuantity2${data.product.product._id}`).innerText = "₹" +  data.productPriceAndQuantity
         if(data.shipping){
           document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
         }else{
@@ -506,6 +500,28 @@
           document.getElementById('shippingFee').innerText = "Shipping Fee : Free"
         }
         document.getElementById(`cart${data.product.product._id}`).remove()
+        document.getElementById('count').innerText = data.count
+      })
+    }
+
+
+    function addCoupon(userId){
+      const url = window.location.origin;
+      const couponName = document.getElementById('couponName').value 
+      console.log(url);
+      console.log(userId);
+      fetch(`${url}/addCoupon?userId=${userId}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            couponName
+        })
+      }).then((response)=>response.json())
+      .then((data)=>{
+        console.log("data",data)
       })
     }
   </script>

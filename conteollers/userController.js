@@ -448,6 +448,58 @@ const renderCart = async (req,res) => {
   }
 }
 
+const addCoupon = async (req,res) => {
+  try{
+    const coupon = await coupon.findOne({ couponName });
+
+    if(!coupon){
+      return res.status(400).send({message:"Coupon name not valid"})
+    }
+
+    const currentDate = new Date();
+
+    if (coupon.ExpiredDate < currentDate) {
+      return res.status(400).send({ message: "Coupan has expired" });
+    }
+
+    if (coupon.usedBy.includes(req.body.userId)) {
+      return res.status(400).send({ message: "You have already used this coupon" });
+    }
+
+    if (req.body.total < coupon.minimumTotal) {
+      return res.status(400).send({ message: "Total is below the minimum required to use this coupon" });
+    }
+
+    const carts = await cart.find({user: req.body.userId}).populate('user').populate('product').
+    populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
+
+    const count = await cart.find({user: req.body.userId}).count()
+    
+    let totalAmount = productTotal(carts)
+    let shipping = false;
+    if(totalAmount<400){
+      totalAmount = totalAmount + 40;
+      shipping = true;
+    }
+
+    let discountPercentage = coupon.discountPercentage / 100;
+    let discountAmount = totalAmount * discountPercentage;
+
+    if (discountAmount > coupon.maximumDiscountPrice) {
+      discountAmount = coupon.maximumDiscountPrice;
+    }
+
+    coupon.users.push(userId);
+    await coupon.save();
+    res.status(200).send({message:"Coupon added",discountAmount,totalAmount})
+
+  }catch(err){
+    console.error(`Error Render Cart Page : ${err}`);
+    res.redirect("/");
+  }
+}
+
+
 
 const applyCoupon = async (req,res) => {
     try {
@@ -544,19 +596,20 @@ const productDec = async (req, res) => {
         totalAmount = totalAmount + 40;
         shipping = true;
       }
-
       product = await cart.findOne({ _id: cartId }).populate('product');
 
-      if(product.quantity == 0){
+      if(product.quantity <= 0){
         await cart.deleteOne({ _id: cartId });
         quantityZero = true;
       }
+
+      const count = await cart.find({user: userId}).count()
 
       productPriceAndQuantity = parseInt(product.product.retailPrice*product.quantity)
       console.log(productPriceAndQuantity);
 
       res.status(200).send({
-        data: "this is data",totalAmount,shipping,product,productPriceAndQuantity,quantityZero,
+        data: "this is data",totalAmount,shipping,product,productPriceAndQuantity,quantityZero,count
       });
 
   } catch (err) {
@@ -630,15 +683,16 @@ const productRemove = async (req,res) => {
       totalAmount = totalAmount + 40;
       shipping = true;
     }
-
+    const count = await cart.find({user: userId}).count()
     res.status(200).send({
-      data: "this is data",totalAmount,shipping,product,
+      data: "this is data",totalAmount,shipping,product,count,
     })
   }catch(err){
       console.error(`Error Product Remove : ${err}`);
       res.redirect("/");
   }
 }
+
 
 function productTotal(books){
   console.log("Product total: ",books);
@@ -830,6 +884,7 @@ module.exports = {
     productDec,
     productInc,
     productRemove,
+    addCoupon,
     renderCheckout,
     cashOnDelivary,
     onlinePayment,

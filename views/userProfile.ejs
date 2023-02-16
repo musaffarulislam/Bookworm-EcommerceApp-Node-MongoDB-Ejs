@@ -92,7 +92,7 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
                 <ul class="nav navbar-nav menu_nav ml-auto">
-                  <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                   <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
                   <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
                   <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
@@ -100,7 +100,7 @@
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                       aria-expanded="false"><i class="fas fa-user-circle me-2"></i></a>
                     <ul class="dropdown-menu">
-                        <li class="nav-item"><a class="nav-link" href="/myProfile/<%= userDetails._id %>"><%= userDetails.username %></a></li>
+                        <li class="nav-item active"><a class="nav-link" href="/myProfile/<%= userDetails._id %>"><%= userDetails.username %></a></li>
                         <li class="nav-item"><a class="nav-link" href="/myOrder/<%= userDetails._id %>">My Orders</a></li>
                         <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                     </ul>

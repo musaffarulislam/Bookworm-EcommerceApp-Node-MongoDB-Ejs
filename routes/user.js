@@ -46,6 +46,8 @@ router.post('/productInc',userController.productInc);
 
 router.post('/productRemove',userController.productRemove);
 
+router.post('/addCoupon',userController.addCoupon);
+
 router.get('/checkout/:id',midleware.userSession,userController.renderCheckout);
 
 router.post('/cashOnDelivary',userController.cashOnDelivary);
