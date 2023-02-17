@@ -450,105 +450,45 @@ const renderCart = async (req,res) => {
 }
 
 
-const applyCoupon = async (req,res) => {
-  try{
-    const couponName = req.body.couponName
-    console.log(couponName);
 
-    if(!couponName){
-      return res.status(400).send({message:"Add Coupon Name"})
-    }
+// const addcoupon = async (req,res) => {
+//     try {
 
-    const couponInfo = await coupon.findOne({ couponName });
+//       const coupon = await coupon.findOne({ couponCode });
+//       if (!coupon) {
+//         return res.status(400).send({ error: "Invalid coupon code" });
+//       } 
 
-    if(!couponInfo){
-      return res.status(400).send({message:"Coupon name not valid"})
-    }
+//       const currentDate = new Date();
 
-    const currentDate = new Date();
+//       if (coupon.validationDate < currentDate) {
+//         return res.status(400).send({ error: "Coupan has expired" });
+//       }
 
-    if (couponInfo.ExpiredDate < currentDate) {
-      return res.status(400).send({ message: "Coupan has expired" });
-    }
+//       if (coupon.usedBy.includes(userId)) {
+//         return res.status(400).send({ error: "You have already used this coupon" });
+//       }
 
-    if (couponInfo.users.includes(req.body.userId)) {
-      return res.status(400).send({ message: "You have already used this coupon" });
-    }
+//       if (req.body.total < coupon.minimumTotal) {
+//         return res.status(400).send({ error: "Total is below the minimum required to use this coupon" });
+//       }
 
-    if (req.body.total < couponInfo.minimumTotal) {
-      return res.status(400).send({ message: "Total is below the minimum required to use this coupon" });
-    }
+//       const discountPercentage = coupon.discountPercentage / 100;
+//       const discountAmount = req.body.totalAmount * discountPercentage;
 
-    const carts = await cart.find({user: req.body.userId}).populate('user').populate('product').
-    populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
+//       if (discountAmount > coupon.maximumDiscount) {
+//         discountAmount = coupon.maximumDiscount;
+//       }
 
-    // const count = await cart.find({user: req.body.userId}).count()
-    
-    let totalAmount = productTotal(carts)
-    let shipping = false;
-
-
-    let discountPercentage = couponInfo.discountPercentage / 100;
-    let discountAmount = totalAmount * discountPercentage;
-
-    if (discountAmount > couponInfo.maximumDiscountPrice) {
-      discountAmount = couponInfo.maximumDiscountPrice;
-    }
-
-    const discountTotal = totalAmount - discountAmount;
-    if(totalAmount<400){
-      discountTotal = discountTotal + 40;
-      shipping = true;
-    }
-    couponInfo.users.push(req.body.userId);
-    // await couponInfo.save();
-    res.status(200).send({message:"Coupon added",discountTotal,totalAmount,discountAmount,shipping})
-
-  }catch(err){
-    console.error(`Error Render Cart Page : ${err}`);
-    res.redirect("/");
-  }
-}
-
-
-const addcoupon = async (req,res) => {
-    try {
-
-      const coupon = await coupon.findOne({ couponCode });
-      if (!coupon) {
-        return res.status(400).send({ error: "Invalid coupon code" });
-      } 
-
-      const currentDate = new Date();
-
-      if (coupon.validationDate < currentDate) {
-        return res.status(400).send({ error: "Coupan has expired" });
-      }
-
-      if (coupon.usedBy.includes(userId)) {
-        return res.status(400).send({ error: "You have already used this coupon" });
-      }
-
-      if (req.body.total < coupon.minimumTotal) {
-        return res.status(400).send({ error: "Total is below the minimum required to use this coupon" });
-      }
-
-      const discountPercentage = coupon.discountPercentage / 100;
-      const discountAmount = req.body.totalAmount * discountPercentage;
-
-      if (discountAmount > coupon.maximumDiscount) {
-        discountAmount = coupon.maximumDiscount;
-      }
-
-      coupon.users.push(userId);
-      await coupon.save();
+//       coupon.users.push(userId);
+//       await coupon.save();
       
-      return res.send({ discountAmount });
-    } catch (err) {
-      console.error(`Error applying coupon: ${err}`);
-      return res.status(500).send("Internal server error");
-    }
-}
+//       return res.send({ discountAmount });
+//     } catch (err) {
+//       console.error(`Error applying coupon: ${err}`);
+//       return res.status(500).send("Internal server error");
+//     }
+// }
 
 const addToCart = async (req,res) => {
   try{
@@ -719,10 +659,13 @@ const renderCheckout = async (req,res) => {
   try{
     const warning = req.session.errormsg;
     req.session.errormsg = false;
-    const userDetails = await user.findOne({_id: req.session.user})
-    const carts = await cart.find({user: req.session.user}).populate('user').populate('product').
+    const userDetails = await user.findOne({_id: req.params.id})
+    const carts = await cart.find({user: req.params.id}).populate('user').populate('product').
     populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
-    const count = await cart.find({user: req.session.user}).count()
+    const count = await cart.find({user: req.params.id}).count()
+    if(!count){
+      res.redirect('/');
+    }
     let totalAmount = productTotal(carts)
     let shipping = false;
     if(totalAmount<400){
@@ -734,6 +677,112 @@ const renderCheckout = async (req,res) => {
     }else{
       res.redirect('/')
     }
+  }catch(err){
+    console.error(`Error Render Cart Page : ${err}`);
+    res.redirect("/");
+  }
+}
+
+
+const applyCoupon = async (req,res) => {
+  try{
+    const couponName = req.body.couponName
+    console.log(couponName);
+
+    const carts = await cart.find({user: req.body.userId}).populate('user').populate('product').
+    populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
+
+    const couponInfo = await coupon.findOne({ couponName });
+
+    // const count = await cart.find({user: req.body.userId}).count()
+    
+    let totalAmount = productTotal(carts)
+    let shipping = false;
+
+    if(!couponName){
+      if(totalAmount<400){
+        totalAmount = totalAmount + 40;
+        shipping = true;
+      }
+      return res.status(400).send({message:"Add Coupon Name",totalAmount,shipping})
+    }
+
+    if(!couponInfo){
+      if(totalAmount<400){
+        totalAmount = totalAmount + 40;
+        shipping = true;
+      }
+      return res.status(400).send({message:"Coupon name not valid",totalAmount,shipping})
+    }
+
+    const currentDate = new Date();
+
+    if (couponInfo.ExpiredDate < currentDate) {
+      if(totalAmount<400){
+        totalAmount = totalAmount + 40;
+        shipping = true;
+      }
+      return res.status(400).send({ message: "Coupan has expired",totalAmount,shipping});
+    }
+
+    if (couponInfo.users.includes(req.body.userId)) {
+      if(totalAmount<400){
+        totalAmount = totalAmount + 40;
+        shipping = true;
+      }
+      return res.status(400).send({ message: "You have already used this coupon",totalAmount,shipping});
+    }
+
+    if (req.body.total < couponInfo.minimumTotal) {
+      if(totalAmount<400){
+        totalAmount = totalAmount + 40;
+        shipping = true;
+      }
+      return res.status(400).send({ message: "Total is below the minimum required to use this coupon",totalAmount,shipping});
+    }
+
+
+    let discountPercentage = couponInfo.discountPercentage / 100;
+    let discountAmount = totalAmount * discountPercentage;
+
+    if (discountAmount > couponInfo.maximumDiscountPrice) {
+      discountAmount = couponInfo.maximumDiscountPrice;
+    }
+
+    let discountTotal = totalAmount - discountAmount;
+    if(discountTotal<400){
+      discountTotal = discountTotal + 40;
+      shipping = true;
+    }
+
+
+    couponInfo.users.push(req.body.userId);
+    // await couponInfo.save();
+    res.status(200).send({message:"Coupon added",discountTotal,totalAmount,discountAmount,shipping})
+
+  }catch(err){
+    console.error(`Error Render Cart Page : ${err}`);
+    res.redirect("/");
+  }
+}
+
+
+const deleteCoupon = async (req,res) => {
+  try{
+    const couponName = req.body.couponName
+    console.log(couponName);
+
+    const carts = await cart.find({user: req.session.user}).populate('user').populate('product').
+    populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
+
+    let totalAmount = productTotal(carts)
+    let shipping = false;
+    if(totalAmount<400){
+      totalAmount = totalAmount + 40;
+      shipping = true;
+    }
+
+    res.status(200).send({message:"Coupon Remove",totalAmount,shipping})
   }catch(err){
     console.error(`Error Render Cart Page : ${err}`);
     res.redirect("/");
@@ -898,6 +947,7 @@ module.exports = {
     productInc,
     productRemove,
     applyCoupon,
+    deleteCoupon,
     renderCheckout,
     cashOnDelivary,
     onlinePayment,

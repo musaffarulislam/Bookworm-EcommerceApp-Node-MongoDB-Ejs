@@ -357,11 +357,10 @@
                                 </div>
                             </div>
                         <% }) %>
-                        <div class="ibox-content shadow rounded">
-                            <a href="/cart/<%= userDetails._id %>"><button class="btn btn-white btn-sm my-3">
-                                <i class="fa fa-arrow-left"></i> Go To Cart</button>
-                            </a>
-                        </div>
+                                <div class="ibox-content shadow rounded">
+                                    <a href="/cart/<%= userDetails._id %>"><button class="btn btn-white btn-sm my-3">
+                                        <i class="fa fa-arrow-left"></i> Go To Cart</button></a>
+                                </div>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -403,11 +402,11 @@
                                             <span id="shippingFee" class="text-danger">
                                                 Shipping Fee : ₹ 40
                                             </span>
-                                        <% }else{ %>
-                                            <span id="shippingFee" class="text-danger">
-                                                Shipping Fee : Free
-                                            </span>
-                                        <% } %>
+                                            <% }else{ %>
+                                                <span id="shippingFee" class="text-danger">
+                                                    Shipping Fee : Free
+                                                </span>
+                                                <% } %>
                                     </b>
                                     <hr>
 
@@ -427,7 +426,7 @@
                                         will be no shipping charge
                                     </span>
                                     <div id="couponMessage" class="mt-2"></div>
-                                    <div class="input-group couponInputBox my-3">
+                                    <div class="input-group my-3">
                                         <input type="text" id="couponName" class="form-control text-uppercase rounded"
                                             placeholder="Coupon name" aria-label="Recipient's username"
                                             aria-describedby="basic-addon2">
@@ -438,8 +437,6 @@
                                     </div>
                         </div>
                     </div>
-
-
                     <div class="ibox shadow rounded">
                         <div class="ibox-title shadow rounded">
                             <h5>Payment Method</h5>
@@ -453,15 +450,12 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
-
-
         function cashOnDelivary(userId) {
             const ordertotalAmount = document.getElementById('totalAmount').innerText;
             const orderAddress = document.getElementById('checkoutAddress').innerText;
@@ -511,7 +505,7 @@
                 });
         }
 
-
+        // function onlinePayment(userId){
         document.getElementById("rzp-button1").addEventListener("click", async function (e) {
             e.preventDefault();
             const userId = "<%= userDetails._id %>";
@@ -633,24 +627,16 @@
                         couponMessage.innerHTML =
                             `<div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>${data.message}</strong>
-                            <button type="button" onclick="deleteCoupon()" class="close" data-dismiss="alert" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>`
-
-                        if(data.shipping){
-                            document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
-                        }else{
-                            document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ Free"
-                        }
-
                         document.getElementById('totalAmount').innerText = discountTotal
                         document.getElementById('discount').innerHTML =
-                            `<div id="discountAmount"><span id="discountText" class="text-success">
+                            `<span id="shippingFee" class="text-success">
                                    Discount : ₹ ${discountAmount}
                                 </span>
-                                <hr>
-                            </div>`
+                                <hr>`
                     })
                 } else if (response.status === 400) {
                     return response.json().then((data) => {
@@ -665,70 +651,13 @@
                         </div>`
 
                         setTimeout(() => {
-                            couponMessage.innerHTML = `<div></div>`
+                            couponMessage.innerHTML =
+                                `<div></div>`
                         }, 5000);
-
-                        if(data.shipping){
-                            document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
-                        }else{
-                            document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ Free"
-                        }
-                        document.getElementById('totalAmount').innerText = data.totalAmount
-                        document.getElementById('discountAmount').style.display = "none"
-
-                        document.getElementById('couponInputBox').innerHTML =
-                                        `<input type="text" id="couponName" class="form-control text-uppercase rounded"
-                                            placeholder="Coupon name" aria-label="Recipient's username"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-warning" type="button"
-                                            onclick="applyCoupon(${userId})">Apply</button>
-                                        </div>`
                     })
                 }
             })
         }
-
-
-        function deleteCoupon(){
-            const couponName = document.getElementById('couponName').value;
-            const couponMessage = document.getElementById('couponMessage');
-            const url = window.location.origin;
-            console.log(url);
-            fetch(`${url}/deleteCoupon`, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    couponName,
-                })
-            }).then((response) => response.json())
-            .then((data)=>{
-
-                couponMessage.innerHTML =
-                        `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>${data.message}</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>`
-
-                setTimeout(() => {
-                    couponMessage.innerHTML = `<div></div>`
-                }, 5000);
-
-                if(data.shipping){
-                    document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
-                }else{
-                    document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ Free"
-                }
-                document.getElementById('totalAmount').innerText = data.totalAmount
-                document.getElementById('discountAmount').style.display = "none"
-            })
-        }
-
     </script>
     <!-- setTimeout(() => {
         }, 5000); -->

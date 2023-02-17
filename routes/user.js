@@ -48,7 +48,9 @@ router.put('/productRemove',midleware.userSession,userController.productRemove);
 
 router.post('/applyCoupon',midleware.userSession,userController.applyCoupon);
 
-router.get('/checkout',midleware.userSession,userController.renderCheckout);
+router.delete('/deleteCoupon',midleware.userSession,userController.deleteCoupon);
+
+router.get('/checkout/:id',midleware.userSession,userController.renderCheckout);
 
 router.put('/cashOnDelivary',midleware.userSession,userController.cashOnDelivary);
 
