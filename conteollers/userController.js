@@ -9,6 +9,7 @@ const Razorpay = require('razorpay');
 
 const user = require('../models/userModel');
 const cart = require('../models/cartModel');
+const coupon = require('../models/couponModel')
 const order = require('../models/orderModel')
 const author = require('../models/authorModel')
 const book = require('../models/bookModel')
@@ -448,50 +449,60 @@ const renderCart = async (req,res) => {
   }
 }
 
-const addCoupon = async (req,res) => {
-  try{
-    const coupon = await coupon.findOne({ couponName });
 
-    if(!coupon){
+const applyCoupon = async (req,res) => {
+  try{
+    const couponName = req.body.couponName
+    console.log(couponName);
+
+    if(!couponName){
+      return res.status(400).send({message:"Add Coupon Name"})
+    }
+
+    const couponInfo = await coupon.findOne({ couponName });
+
+    if(!couponInfo){
       return res.status(400).send({message:"Coupon name not valid"})
     }
 
     const currentDate = new Date();
 
-    if (coupon.ExpiredDate < currentDate) {
+    if (couponInfo.ExpiredDate < currentDate) {
       return res.status(400).send({ message: "Coupan has expired" });
     }
 
-    if (coupon.usedBy.includes(req.body.userId)) {
+    if (couponInfo.users.includes(req.body.userId)) {
       return res.status(400).send({ message: "You have already used this coupon" });
     }
 
-    if (req.body.total < coupon.minimumTotal) {
+    if (req.body.total < couponInfo.minimumTotal) {
       return res.status(400).send({ message: "Total is below the minimum required to use this coupon" });
     }
 
     const carts = await cart.find({user: req.body.userId}).populate('user').populate('product').
     populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
 
-    const count = await cart.find({user: req.body.userId}).count()
+    // const count = await cart.find({user: req.body.userId}).count()
     
     let totalAmount = productTotal(carts)
     let shipping = false;
-    if(totalAmount<400){
-      totalAmount = totalAmount + 40;
-      shipping = true;
-    }
 
-    let discountPercentage = coupon.discountPercentage / 100;
+
+    let discountPercentage = couponInfo.discountPercentage / 100;
     let discountAmount = totalAmount * discountPercentage;
 
-    if (discountAmount > coupon.maximumDiscountPrice) {
-      discountAmount = coupon.maximumDiscountPrice;
+    if (discountAmount > couponInfo.maximumDiscountPrice) {
+      discountAmount = couponInfo.maximumDiscountPrice;
     }
 
-    coupon.users.push(userId);
-    await coupon.save();
-    res.status(200).send({message:"Coupon added",discountAmount,totalAmount})
+    const discountTotal = totalAmount - discountAmount;
+    if(totalAmount<400){
+      discountTotal = discountTotal + 40;
+      shipping = true;
+    }
+    couponInfo.users.push(req.body.userId);
+    // await couponInfo.save();
+    res.status(200).send({message:"Coupon added",discountTotal,totalAmount,discountAmount,shipping})
 
   }catch(err){
     console.error(`Error Render Cart Page : ${err}`);
@@ -500,8 +511,7 @@ const addCoupon = async (req,res) => {
 }
 
 
-
-const applyCoupon = async (req,res) => {
+const addcoupon = async (req,res) => {
     try {
 
       const coupon = await coupon.findOne({ couponCode });
@@ -709,10 +719,10 @@ const renderCheckout = async (req,res) => {
   try{
     const warning = req.session.errormsg;
     req.session.errormsg = false;
-    const userDetails = await user.findOne({_id: req.params.id})
-    const carts = await cart.find({user: req.params.id}).populate('user').populate('product').
+    const userDetails = await user.findOne({_id: req.session.user})
+    const carts = await cart.find({user: req.session.user}).populate('user').populate('product').
     populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
-    const count = await cart.find({user: req.params.id}).count()
+    const count = await cart.find({user: req.session.user}).count()
     let totalAmount = productTotal(carts)
     let shipping = false;
     if(totalAmount<400){
@@ -792,6 +802,8 @@ const onlinePayment = async (req, res) => {
       receipt: orderId
     });
 
+    console.log(options)
+
     const userId = req.query.userId;
     const userDetails = await user.findOne({_id: userId});
 
@@ -856,6 +868,7 @@ const verifyOnlinePayment = async (req, res) => {
 
 
 
+
 const logout = (req,res)=>{
   req.session.user = null;
   res.redirect("/");
@@ -884,7 +897,7 @@ module.exports = {
     productDec,
     productInc,
     productRemove,
-    addCoupon,
+    applyCoupon,
     renderCheckout,
     cashOnDelivary,
     onlinePayment,

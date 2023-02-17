@@ -78,15 +78,19 @@
             margin-top: 20px;
             background: #eee;
         }
+
         h3 {
             font-size: 16px;
         }
+
         hr {
             background-color: #000000;
         }
+
         .text-navy {
             color: #ffb30e;
         }
+
         .cart-product-imitation {
             text-align: center;
             /* padding-top: 30px; */
@@ -94,36 +98,46 @@
             width: 80px;
             background-color: #f8f8f9;
         }
+
         .product-imitation.xl {
             padding: 120px 0;
         }
+
         .product-desc {
             padding: 20px;
             position: relative;
         }
+
         .ecommerce .tag-list {
             padding: 0;
         }
+
         .ecommerce .fa-star {
             color: #d1dade;
         }
+
         .ecommerce .fa-star.active {
             color: #f8ac59;
         }
+
         .ecommerce .note-editor {
             border: 1px solid #e7eaec;
         }
+
         table.shoping-cart-table {
             margin-bottom: 0;
         }
+
         table.shoping-cart-table tr td {
             border: none;
             text-align: right;
         }
+
         table.shoping-cart-table tr td.desc,
         table.shoping-cart-table tr td:first-child {
             text-align: left;
         }
+
         /* table.shoping-cart-table tr td:last-child {
             width: 80px;
         } */
@@ -133,13 +147,16 @@
             margin-top: 0;
             padding: 0;
         }
+
         .ibox.collapsed .ibox-content {
             display: none;
         }
+
         .ibox:after,
         .ibox:before {
             display: table;
         }
+
         .ibox-title {
             -moz-border-bottom-colors: none;
             -moz-border-left-colors: none;
@@ -155,6 +172,7 @@
             padding: 14px 15px 7px;
             min-height: 48px;
         }
+
         .ibox-content {
             background-color: #ffffff;
             color: inherit;
@@ -164,6 +182,7 @@
             border-style: solid solid none;
             border-width: 1px 0;
         }
+
         .ibox-footer {
             color: inherit;
             border-top: 1px solid #e7eaec;
@@ -171,11 +190,13 @@
             background: #ffffff;
             padding: 10px 15px;
         }
+
         @media (min-width: 991px) {
             .cartText {
                 display: none;
             }
         }
+
         @media (max-width: 991px) {
             .cartIcon {
                 display: none;
@@ -188,9 +209,11 @@
         body {
             background-color: #eee;
         }
+
         .mt-100 {
             margin-top: 150px;
         }
+
         .card {
             margin-bottom: 30px;
             border: 0;
@@ -201,6 +224,7 @@
             -webkit-box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
             box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
         }
+
         .card .card-header {
             background-color: #fff;
             border-bottom: none;
@@ -209,13 +233,16 @@
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
         }
+
         .card-header:first-child {
             border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
         }
+
         .card .card-body {
             padding: 30px;
             background-color: transparent;
         }
+
         .btn-primary,
         .btn-primary.disabled,
         .btn-primary:disabled {
@@ -227,54 +254,64 @@
 
 </head>
 
-<body style="font-size: 12px;">
+<body style="font-size: 14px;">
 
-      <!-- ============================================-->
-      <!-- Navbar ============================-->
-      <header class="header_area sticky-header">
+    <!-- ============================================-->
+    <!-- Navbar ============================-->
+    <header class="header_area sticky-header">
         <div class="main_menu" style="background-color: #ffffff;">
-          <nav class="navbar navbar-expand-lg navbar-light main_box">
-            <div class="container">
-              <!-- Brand and toggle get grouped for better mobile display -->
-              <a class="navbar-brand logo_h" href="/"><img class="w-25" src="../nav/img/logo3.png" alt="Bookworm logo"></a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <!-- Collect the nav links, forms, and other content for toggling -->
-              <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
-                <ul class="nav navbar-nav menu_nav ml-auto">
-                  <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                  <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
-                  <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
-                  <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
-                  <li class="nav-item submenu dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                      aria-expanded="false"><i class="fas fa-user-circle me-2"></i></a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-item"><a class="nav-link" href="/myProfile/<%= userDetails._id %>"><%= userDetails.username %></a></li>
-                        <li class="nav-item"><a class="nav-link" href="/myOrder/<%= userDetails._id %>">My Orders</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
+            <nav class="navbar navbar-expand-lg navbar-light main_box">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <a class="navbar-brand logo_h" href="/"><img class="w-25" src="../nav/img/logo3.png"
+                            alt="Bookworm logo"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto">
+                            <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
+                            <li class="nav-item cartText"><a class="nav-link"
+                                    href="/cart/<%= userDetails._id %>">Cart</a></li>
+                            <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i
+                                        class="fas fa-shopping-cart"></i>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false"><i
+                                        class="fas fa-user-circle me-2"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="/myProfile/<%= userDetails._id %>">
+                                            <%= userDetails.username %>
+                                        </a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/myOrder/<%= userDetails._id %>">My
+                                            Orders</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
-      </header>
-      <!-- Navbar ============================-->
-      <!-- ============================================-->
+    </header>
+    <!-- Navbar ============================-->
+    <!-- ============================================-->
 
-    <div class="container mt-5 pt-5" style="background:rgb(248, 248, 248);">
+    <div class="container mt-5 pt-5" style="background: rgb(239, 239, 239);">
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-md-9">
                     <div class="ibox shadow rounded">
                         <div class="ibox-title shadow rounded">
-                            <span class="pull-right">(<strong> <%= count %> </strong>) items</span>
+                            <span class="pull-right">(<strong>
+                                    <%= count %>
+                                </strong>) items</span>
                             <h6>Checkout</h6>
                         </div>
 
@@ -320,99 +357,97 @@
                                 </div>
                             </div>
                         <% }) %>
-                        <div class="ibox-content d-flex justify-content-between">
-                            <a href="/cart/<%= userDetails._id %>"><button class="btn btn-white btn-sm my-3"><i class="fa fa-arrow-left"></i> Go To Cart</button></a>
-                            <!-- <div class="input-group my-3" style="width:60%">
-                                <div id="couponMessage"></div>
-                                <input type="text" id="couponName" class="form-control text-uppercase rounded" placeholder="Coupon Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                  <button class="btn btn-warning" type="button" onclick="addCoupon('<%= userDetails._id %>')"><b style="color: white;">Add</b></button>
+                                <div class="ibox-content shadow rounded">
+                                    <a href="/cart/<%= userDetails._id %>"><button class="btn btn-white btn-sm my-3">
+                                        <i class="fa fa-arrow-left"></i> Go To Cart</button></a>
                                 </div>
-                            </div> -->
-                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <!-- <div class="ibox shadow rounded">
-                        <div class="ibox-title shadow rounded">
-                          <h5>Payment Method</h5>
-                        </div>
-                        <div class="ibox-content text-center">
-                            <button class="btn btn-primary btn-sm btn-block my-2" onclick="cashOnDelivary('<%= userDetails._id %>')">Chash On
-                                delivary</button>
-                            <button class="btn btn-danger btn-sm btn-block my-2" id="rzp-button1">Online Payment</button>
-                        </div>
-                    </div> -->
                     <div class="ibox shadow rounded">
                         <div class="ibox-title shadow rounded">
-                          <h5>Address</h5>
+                            <h5>Address</h5>
                         </div>
                         <div class="ibox-content text-center">
-                          <div>
-                          <span class="">
-                            <%= userDetails.address.houseName %>, <%= userDetails.address.streetName %>, <%= userDetails.address.town %>,
-                            <%= userDetails.address.state %>, <%= userDetails.address.zipCode %>, <%= userDetails.address.country %>
-                          </span>
-                        </div>
-                          <a href="#" class="btn btn-outline btn-primary btn-sm my-3">Change</a>
-                        </div>
-                        
-                    </div>
-                    <div class="ibox shadow rounded">
-                        <div class="ibox-title shadow rounded">
-                            <h6>Bill</h6>
-                        </div>
-                        <div class="ibox-content">
-                            <% carts.forEach((cart)=>{ %>
-                                <span>
-                                    <%= cart?.product?.bookName %> : ₹ <%= cart?.product?.retailPrice * cart.quantity %>
-                                     <br>
+                            <div class="my-2">
+                                <span id="checkoutAddress" class="address">
+                                    <%= userDetails.address.houseName %>, <%= userDetails.address.streetName %>,
+                                    <%= userDetails.address.town %>, <%= userDetails.address.state %>, <%= userDetails.address.zipCode %>, <%= userDetails.address.country %>
                                 </span>
-                            <% }) %>
-                            <hr>
-                            <b>
-                            <% if (shipping) { %>
-                                <span class="text-danger">
-                                    Shipping Fee : ₹ 40
-                                </span>
-                            <% }else{ %>
-                                    <span class="text-danger">
-                                        Shipping Fee : Free
-                                    </span>
-                            <% } %>
-                            </b>
-                            <hr>
-                            <div class="d-flex">
-                                <span>
-                                  Total : 
-                                </span>
-                                <h4 id="totalAmount" class="font-bold ms-2" style="font-weight:700;">
-                                  ₹ <%= totalAmount %>
-                                </h4>
-                                </div>
-                            <hr>
-                            <span class="text-muted ">
-                                *If the total amount is more than <b class="text-dark"> ₹ 400 </b> rupees, there will be no shipping charge
-                            </span>
-                            <hr>
-                            <div class="input-group mb-3">
-                                <div id="couponMessage"></div>
-                                <input type="text" id="couponName" class="form-control text-uppercase" placeholder="Coupon Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                  <button class="btn btn-warning" type="button" onclick="addCoupon('<%= userDetails._id %>')"><b style="color: white;">Add</b></button>
-                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="ibox shadow rounded">
                         <div class="ibox-title shadow rounded">
-                          <h5>Payment Method</h5>
+                            <h6>Bill</h6>
+                        </div>
+                        <div class="ibox-content shadow rounded py-2">
+                            <% carts.forEach((cart)=>{ %>
+                                <span class="d-flex">
+                                    <div class="font-bold">
+                                        <%= cart?.product?.bookName %> :
+                                    </div><b>
+                                        <div id="productPriceAndQuantity2<%=cart.product._id %>"
+                                            style="color: #686868;"> ₹ <%= cart?.product?.retailPrice * cart.quantity %>
+                                        </div>
+                                    </b> <br>
+                                </span>
+                            <% }) %>
+                                    <hr>
+                                    <b>
+                                        <div id="discount"></div>
+                                    </b>
+                                    <b>
+                                        <% if (shipping) { %>
+                                            <span id="shippingFee" class="text-danger">
+                                                Shipping Fee : ₹ 40
+                                            </span>
+                                            <% }else{ %>
+                                                <span id="shippingFee" class="text-danger">
+                                                    Shipping Fee : Free
+                                                </span>
+                                                <% } %>
+                                    </b>
+                                    <hr>
+
+                                    <div class="d-flex">
+                                        <span>
+                                            Total :
+                                        </span>
+                                        <h4 class="font-bold ms-2 d-flex" style="font-weight:700;">
+                                            ₹ <div id="totalAmount">
+                                                <%= totalAmount %>
+                                            </div>
+                                        </h4>
+                                    </div>
+                                    <hr>
+                                    <span class="text-muted mb-4">
+                                        *If the total amount is more than <b class="text-dark"> ₹ 400 </b> rupees, there
+                                        will be no shipping charge
+                                    </span>
+                                    <div id="couponMessage" class="mt-2"></div>
+                                    <div class="input-group my-3">
+                                        <input type="text" id="couponName" class="form-control text-uppercase rounded"
+                                            placeholder="Coupon name" aria-label="Recipient's username"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-warning" type="button"
+                                                onclick="applyCoupon('<%= userDetails._id %>')">Apply</button>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                    <div class="ibox shadow rounded">
+                        <div class="ibox-title shadow rounded">
+                            <h5>Payment Method</h5>
                         </div>
                         <div class="ibox-content text-center">
-                            <button class="btn btn-primary btn-sm btn-block my-2" onclick="cashOnDelivary('<%= userDetails._id %>')">Chash On
-                                delivary</button>
-                            <!-- <button class="btn btn-danger btn-sm btn-block my-2" onclick="onlinePayment('<%= userDetails._id %>')">OnlinePayment</button> -->
-                            <button class="btn btn-danger btn-sm btn-block my-2" id="rzp-button1">Online Payment</button>
+                            <div class="my-2">
+                                <button class="btn btn-primary btn-sm btn-block my-2"
+                                    onclick="cashOnDelivary('<%= userDetails._id %>')">Chash On delivary</button>
+                                <button class="btn btn-danger btn-sm btn-block my-2" id="rzp-button1">Online
+                                    Payment</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -421,65 +456,66 @@
     </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
-        function cashOnDelivary(userId){
+        function cashOnDelivary(userId) {
             const ordertotalAmount = document.getElementById('totalAmount').innerText;
             const orderAddress = document.getElementById('checkoutAddress').innerText;
             const url = window.location.origin;
             console.log(url);
             fetch(`${url}/cashOnDelivary?userId=${userId}`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                address : orderAddress,
-                totalAmount : ordertotalAmount
+                    address: orderAddress,
+                    totalAmount: ordertotalAmount
                 })
             })
                 .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Network response was not ok');
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok');
                 })
                 .then((data) => {
-                console.log(data, 'This is data');
-                swal({
-                    title: "Order Placed Successfully!",
-                    text: `Your order has been placed successfully! Your order id is ${data.orderId}`,
-                    icon: "success",
-                    button: "Okay",
-                })
-                    .then(() => {
-                        window.location.href = `/myOrder/${userId}`;
-                    });
+                    console.log(data, 'This is data');
+                    swal({
+                        title: "Order Placed Successfully!",
+                        text: `Your order has been placed successfully! Your order id is ${data.orderId}`,
+                        icon: "success",
+                        button: "Okay",
+                    })
+                        .then(() => {
+                            window.location.href = `/myOrder/${userId}`;
+                        });
                     setTimeout(() => {
                         window.location.href = `/myOrder/${userId}`;
                     }, 3000);
                 })
                 .catch((error) => {
-                console.error(`There was a problem with the fetch operation: ${error.message}`);
-                // Show error modal
-                swal({
-                    title: "Error",
-                    text: "There was an error placing your order. Please try again later.",
-                    icon: "error",
-                    button: "Okay",
-                });
+                    console.error(`There was a problem with the fetch operation: ${error.message}`);
+                    // Show error modal
+                    swal({
+                        title: "Error",
+                        text: "There was an error placing your order. Please try again later.",
+                        icon: "error",
+                        button: "Okay",
+                    });
                 });
         }
+
         // function onlinePayment(userId){
-            document.getElementById("rzp-button1").addEventListener("click", async function(e) {
-                e.preventDefault();
-                const userId = "<%= userDetails._id %>";
-                const orderTotalAmount = document.getElementById("totalAmount").innerText;
-                const orderAddress = document.getElementById("checkoutAddress").innerText;
-                const url = window.location.origin;
-                console.log(url);
-                try {
-                    let response = await fetch(`${url}/onlinePayment?userId=${userId}`, {
-                    method: "POST",
+        document.getElementById("rzp-button1").addEventListener("click", async function (e) {
+            e.preventDefault();
+            const userId = "<%= userDetails._id %>";
+            const orderTotalAmount = document.getElementById("totalAmount").innerText;
+            const orderAddress = document.getElementById("checkoutAddress").innerText;
+            const url = window.location.origin;
+            console.log(url);
+            try {
+                let response = await fetch(`${url}/onlinePayment?userId=${userId}`, {
+                    method: "PUT",
                     headers: {
                         Accept: "application/json",
                         "Content-Type": "application/json"
@@ -488,9 +524,9 @@
                         address: orderAddress,
                         totalAmount: orderTotalAmount
                     })
-                    });
-                    let orderData = await response.json();
-                    var options = {
+                });
+                let orderData = await response.json();
+                var options = {
                     key: "rzp_test_ifEOe80qfCYvOK",
                     amount: orderTotalAmount * 100,
                     currency: "INR",
@@ -498,7 +534,7 @@
                     description: "Test Transaction",
                     image: "../adminLogin/images/img-02.png",
                     order_id: orderData.options.id,
-                    handler: function(response) {
+                    handler: function (response) {
                         // Add a function call to store the order information in the database after successful payment
                         console.log(response)
                         storeOrderData(response, orderData.options, orderData.userDetails._id, orderAddress);
@@ -511,35 +547,35 @@
                     theme: {
                         color: "#ffb30e"
                     }
-                    };
-                    var rzp1 = new Razorpay(options);
-                    rzp1.open();
-                } catch (error) {
-                    console.error("Error fetching order data:", error);
-                }
-                });
-                function storeOrderData(payment, order, userId, address) {
-                const url = window.location.origin;
-                console.log(url);
-                fetch(`${url}/verifyOnlinePayment`, {
-                    method: 'POST',
-                    headers: {
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+            } catch (error) {
+                console.error("Error fetching order data:", error);
+            }
+        });
+        function storeOrderData(payment, order, userId, address) {
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/verifyOnlinePayment`, {
+                method: 'PUT',
+                headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
+                },
+                body: JSON.stringify({
                     payment,
                     order,
                     userId,
                     address
-                    })
-                }).then((response) => {
-                    if (response.ok) {
-                    return response.json();
-                    }
-                    throw new Error('Network response was not ok');
                 })
-                    .then((data) => {
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok');
+            })
+                .then((data) => {
                     console.log(data, 'This is data');
                     swal({
                         title: "Order Placed Successfully!",
@@ -550,11 +586,11 @@
                         .then(() => {
                             window.location.href = `/myOrder/${userId}`;
                         });
-                        setTimeout(() => {
-                            window.location.href = `/myOrder/${userId}`;
-                        }, 3000);
-                    })
-                    .catch((error) => {
+                    setTimeout(() => {
+                        window.location.href = `/myOrder/${userId}`;
+                    }, 3000);
+                })
+                .catch((error) => {
                     console.error(`There was a problem with the fetch operation: ${error.message}`);
                     // Show error modal
                     swal({
@@ -563,10 +599,67 @@
                         icon: "error",
                         button: "Okay",
                     });
-                    });
-            }
+                });
+        }
+
+
+        function applyCoupon(userId) {
+            const couponName = document.getElementById('couponName').value;
+            const couponMessage = document.getElementById('couponMessage');
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/applyCoupon`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    couponName,
+                    userId
+                })
+            }).then((response) => {
+                if (response.status === 200) {
+                    return response.json().then((data) => {
+                        console.log(data);
+                        const discountTotal = parseInt(data.discountTotal)
+                        const discountAmount = parseInt(data.discountAmount)
+                        couponMessage.innerHTML =
+                            `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>${data.message}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`
+                        document.getElementById('totalAmount').innerText = discountTotal
+                        document.getElementById('discount').innerHTML =
+                            `<span id="shippingFee" class="text-success">
+                                   Discount : ₹ ${discountAmount}
+                                </span>
+                                <hr>`
+                    })
+                } else if (response.status === 400) {
+                    return response.json().then((data) => {
+                        console.log(data);
+
+                        couponMessage.innerHTML =
+                            `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>${data.message}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`
+
+                        setTimeout(() => {
+                            couponMessage.innerHTML =
+                                `<div></div>`
+                        }, 5000);
+                    })
+                }
+            })
+        }
     </script>
-          <!-- setTimeout(() => {
+    <!-- setTimeout(() => {
         }, 5000); -->
     <script type="text/javascript"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -676,4 +769,5 @@
     </script>
     <script src="../bookdetails/js/main.js"></script>
 </body>
+
 </html>
