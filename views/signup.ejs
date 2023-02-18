@@ -15,8 +15,8 @@
     <link href="../signup/css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
-
-    <div class="main">
+    <div id="otp-container"></div>
+    <div class="main" id="main">
 
         <div class="container">
             <div class="booking-content">
@@ -25,6 +25,7 @@
                 </div>
                 <div class="booking-form">
                     <form id="signup" action="/register" method="post" onsubmit="return submitform(event)">
+                        <!-- <form id="signup"> -->
                         <h2>Sign Up</h2>
                         <div id="error"></div>
                         <% if(warning) {%>
@@ -55,7 +56,7 @@
                             <label for="spassword" class="form-label">Confirm Password</label>
                         </div>
                         <div class="form-submit">
-                            <input type="submit" value="Sign Up" class="submit" id="submit" name="submit"/>
+                            <input type="submit" value="Sign Up" class="submit" id="submit" name="submit" onclick="signup()"/>
                             <a href="/" class="vertify-booking">Already Sign Up</a>
                         </div>
                     </form>
@@ -70,11 +71,11 @@
         function signup(){
             submitform(event);
 
-            const userName = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const phoneNumber = document.getElementById('phonenumber').value;
-            const age = document.getElementById('age').value;
-            const password = document.getElementById('fpassword').value;
+            let userName = document.getElementById('username').value;
+            let email = document.getElementById('email').value;
+            let phoneNumber = document.getElementById('phonenumber').value;
+            let age = document.getElementById('age').value;
+            let password = document.getElementById('fpassword').value;
 
             const url = window.location.origin;
             console.log(url);
@@ -93,7 +94,65 @@
                 })
             }).then((response)=>response.json())
             .then((data)=>{
+                console.log(data);
+                let userName = data.userName;
+                let email = data.email;
+                let phoneNumber = data.phoneNumber;    
+                let age = data.age;
+                let password = data.password;
+                let block = data.block;
+                let expiresAt = data.expiresAt;
 
+                fetch(`${url}/otp`, {
+                    method: 'POST',
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userName,
+                        email,
+                        phoneNumber,
+                        age,
+                        password,
+                        block,
+                        expiresAt
+                    })
+                }).then((response) => response.text())
+                    .then((html) => {
+                    // Set the rendered HTML as the content of an element on the page
+                    const container = document.getElementById('otp-container');
+                    container.innerHTML = html;
+                    getComputedStyle
+                    document.getElementById('main').style.display ="none"
+                    });
+                })
+        }
+
+        function renderOTP(userName,email,phoneNumber,age,password,block,expiresAt){
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/otp`, {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userName,
+                    email,
+                    phoneNumber,
+                    age,
+                    password,
+                    block,
+                    expiresAt
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+                
+                // location.replace('/otp')
+                window.location.href = `${url}/otp?userInfo=${JSON.stringify(userInfo)}`;
+                // renderOTP(data.userName,data.email,data.phoneNumber,data.age,data.password,data.block)
             })
         }
     </script>

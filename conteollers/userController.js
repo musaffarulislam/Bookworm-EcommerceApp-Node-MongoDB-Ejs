@@ -21,6 +21,7 @@ const UserOTPVerification = require('../models/userOTPVerification');
 
 const renderHome = async (req,res)=>{
   let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre')
+  req.session.userInfo = false
   let userId = req.session.user;
   let userDetails = false;
   if(userId){
@@ -104,7 +105,7 @@ const userSignup = async (req, res) => {
 
 
       const OTP = Math.floor(1000 + Math.random() * 9000).toString();
-      const expirationTime = Date.now() + 5 * 60 * 1000;
+      const expirationTime = new Date(Date.now() + 5 * 60 * 1000);
 
       console.log(OTP);
 
@@ -144,13 +145,28 @@ const userSignup = async (req, res) => {
           console.error(`Error sending email: ${error}`);
         }
         console.log(`OTP sent to ${User.email}: ${OTP}`);
-        // res.redirect(`/otp?userName=${User.username}&email=${User.email}&phoneNumber=${User.phoneNumber}&age=${User.age}&password=${User.password}&block=${User.block}`);
-        res.status(200).send({message:"Signup success",
+
+        req.session.userInfo = {
           userName : User.username,
           email : User.email,
           phoneNumber : User.phoneNumber,
           age : User.age,
-        })
+          password : User.password,
+          block : User.block,
+          expiresAt : expirationTime
+        };
+
+        res.redirect('/otp')
+        // res.redirect(`/otp?userName=${User.username}&email=${User.email}&phoneNumber=${User.phoneNumber}&age=${User.age}&=${User.password}&block=${User.block}&expiresAt=${expirationTime}`);
+        // res.status(200).send({message:"Signup success",
+        //   userName : User.username,
+        //   email : User.email,
+        //   phoneNumber : User.phoneNumber,
+        //   age : User.age,
+        //   password : User.password,
+        //   block : User.block,
+        //   expiresAt : expirationTime
+        // })
       });
     } catch (err) {
       console.error(`Error inserting user: ${err}`);
@@ -158,9 +174,13 @@ const userSignup = async (req, res) => {
 };
 
 const renderOTP = (req,res) => {
-    const userInfo = req.query;
+    const userInfo = req.session.userInfo;
+    console.log(userInfo);
     warning = false;
-    res.render('otp',{title: 'Otp',userInfo})
+    console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+    
+    // res.status(200).send({status:200,title:"OTP",userInfo})
+    return res.render('otp',{title: 'Otp',userInfo})
 }
 
 

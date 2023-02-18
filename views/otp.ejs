@@ -29,7 +29,7 @@
                         <% if(warning) {%>
                             <div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" ><%= warning %></div>
                         <% } %>
-                        <p>Otp expire in <%= userInfo.expiresAt %></p>
+                        <p>Otp expire in <%= userInfo.expiresAt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></p>
                         <div class="form-group form-input">
                             <input type="text" name="userName" id="username" value="<%= userInfo.userName %>" required/>
                             <label for="username" class="form-label">Your User Name</label>

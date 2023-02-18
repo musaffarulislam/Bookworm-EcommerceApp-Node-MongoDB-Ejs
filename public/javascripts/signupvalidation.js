@@ -14,6 +14,9 @@ function hideErrorMessage(){
 }
 function showErrorMessage(message){
     errorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
+    setTimeout(()=>{
+        errorElement.innerHTML =`<div></div>`
+    },3000);
     // errorElement.innerHTML = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
     // ${message}
     // <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -61,6 +64,11 @@ function submitform(e){
         return false;
     }
 
+    if(phonenumber.value <= 6999999999){
+        showErrorMessage("Incorrect Phone Number");
+        return false;
+    }
+
     if(age.value === ""){
         showErrorMessage("Age is required");
         return false;
@@ -71,7 +79,7 @@ function submitform(e){
         return false;
     }
 
-    if(age.value== 0){
+    if(age.value<= 0){
         showErrorMessage("Enter the correct Age");
         return false;
     }
