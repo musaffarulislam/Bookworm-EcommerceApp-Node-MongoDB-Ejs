@@ -427,7 +427,7 @@
                                         will be no shipping charge
                                     </span>
                                     <div id="couponMessage" class="mt-2"></div>
-                                    <div class="input-group couponInputBox my-3">
+                                    <div id="couponInputBox" class="input-group my-3">
                                         <input type="text" id="couponName" class="form-control text-uppercase rounded"
                                             placeholder="Coupon name" aria-label="Recipient's username"
                                             aria-describedby="basic-addon2">
@@ -676,14 +676,7 @@
                         document.getElementById('totalAmount').innerText = data.totalAmount
                         document.getElementById('discountAmount').style.display = "none"
 
-                        document.getElementById('couponInputBox').innerHTML =
-                                        `<input type="text" id="couponName" class="form-control text-uppercase rounded"
-                                            placeholder="Coupon name" aria-label="Recipient's username"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-warning" type="button"
-                                            onclick="applyCoupon(${userId})">Apply</button>
-                                        </div>`
+
                     })
                 }
             })
@@ -726,6 +719,15 @@
                 }
                 document.getElementById('totalAmount').innerText = data.totalAmount
                 document.getElementById('discountAmount').style.display = "none"
+            
+                document.getElementById('couponInputBox').innerHTML=
+                                        `<input type="text" id="couponName" class="form-control text-uppercase rounded"
+                                            placeholder="Coupon name" aria-label="Recipient's username"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-warning" type="button"
+                                            onclick="applyCoupon('${userId}')">Apply</button>
+                                        </div>`
             })
         }
 

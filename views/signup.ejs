@@ -65,6 +65,38 @@
 
     </div>
 
+
+    <script>
+        function signup(){
+            submitform(event);
+
+            const userName = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const phoneNumber = document.getElementById('phonenumber').value;
+            const age = document.getElementById('age').value;
+            const password = document.getElementById('fpassword').value;
+
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/register`, {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userName,
+                    email,
+                    phoneNumber,
+                    age,
+                    password
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+
+            })
+        }
+    </script>
     <!-- JS -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js2/main.js"></script>

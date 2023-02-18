@@ -69,6 +69,15 @@
         .me-2 {
             margin-right: .5rem !important;
         }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        li .active{
+            background-color: black;
+        }
     </style>
 
 </head>
@@ -175,7 +184,7 @@
                                                                     <% } %>
                                                         </button>
 
-                                                        <!-- Change Author Image -->
+                                                        <!-- Change user Image -->
                                                         <div class="modal fade" id="changeUser<%= userDetails._id %>"
                                                             tabindex="-1" role="dialog"
                                                             aria-labelledby="exampleModalCenterTitle"
@@ -280,7 +289,7 @@
                             <div class="col-sm-12">
                                 <div class="card mb-0">
                                     <div class="card-body">
-                                        <form action="/address/<%= userDetails._id %>" method="post">
+                                        <!-- <form action="/address/<%= userDetails._id %>" method="post">
                                             <h4 class="mb-5">Address</h4>
                                             <div class="row mb-3">
                                                 <div class="col-sm-3">
@@ -347,7 +356,114 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </form> -->
+                                    
+                                        <div class="tab01">
+                                            <!-- Nav tabs -->
+                                            <div class="d-flex justify-content-center">
+                                            <ul class="nav nav-tabs shadow" role="tablist">
+                                                <li class="nav-item p-b-10">
+                                                    <a class="nav-link active" data-toggle="tab" href="#Permanent" role="tab" style="color: black;">Permanent Address</a>
+                                                </li>
+                        
+                                                <li class="nav-item p-b-10">
+                                                    <a class="nav-link" data-toggle="tab" href="#additional Address" role="tab" style="color: black;">Other Address</a>
+                                                </li>
+                        
+                                            </ul>
+                                            </div>
+                                            <!-- Tab panes -->
+                                            <div class="tab-content p-t-43">
+                                                <!-- - -->
+                                                <div class="tab-pane fade show active" id="Permanent" role="tabpanel">
+                                                    <div class="how-pos2 p-lr-15-md pt-4">
+                                                        <form action="/address/<%= userDetails._id %>" method="post">
+                                                            <div class="permanentAddressMessage"></div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <h6 class="mb-0">House No. / Name</h6>
+                                                                </div>
+                                                                <div class="col-sm-9 text-secondary">
+                                                                    <input type="text" name="houseName" id="houseName"
+                                                                        class="form-control"
+                                                                        value="<%= userDetails.address.houseName %>" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <h6 class="mb-0">Street Name</h6>
+                                                                </div>
+                                                                <div class="col-sm-9 text-secondary">
+                                                                    <input type="text" name="streetName" id="streetName"
+                                                                        class="form-control"
+                                                                        value="<%= userDetails.address.streetName %>" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <h6 class="mb-0">Town</h6>
+                                                                </div>
+                                                                <div class="col-sm-9 text-secondary">
+                                                                    <input type="text" name="town" id="town" class="form-control"
+                                                                        value="<%= userDetails.address.town %>" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <h6 class="mb-0">State</h6>
+                                                                </div>
+                                                                <div class="col-sm-9 text-secondary">
+                                                                    <input type="text" name="state" id="state" class="form-control"
+                                                                        value="<%= userDetails.address.state %>" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <h6 class="mb-0">Pin Code</h6>
+                                                                </div>
+                                                                <div class="col-sm-9 text-secondary">
+                                                                    <input type="number" name="zipCode" id="zipCode"
+                                                                        class="form-control" value="<%= userDetails.address.zipCode %>"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <h6 class="mb-0">Country</h6>
+                                                                </div>
+                                                                <div class="col-sm-9 text-secondary">
+                                                                    <input type="text" name="country" id="country" class="form-control"
+                                                                        value="<%= userDetails.address.country %>" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-3">
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="submit" class="btn btn-primary px-4"
+                                                                            value="Save Changes">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                    
+                                                    </div>
+                                                </div>
+                        
+                                                <!-- - -->
+                                                <div class="tab-pane fade" id="information" role="tabpanel">
+                                                    <div class="how-pos2 p-lr-15-md d-flex">
+                                                        <p class="stext-102 cl6 mt-4">
+                                                           dsvsdvv
+                                                        </p>
+                                                    </div>
+                                                </div>
+                        
+                                            </div>
+                                        </div>
+
+
+
+
                                     </div>
                                 </div>
                             </div>
