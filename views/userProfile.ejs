@@ -182,11 +182,11 @@
                                                     <%= userDetails.email %>
                                                 </p>
                                                 <% if (userDetails.address.houseName) { %>
-                                                    <p class="text-muted font-size-sm">
+                                                    <!-- <p class="text-muted font-size-sm">
                                                         <%= userDetails.address.houseName %>, <%=
                                                                 userDetails.address.streetName %>, <%=
                                                                     userDetails.address.town %>
-                                                    </p>
+                                                    </p> -->
                                                     <% } %>
                                                         <button class="btn btn-primary">Change Password</button>
                                                         <button class="btn btn-danger" data-toggle="modal"
@@ -303,74 +303,6 @@
                             <div class="col-sm-12">
                                 <div class="card mb-0">
                                     <div class="card-body">
-                                        <!-- <form action="/address/<%= userDetails._id %>" method="post">
-                                            <h4 class="mb-5">Address</h4>
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">House No. / Name</h6>
-                                                </div>
-                                                <div class="col-sm-9 text-secondary">
-                                                    <input type="text" name="houseName" id="houseName"
-                                                        class="form-control"
-                                                        value="<%= userDetails.address.houseName %>" required>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">Street Name</h6>
-                                                </div>
-                                                <div class="col-sm-9 text-secondary">
-                                                    <input type="text" name="streetName" id="streetName"
-                                                        class="form-control"
-                                                        value="<%= userDetails.address.streetName %>" required>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">Town</h6>
-                                                </div>
-                                                <div class="col-sm-9 text-secondary">
-                                                    <input type="text" name="town" id="town" class="form-control"
-                                                        value="<%= userDetails.address.town %>" required>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">State</h6>
-                                                </div>
-                                                <div class="col-sm-9 text-secondary">
-                                                    <input type="text" name="state" id="state" class="form-control"
-                                                        value="<%= userDetails.address.state %>" required>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">Pin Code</h6>
-                                                </div>
-                                                <div class="col-sm-9 text-secondary">
-                                                    <input type="number" name="zipCode" id="zipCode"
-                                                        class="form-control" value="<%= userDetails.address.zipCode %>"
-                                                        required>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-sm-3">
-                                                    <h6 class="mb-0">Country</h6>
-                                                </div>
-                                                <div class="col-sm-9 text-secondary">
-                                                    <input type="text" name="country" id="country" class="form-control"
-                                                        value="<%= userDetails.address.country %>" required>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="col-sm-9 text-secondary">
-                                                        <input type="submit" class="btn btn-primary px-4"
-                                                            value="Save Changes">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form> -->
                                     
                                         <div class="tab01">
                                             <!-- Nav tabs -->
@@ -467,19 +399,19 @@
                                                 <!-- - -->
                                                 <div class="tab-pane fade" id="additionalAddress" role="tabpanel">
 
-                                                    <% if (userDetails.address.length != 0) { %>
+                                                    <% if (userDetails.address[0].address == true) { %>
                                                         <div class="btn-group d-flex justify-content-center mx-5 my-3">
                                                             <select id="address-select" onchange="showAddressDetails()">
                                                                 <option value="select">Select Address</option>
-                                                                <% for (let i = 0; i < userDetails.address.length; i++) { %>
+                                                                <% for (let i = 1; i < userDetails.address.length; i++) { %>
                                                                   <option value="<%= userDetails.address[i]._id %>"><%= userDetails.address[i].houseName %>, <%= userDetails.address[i].town %>, <%= userDetails.address[i].country %></option>
                                                                 <% } %>
                                                             </select>
                                                         </div>
 
                                                         <div class="how-pos2 p-lr-15-md pt-4">
-                                                            <form id="seleteAddress" style="display: none;">
-                                                                <div class="permanentAddressMessage"></div>
+                                                            <form id="seleteAddress" style="display: none;" method="POST">
+                                                                <div class="otherAddressMessage"></div>
                                                                 <div class="row mb-3">
                                                                     <div class="col-sm-3">
                                                                         <h6 class="mb-0">House No. / Name</h6>
@@ -534,24 +466,65 @@
                                                                     <div class="col-sm-3 d-flex justify-content-between" style="box-sizing: content-box;">
                                                                         <div class="col-sm-9 text-secondary">
                                                                             <!-- <input type="submit" class="btn btn-primary px-4" value="Save Changes"> -->
-                                                                            <input type="button" class="btn btn-primary" value="Save Changes">
+                                                                            <input type="submit" class="btn btn-primary" value="Save Changes">
                                                                         </div>
                                                                         <div class="col-sm-9 text-secondary">
-                                                                            <input type="button" class="btn btn-danger" value="Add Address">
+                                                                            <input type="button" class="btn btn-danger" value="Add Address" data-toggle="modal" data-target="#addAddressModal">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </form>
                                                         </div>
                                                         <div id="addAddress" class="text-secondary my-3" style="display: flex; justify-content: center;">
-                                                            <input type="submit" class="btn btn-danger px-4" value="Add Address">
+                                                            <input type="submit" class="btn btn-danger px-4" value="Add Address" data-toggle="modal" data-target="#addAddressModal">
                                                         </div>
                                                     <% }else{ %>
-                                                        <div class="col-sm-9 text-secondary">
-                                                            <input type="submit" class="btn btn-danger px-4" value="Add Address">
+                                                        <div id="addAddress" class="col-sm-9 text-secondary">
+                                                            <input type="submit" class="btn btn-danger px-4" value="Add Address" data-toggle="modal" data-target="#addAddressModal">
                                                         </div>
                                                     <% } %>
 
+
+                                                    <!-- ============================================-->
+                                                    <!-- Add Address ============================-->
+
+                                                    <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                          <div class="modal-content">
+                                                            <form id="addOtherAddress" action="/addOtherAddress/<%= userDetails._id %>" method="post">
+                                                              <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle">Add Address</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                  <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                              </div>
+                                                              <div class="modal-body">
+                                                                <div class="form-outline mb-1">
+                                                                  <label class="form-label" for="addHouseName">House No / Name</label>
+                                                                  <input type="text" id="addHouseName" class="form-control form-control-lg" name="addHouseName" required/>
+                                                                  <label class="form-label" for="addStreetName">Street Name</label>
+                                                                  <input type="text" id="addStreetName" class="form-control form-control-lg" name="addStreetName" required/>
+                                                                  <label class="form-label" for="addTown">Town</label>
+                                                                  <input type="text" id="addTown" class="form-control form-control-lg" name="addTown" required/>
+                                                                  <label class="form-label" for="addState">State</label>
+                                                                  <input type="text" id="addState" class="form-control form-control-lg" name="addState" required/>
+                                                                  <label class="form-label" for="addCountry">Country</label>
+                                                                  <input type="text" id="addCountry" class="form-control form-control-lg" name="addCountry" required/>
+                                                                  <label class="form-label" for="addZipCode">Pin Code</label>
+                                                                  <input type="number" id="addZipCode" class="form-control form-control-lg" name="addZipCode" required/>
+                                                                </div>
+                                                              </div>
+                                                              <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Add</button>
+                                                              </div>
+                                                            </form>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+            
+                                                    <!-- Add Address ============================-->
+                                                    <!-- ============================================-->
                                                 </div>
                         
                                             </div>
@@ -572,7 +545,7 @@
             function showAddressDetails(){
                 const url = window.location.origin;
                 const addressId = document.getElementById('address-select').value;
-                if(addressId == "select"){
+                if(addressId === "select"){
                     document.getElementById('seleteAddress').style.display = "none"
                     document.getElementById('addAddress').style.display = "flex"
                 }else{
@@ -592,6 +565,8 @@
                 }).then((response)=>response.json())
                 .then((data)=>{
                     console.log(data);
+                    const form = document.getElementById('seleteAddress')
+                    form.action = `/updateAddress/${addressId}`
                     document.getElementById('selectHouseName').value = data.address.houseName
                     document.getElementById('selectStreetName').value = data.address.streetName
                     document.getElementById('selectTown').value = data.address.town

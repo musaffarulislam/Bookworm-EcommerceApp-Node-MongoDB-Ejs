@@ -355,7 +355,6 @@ const address = async (req,res) =>{
 
 const seleteAddress = async (req,res) =>{
   try{
-
     const addressId = req.body.addressId;
     console.log(addressId);
     const userDetails = await user.findOne({_id: req.session.user})
@@ -368,6 +367,59 @@ const seleteAddress = async (req,res) =>{
     console.error(`Error Edit User Info : ${err}`);
   }
 }
+ 
+
+const updateAddress = async (req,res) =>{
+  try{
+
+    const addressId = req.params.id;
+    const updateAddress = {
+      address : true,
+      houseName: req.body.houseName,
+      streetName: req.body.streetName,
+      town: req.body.town,
+      state: req.body.state,
+      country: req.body.country,
+      zipCode: req.body.zipCode,
+    };
+
+    await user.updateOne({_id: req.session.user, 'address._id': addressId}, 
+      {$set: {"address.$": updateAddress}})
+
+
+    console.log(req.body.houseName);
+    res.redirect(`/myProfile/${req.session.user}`);
+
+  }catch(err){
+    console.error(`Error Edit User Info : ${err}`);
+    res.redirect(`/myProfile/${req.session.user}`);
+  }
+}
+
+
+const addOtherAddress = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const newAddress = {
+      address: true,
+      houseName: req.body.addHouseName,
+      streetName: req.body.addStreetName,
+      town: req.body.addTown,
+      state: req.body.addState,
+      country: req.body.addCountry,
+      zipCode: req.body.addZipCode,
+    };
+    const userDetails = await user.findOne({ _id: userId });
+    userDetails.address.push(newAddress);
+    await userDetails.save();
+    res.redirect(`/myProfile/${req.params.id}`);
+  } catch (err) {
+    console.error(`Error adding other address: ${err}`);
+    res.redirect(`/myProfile/${req.params.id}`);
+  }
+};
+
+
 
 
 const addUserImage = async (req,res) =>{
@@ -695,7 +747,6 @@ const productRemove = async (req,res) => {
 
 
 function productTotal(books){
-  console.log("Product total: ",books);
   let totalPrice = 0;
   for(let i=0; i< books.length; i++){
     let book = books[i];
@@ -716,6 +767,8 @@ const renderCheckout = async (req,res) => {
     if(!count){
       res.redirect('/');
     }
+  
+    console.log(userDetails.address[0].address);
     let totalAmount = productTotal(carts)
     let shipping = false;
     if(totalAmount<400){
@@ -732,6 +785,85 @@ const renderCheckout = async (req,res) => {
     res.redirect("/");
   }
 }
+
+
+const checkOutAddress = async (req,res) =>{
+  try{
+
+    const userId = req.params.id;
+    const newAddress = {
+      address : true,
+      houseName: req.body.houseName,
+      streetName: req.body.streetName,
+      town: req.body.town,
+      state: req.body.state,
+      country: req.body.country,
+      zipCode: req.body.zipCode,
+    };
+
+    await user.updateOne({_id: userId}, 
+      {$set: {"address.0": newAddress}})
+
+
+    console.log(req.body.houseName);
+    res.redirect(`/checkout/${req.params.id}`);
+
+  }catch(err){
+    console.error(`Error Edit User Info : ${err}`);
+    res.redirect(`/checkout/${req.params.id}`);
+  }
+}
+
+
+const checkOutUpdateAddress = async (req,res) =>{
+  try{
+
+    const addressId = req.params.id;
+    const updateAddress = {
+      address : true,
+      houseName: req.body.houseName,
+      streetName: req.body.streetName,
+      town: req.body.town,
+      state: req.body.state,
+      country: req.body.country,
+      zipCode: req.body.zipCode,
+    };
+
+    await user.updateOne({_id: req.session.user, 'address._id': addressId}, 
+      {$set: {"address.$": updateAddress}})
+
+
+    console.log(req.body.houseName);
+    res.redirect(`/checkout/${req.session.user}`);
+
+  }catch(err){
+    console.error(`Error Edit User Info : ${err}`);
+    res.redirect(`/checkout/${req.session.user}`);
+  }
+}
+
+
+const checkOutAddOtherAddress = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const newAddress = {
+      address: true,
+      houseName: req.body.addHouseName,
+      streetName: req.body.addStreetName,
+      town: req.body.addTown,
+      state: req.body.addState,
+      country: req.body.addCountry,
+      zipCode: req.body.addZipCode,
+    };
+    const userDetails = await user.findOne({ _id: userId });
+    userDetails.address.push(newAddress);
+    await userDetails.save();
+    res.redirect(`/checkout/${req.params.id}`);
+  } catch (err) {
+    console.error(`Error adding other address: ${err}`);
+    res.redirect(`/checkout/${req.params.id}`);
+  }
+};
 
 
 const applyCoupon = async (req,res) => {
@@ -987,6 +1119,8 @@ module.exports = {
     editUser,
     address,
     seleteAddress,
+    updateAddress,
+    addOtherAddress,
     addUserImage,
     renderMyOrder,
     orderDelete,
@@ -997,9 +1131,12 @@ module.exports = {
     productDec,
     productInc,
     productRemove,
+    renderCheckout,
+    checkOutAddress,
+    checkOutUpdateAddress,
+    checkOutAddOtherAddress,
     applyCoupon,
     deleteCoupon,
-    renderCheckout,
     cashOnDelivary,
     onlinePayment,
     verifyOnlinePayment,

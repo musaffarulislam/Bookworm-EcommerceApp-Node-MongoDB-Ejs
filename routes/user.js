@@ -32,6 +32,10 @@ router.post('/address/:id',midleware.userSession,userController.address);
 
 router.post('/selectAddress',midleware.userSession,userController.seleteAddress);
 
+router.post('/updateAddress/:id',midleware.userSession,userController.updateAddress);
+
+router.post('/addOtherAddress/:id',midleware.userSession,userController.addOtherAddress);
+
 router.post('/addUserImage/:id',midleware.userSession,upload.single('userImage'),userController.addUserImage);
 
 router.get('/book',userController.renderBook);
@@ -48,11 +52,17 @@ router.put('/productInc',midleware.userSession,userController.productInc);
 
 router.put('/productRemove',midleware.userSession,userController.productRemove);
 
+router.get('/checkout/:id',midleware.userSession,userController.renderCheckout);
+
+router.post('/checkOutAddress/:id',midleware.userSession,userController.checkOutAddress);
+
+router.post('/checkOutUpdateAddress/:id',midleware.userSession,userController.checkOutUpdateAddress);
+
+router.post('/checkOutAddOtherAddress/:id',midleware.userSession,userController.checkOutAddOtherAddress);
+
 router.post('/applyCoupon',midleware.userSession,userController.applyCoupon);
 
 router.delete('/deleteCoupon',midleware.userSession,userController.deleteCoupon);
-
-router.get('/checkout/:id',midleware.userSession,userController.renderCheckout);
 
 router.put('/cashOnDelivary',midleware.userSession,userController.cashOnDelivary);
 

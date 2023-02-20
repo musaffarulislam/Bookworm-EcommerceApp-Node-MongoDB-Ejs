@@ -14,6 +14,7 @@ const userScheme = new Scheme({
     address :  {
                 type: [
                     {
+                        address : Boolean,
                         houseName: String,
                         streetName: String,
                         town: String,
@@ -22,9 +23,7 @@ const userScheme = new Scheme({
                         zipCode: String,
                     }
                 ],
-                default : {
-                    address : false
-                }
+                default : [{address : false}] 
             },
     block : Boolean,
 });
