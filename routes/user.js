@@ -30,6 +30,8 @@ router.post('/editUser/:id',midleware.userSession,userController.editUser);
 
 router.post('/address/:id',midleware.userSession,userController.address);
 
+router.post('/selectAddress',midleware.userSession,userController.seleteAddress);
+
 router.post('/addUserImage/:id',midleware.userSession,upload.single('userImage'),userController.addUserImage);
 
 router.get('/book',userController.renderBook);

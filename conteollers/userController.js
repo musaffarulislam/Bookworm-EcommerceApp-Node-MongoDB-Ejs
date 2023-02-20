@@ -317,33 +317,55 @@ const editUser = async (req,res) =>{
           age: req.body.age,
         }
       })
-      res.redirect(`/userProfile/${req.params.id}`);
+      res.redirect(`/myProfile/${req.params.id}`);
   }catch(err){
     console.error(`Error Edit User Info : ${err}`);
-    res.redirect(`/userProfile/${req.params.id}`);
+    res.redirect(`/myProfile/${req.params.id}`);
   }
 }
 
 
 const address = async (req,res) =>{
   try{
-    await user.updateOne({_id: req.params.id},
-      {$set:
-        {
-          address:{
-            houseName: req.body.houseName,
-            streetName: req.body.streetName,
-            town: req.body.town,
-            state: req.body.state,
-            country: req.body.country,
-            zipCode: req.body.zipCode
-          }
-        }
-      })
-      res.redirect(`/userProfile/${req.params.id}`);
+
+    const userId = req.params.id;
+    const newAddress = {
+      address : true,
+      houseName: req.body.houseName,
+      streetName: req.body.streetName,
+      town: req.body.town,
+      state: req.body.state,
+      country: req.body.country,
+      zipCode: req.body.zipCode,
+    };
+
+    await user.updateOne({_id: userId}, 
+      {$set: {"address.0": newAddress}})
+
+
+    console.log(req.body.houseName);
+    res.redirect(`/myProfile/${req.params.id}`);
+
   }catch(err){
     console.error(`Error Edit User Info : ${err}`);
-    res.redirect(`/userProfile/${req.params.id}`);
+    res.redirect(`/myProfile/${req.params.id}`);
+  }
+}
+
+
+const seleteAddress = async (req,res) =>{
+  try{
+
+    const addressId = req.body.addressId;
+    console.log(addressId);
+    const userDetails = await user.findOne({_id: req.session.user})
+    // const address = userDetails.address.find(addressItems=> addressItems === addressId)
+    const address = userDetails.address.id(addressId)
+    console.log(address);
+    res.status(200).send({address})
+
+  }catch(err){
+    console.error(`Error Edit User Info : ${err}`);
   }
 }
 
@@ -369,11 +391,11 @@ const addUserImage = async (req,res) =>{
               console.error(`Error Deleting Book : ${err}`);
           }
       });
-      res.redirect(`/userProfile/${req.params.id}`);
+      res.redirect(`/myProfile/${req.params.id}`);
 
   }catch(err){
       console.error(`Error Add User Image : ${err}`);
-      res.redirect(`/userProfile/${req.params.id}`);
+      res.redirect(`/myProfile/${req.params.id}`);
   }
 }
 
@@ -964,6 +986,7 @@ module.exports = {
     renderMyProfile,
     editUser,
     address,
+    seleteAddress,
     addUserImage,
     renderMyOrder,
     orderDelete,

@@ -10,6 +10,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+
+        <!-- ===============================================-->
+    <!--    Nav Style  -->
+    <!-- ===============================================-->
+    <link rel="stylesheet" href="../nav/css/linearicons.css">
+    <link rel="stylesheet" href="../nav/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../nav/css/themify-icons.css">
+    <link rel="stylesheet" href="../nav/css/owl.carousel.css">
+    <link rel="stylesheet" href="../nav/css/nice-select.css">
+    <link rel="stylesheet" href="../nav/css/nouislider.min.css">
+    <link rel="stylesheet" href="../nav/css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="../nav/css/ion.rangeSlider.skinFlat.css" />
+    <link rel="stylesheet" href="../nav/css/magnific-popup.css">
+    <link rel="stylesheet" href="../nav/css/main.css">
+
     <!-- ===============================================-->
     <!--    template   -->
     <!-- ===============================================-->
@@ -27,19 +42,7 @@
     <!-- ===============================================-->
     <link href="template/assets/css/theme.css" rel="stylesheet" />
 
-    <!-- ===============================================-->
-    <!--    Nav Style  -->
-    <!-- ===============================================-->
-    <link rel="stylesheet" href="../nav/css/linearicons.css">
-    <link rel="stylesheet" href="../nav/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../nav/css/themify-icons.css">
-    <link rel="stylesheet" href="../nav/css/owl.carousel.css">
-    <link rel="stylesheet" href="../nav/css/nice-select.css">
-    <link rel="stylesheet" href="../nav/css/nouislider.min.css">
-    <link rel="stylesheet" href="../nav/css/ion.rangeSlider.css" />
-    <link rel="stylesheet" href="../nav/css/ion.rangeSlider.skinFlat.css" />
-    <link rel="stylesheet" href="../nav/css/magnific-popup.css">
-    <link rel="stylesheet" href="../nav/css/main.css">
+
 
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
@@ -75,8 +78,19 @@
             color: black;
         }
 
-        li .active{
-            background-color: black;
+        .nav-item .active{
+            background-color: rgb(253, 165, 0);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .addressSelect{
+            color: black;
+            border: 1px solid transparent;
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+            display: block;
+            padding: 0.5rem 1rem;
         }
     </style>
 
@@ -179,9 +193,9 @@
                                                             data-target="#changeUser<%= userDetails._id %>">
                                                             <% if (!userDetails.userImage) { %>
                                                                 Upload Image
-                                                                <% }else{ %>
-                                                                    Update Image
-                                                                    <% } %>
+                                                            <% }else{ %>
+                                                                Update Image
+                                                            <% } %>
                                                         </button>
 
                                                         <!-- Change user Image -->
@@ -363,11 +377,11 @@
                                             <div class="d-flex justify-content-center">
                                             <ul class="nav nav-tabs shadow" role="tablist">
                                                 <li class="nav-item p-b-10">
-                                                    <a class="nav-link active" data-toggle="tab" href="#Permanent" role="tab" style="color: black;">Permanent Address</a>
+                                                    <a class="addressSelect active" data-toggle="tab" href="#Permanent" role="tab" >Permanent Address</a>
                                                 </li>
                         
                                                 <li class="nav-item p-b-10">
-                                                    <a class="nav-link" data-toggle="tab" href="#additional Address" role="tab" style="color: black;">Other Address</a>
+                                                    <a class="addressSelect" data-toggle="tab" href="#additionalAddress" role="tab" >Other Address</a>
                                                 </li>
                         
                                             </ul>
@@ -378,6 +392,7 @@
                                                 <div class="tab-pane fade show active" id="Permanent" role="tabpanel">
                                                     <div class="how-pos2 p-lr-15-md pt-4">
                                                         <form action="/address/<%= userDetails._id %>" method="post">
+                                                        <!-- <form id="permanantAddress"> -->
                                                             <div class="permanentAddressMessage"></div>
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-3">
@@ -386,7 +401,7 @@
                                                                 <div class="col-sm-9 text-secondary">
                                                                     <input type="text" name="houseName" id="houseName"
                                                                         class="form-control"
-                                                                        value="<%= userDetails.address.houseName %>" required>
+                                                                        value="<%= userDetails.address[0].houseName %>" required>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3">
@@ -396,7 +411,7 @@
                                                                 <div class="col-sm-9 text-secondary">
                                                                     <input type="text" name="streetName" id="streetName"
                                                                         class="form-control"
-                                                                        value="<%= userDetails.address.streetName %>" required>
+                                                                        value="<%= userDetails.address[0].streetName %>" required>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3">
@@ -405,7 +420,7 @@
                                                                 </div>
                                                                 <div class="col-sm-9 text-secondary">
                                                                     <input type="text" name="town" id="town" class="form-control"
-                                                                        value="<%= userDetails.address.town %>" required>
+                                                                        value="<%= userDetails.address[0].town %>" required>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3">
@@ -414,7 +429,7 @@
                                                                 </div>
                                                                 <div class="col-sm-9 text-secondary">
                                                                     <input type="text" name="state" id="state" class="form-control"
-                                                                        value="<%= userDetails.address.state %>" required>
+                                                                        value="<%= userDetails.address[0].state %>" required>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3">
@@ -423,7 +438,7 @@
                                                                 </div>
                                                                 <div class="col-sm-9 text-secondary">
                                                                     <input type="number" name="zipCode" id="zipCode"
-                                                                        class="form-control" value="<%= userDetails.address.zipCode %>"
+                                                                        class="form-control" value="<%= userDetails.address[0].zipCode %>"
                                                                         required>
                                                                 </div>
                                                             </div>
@@ -433,14 +448,14 @@
                                                                 </div>
                                                                 <div class="col-sm-9 text-secondary">
                                                                     <input type="text" name="country" id="country" class="form-control"
-                                                                        value="<%= userDetails.address.country %>" required>
+                                                                        value="<%= userDetails.address[0].country %>" required>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="col-sm-9 text-secondary">
-                                                                        <input type="submit" class="btn btn-primary px-4"
-                                                                            value="Save Changes">
+                                                                        <input type="submit" class="btn btn-primary px-4" value="Save Changes">
+                                                                        <!-- <input type="button" class="btn btn-primary px-4" value="Save Changes" onclick="addPermanentAddress('<%= userDetails._id %>')"> -->
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -450,19 +465,97 @@
                                                 </div>
                         
                                                 <!-- - -->
-                                                <div class="tab-pane fade" id="information" role="tabpanel">
-                                                    <div class="how-pos2 p-lr-15-md d-flex">
-                                                        <p class="stext-102 cl6 mt-4">
-                                                           dsvsdvv
-                                                        </p>
-                                                    </div>
+                                                <div class="tab-pane fade" id="additionalAddress" role="tabpanel">
+
+                                                    <% if (userDetails.address.length != 0) { %>
+                                                        <div class="btn-group d-flex justify-content-center mx-5 my-3">
+                                                            <select id="address-select" onchange="showAddressDetails()">
+                                                                <option value="select">Select Address</option>
+                                                                <% for (let i = 0; i < userDetails.address.length; i++) { %>
+                                                                  <option value="<%= userDetails.address[i]._id %>"><%= userDetails.address[i].houseName %>, <%= userDetails.address[i].town %>, <%= userDetails.address[i].country %></option>
+                                                                <% } %>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="how-pos2 p-lr-15-md pt-4">
+                                                            <form id="seleteAddress" style="display: none;">
+                                                                <div class="permanentAddressMessage"></div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <h6 class="mb-0">House No. / Name</h6>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="text" name="houseName" id="selectHouseName"
+                                                                            class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <h6 class="mb-0">Street Name</h6>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="text" name="streetName" id="selectStreetName"
+                                                                            class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <h6 class="mb-0">Town</h6>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="text" name="town" id="selectTown" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <h6 class="mb-0">State</h6>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="text" name="state" id="selectState" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <h6 class="mb-0">Pin Code</h6>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="number" name="zipCode" id="selectZipCode" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <h6 class="mb-0">Country</h6>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="text" name="country" id="selectCountry" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-3 d-flex justify-content-between" style="box-sizing: content-box;">
+                                                                        <div class="col-sm-9 text-secondary">
+                                                                            <!-- <input type="submit" class="btn btn-primary px-4" value="Save Changes"> -->
+                                                                            <input type="button" class="btn btn-primary" value="Save Changes">
+                                                                        </div>
+                                                                        <div class="col-sm-9 text-secondary">
+                                                                            <input type="button" class="btn btn-danger" value="Add Address">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div id="addAddress" class="text-secondary my-3" style="display: flex; justify-content: center;">
+                                                            <input type="submit" class="btn btn-danger px-4" value="Add Address">
+                                                        </div>
+                                                    <% }else{ %>
+                                                        <div class="col-sm-9 text-secondary">
+                                                            <input type="submit" class="btn btn-danger px-4" value="Add Address">
+                                                        </div>
+                                                    <% } %>
+
                                                 </div>
                         
                                             </div>
                                         </div>
-
-
-
 
                                     </div>
                                 </div>
@@ -473,6 +566,41 @@
                 </div>
             </div>
         </div>
+
+
+        <script>
+            function showAddressDetails(){
+                const url = window.location.origin;
+                const addressId = document.getElementById('address-select').value;
+                if(addressId == "select"){
+                    document.getElementById('seleteAddress').style.display = "none"
+                    document.getElementById('addAddress').style.display = "flex"
+                }else{
+                    document.getElementById('seleteAddress').style.display = "block"
+                    document.getElementById('addAddress').style.display = "none"
+                }
+                console.log(url);
+                fetch(`${url}/selectAddress`, {
+                    method: 'POST',
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        addressId
+                    })
+                }).then((response)=>response.json())
+                .then((data)=>{
+                    console.log(data);
+                    document.getElementById('selectHouseName').value = data.address.houseName
+                    document.getElementById('selectStreetName').value = data.address.streetName
+                    document.getElementById('selectTown').value = data.address.town
+                    document.getElementById('selectState').value = data.address.state
+                    document.getElementById('selectZipCode').value = data.address.zipCode
+                    document.getElementById('selectCountry').value = data.address.country
+                })
+            }
+        </script>
 
         <script type="text/javascript"></script>
 
