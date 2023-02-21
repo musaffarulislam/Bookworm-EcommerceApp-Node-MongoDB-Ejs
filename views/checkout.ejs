@@ -415,7 +415,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 <div class="col-md-3">
                     <div class="ibox shadow rounded">
                         <div class="ibox-title shadow rounded">
-                            <h5>Address</h5>
+                            <h5>Select Address</h5>
                         </div>
                         <div class="ibox-content text-center">
                             <div class="tab01">
@@ -434,13 +434,13 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                 <div class="tab-content">
                                     <% if (userDetails.address[0].address) { %>
                                     <div class="tab-pane fade show active" id="Permanent" role="tabpanel">
-                                        <div class="how-pos2 p-lr-15-md pt-4">
-                                            <div id="orderAddress"><%= userDetails.address[0].houseName %>, <%= userDetails.address[0].streetName %>, <%= userDetails.address[0].town %>, <%= userDetails.address[0].state %>, 
-                                                <%= userDetails.address[0].country %>, <%= userDetails.address[0].zipCode %></div>
+                                        <div class="p-lr-15-md">
+                                            <!-- <div id="orderAddress"><%= userDetails.address[0].houseName %>, <%= userDetails.address[0].streetName %>, <%= userDetails.address[0].town %>, <%= userDetails.address[0].state %>, 
+                                                <%= userDetails.address[0].country %>, <%= userDetails.address[0].zipCode %></div> -->
                                             
-                                                <div class="text-secondary my-3">
-                                                    <input type="button" class="btn btn-danger" value="Change" data-toggle="modal" data-target="#changeParmenantAddress">
-                                                </div>
+                                        <div class="text-secondary my-3">
+                                                <input type="button" class="btn btn-danger" value="Change Permanent Address" data-toggle="modal" data-target="#changeParmenantAddress">
+                                        </div>
 
 
                                         <!-- ============================================-->
@@ -484,51 +484,16 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                         <!-- Add Other Address ============================-->
                                         <!-- ============================================-->
 
-
-<!-- 
-                                                <form action="/checkOutAddress/<%= userDetails._id %>" method="post">
-                                                <div class="permanentAddressMessage"></div>
-                                                <div class="row mb-1">
-                                                    <label class="form-label" for="houseName">House No / Name</label>
-                                                    <input type="text" name="houseName" id="houseName" class="form-control" value="<%= userDetails.address[0].houseName %>" required>
-                                                </div>
-                                                <div class="row mb-1">
-                                                    <label class="form-label" for="streetName">Street Name</label>
-                                                    <input type="text" name="streetName" id="streetName" class="form-control" value="<%= userDetails.address[0].streetName %>" required>
-                                                </div>
-                                                <div class="row mb-1">
-                                                    <label class="form-label" for="town">Town</label>
-                                                    <input type="text" name="town" id="town" class="form-control" value="<%= userDetails.address[0].town %>" required>
-                                                </div>
-                                                <div class="row mb-1">
-                                                    <label class="form-label" for="state">State</label>
-                                                    <input type="text" name="state" id="state" class="form-control" value="<%= userDetails.address[0].state %>" required>
-                                                </div>
-                                                <div class="row mb-1">
-                                                    <label class="form-label" for="zipCode">Pin Code</label>
-                                                    <input type="number" name="zipCode" id="zipCode" class="form-control" value="<%= userDetails.address[0].zipCode %>" required>
-                                                </div>
-                                                <div class="row mb-1">
-                                                    <label class="form-label" for="country">Country</label>
-                                                    <input type="text" name="country" id="country" class="form-control" value="<%= userDetails.address[0].country %>" required>
-                                                </div>
-                                                <div class="row my-2">
-                                                    <div class="col-sm-3">
-                                                        <div class="col-sm-9 text-secondary">
-                                                            <input type="submit" class="btn btn-primary px-4" value="Save Changes">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form> -->
-                        
                                         </div>
                                     </div>
             
                                     <!-- - -->
                                     <div class="tab-pane fade" id="additionalAddress" role="tabpanel">
 
-                                        <% if (userDetails.address.length != 1) { %>
+                                        <% if (userDetails.address.length > 1) { %>
+
                                             <div class="btn-group d-flex justify-content-center mx-5 my-3">
+                                                
                                                 <select id="address-select" onchange="showAddressDetails()">
                                                     <option value="select">Select Address</option>
                                                     <% for (let i = 1; i < userDetails.address.length; i++) { %>
@@ -537,7 +502,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                                 </select>
                                             </div>
 
-                                            <div id="orderAddressOther"></div>
+                                            <!-- <div id="orderAddressOther"></div> -->
 
                                             <div class="how-pos2 p-lr-15-md">
                                                 <form id="seleteAddress" style="display: none;" method="POST">
@@ -573,18 +538,18 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                                                 <input type="submit" class="btn btn-primary" value="Save Changes">
                                                             </div>
                                                             <div class="col-sm-9 text-secondary">
-                                                                <input type="button" class="btn btn-danger" value="Add Address" data-toggle="modal" data-target="#addAddressModal">
+                                                                <input type="button" class="btn btn-danger" value="Add Address" data-toggle="modal" data-target="#addOtherAddressModal">
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </form>
                                             </div>
                                             <div id="addAddress" class="text-secondary my-1" style="display: flex; justify-content: center;">
-                                                <input type="submit" class="btn btn-danger px-4" value="Add Address" data-toggle="modal" data-target="#addAddressModal">
+                                                <input type="submit" class="btn btn-danger px-4" value="Add Address" data-toggle="modal" data-target="#addOtherAddressModal">
                                             </div>
                                         <% }else{ %>
                                             <div id="addAddress" class="text-secondary my-2">
-                                                <input type="submit" class="btn btn-danger px-4" value="Add Address" data-toggle="modal" data-target="#addAddressModal">
+                                                <input type="submit" class="btn btn-danger px-4" value="Add Address" data-toggle="modal" data-target="#addOtherAddressModal">
                                             </div>
                                         <% } %>
 
@@ -592,10 +557,10 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                         <!-- ============================================-->
                                         <!-- Add Other Address ============================-->
 
-                                        <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal fade" id="addOtherAddressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                               <div class="modal-content">
-                                                <form id="addOtherAddress" action="/checkOutAddOtherAddress/<%= userDetails._id %>" method="post">
+                                                <form id="addOtherAddress" action="/checkoutAddOtherAddress/<%= userDetails._id %>" method="post">
                                                   <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLongTitle">Add Address</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -644,7 +609,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                         <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                               <div class="modal-content">
-                                                <form id="addOtherAddress" action="/CheckOutAddress/<%= userDetails._id %>" method="post">
+                                                <form id="addOtherAddress" action="/checkOutAddress/<%= userDetails._id %>" method="post">
                                                   <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLongTitle">Add Address</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -653,18 +618,18 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                                   </div>
                                                   <div class="modal-body">
                                                     <div class="form-outline mb-1">
-                                                      <label class="form-label" for="addHouseName">House No / Name</label>
-                                                      <input type="text" id="addHouseName" class="form-control form-control-lg" name="addHouseName" required/>
-                                                      <label class="form-label" for="addStreetName">Street Name</label>
-                                                      <input type="text" id="addStreetName" class="form-control form-control-lg" name="addStreetName" required/>
-                                                      <label class="form-label" for="addTown">Town</label>
-                                                      <input type="text" id="addTown" class="form-control form-control-lg" name="addTown" required/>
-                                                      <label class="form-label" for="addState">State</label>
-                                                      <input type="text" id="addState" class="form-control form-control-lg" name="addState" required/>
-                                                      <label class="form-label" for="addCountry">Country</label>
-                                                      <input type="text" id="addCountry" class="form-control form-control-lg" name="addCountry" required/>
-                                                      <label class="form-label" for="addZipCode">Pin Code</label>
-                                                      <input type="number" id="addZipCode" class="form-control form-control-lg" name="addZipCode" required/>
+                                                      <label class="form-label" for="houseName">House No / Name</label>
+                                                      <input type="text" id="houseName" class="form-control form-control-lg" name="houseName" required/>
+                                                      <label class="form-label" for="streetName">Street Name</label>
+                                                      <input type="text" id="streetName" class="form-control form-control-lg" name="streetName" required/>
+                                                      <label class="form-label" for="town">Town</label>
+                                                      <input type="text" id="town" class="form-control form-control-lg" name="town" required/>
+                                                      <label class="form-label" for="state">State</label>
+                                                      <input type="text" id="state" class="form-control form-control-lg" name="state" required/>
+                                                      <label class="form-label" for="country">Country</label>
+                                                      <input type="text" id="country" class="form-control form-control-lg" name="country" required/>
+                                                      <label class="form-label" for="zipCode">Pin Code</label>
+                                                      <input type="number" id="zipCode" class="form-control form-control-lg" name="zipCode" required/>
                                                     </div>
                                                   </div>
                                                   <div class="modal-footer">
@@ -683,6 +648,27 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
 
                         </div>
                     </div>
+
+
+                    <div class="ibox shadow rounded">
+                        <div class="ibox-title shadow rounded">
+                            <h5>Address</h5>
+                        </div>
+                        <div class="ibox-content text-center">
+                            <div class="my-2">
+                                <% if (userDetails.address[0].address) { %>
+                                <div id="orderAddress"><%= userDetails.address[0].houseName %>, <%= userDetails.address[0].streetName %>, <%= userDetails.address[0].town %>, <%= userDetails.address[0].state %>, 
+                                                <%= userDetails.address[0].country %>, <%= userDetails.address[0].zipCode %></div>
+                                <% }else{ %>
+                                    <div id="orderAddress">Please Add Address</div>
+                                    <div id="addAddress" class="text-secondary my-2">
+                                            <input type="submit" class="btn btn-danger px-4" value="Add Address" data-toggle="modal" data-target="#addAddressModal">
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="ibox shadow rounded">
                         <div class="ibox-title shadow rounded">
                             <h6>Bill</h6>
@@ -751,6 +737,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                         </div>
                         <div class="ibox-content text-center">
                             <div class="my-2">
+                                <div id="paymentMessage"></div>
                                 <button class="btn btn-primary btn-sm btn-block my-2"
                                     onclick="cashOnDelivary('<%= userDetails._id %>')">Chash On delivary</button>
                                 <button class="btn btn-danger btn-sm btn-block my-2" id="rzp-button1">Online
@@ -765,9 +752,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
     </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
    
-
     <script>
-        console.log("hiiiiiiiiiiiiii");
         $(document).ready(function() {
             $('.addressTab').on('click', function(e) {
                 e.preventDefault();
@@ -777,7 +762,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
             });
         });
     </script>
-       
+
     <script>
         function showAddressDetails(){
             const url = window.location.origin;
@@ -802,7 +787,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
             }).then((response)=>response.json())
             .then((data)=>{
                 console.log(data);
-                document.getElementById('orderAddressOther').innerHTML = `${data.address.houseName}, ${data.address.streetName}, ${data.address.town}, ${data.address.state}, ${data.address.country}, ${data.address.zipCode}`
+                document.getElementById('orderAddress').innerHTML = `${data.address.houseName}, ${data.address.streetName}, ${data.address.town}, ${data.address.state}, ${data.address.country}, ${data.address.zipCode}`
                 const form = document.getElementById('seleteAddress')
                 form.action = `/checkOutUpdateAddress/${addressId}`
                 document.getElementById('selectHouseName').value = data.address.houseName
@@ -822,10 +807,28 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
 
    
    <script>
+        let couponApply = false
 
         function cashOnDelivary(userId) {
+            let couponName = false
             const ordertotalAmount = document.getElementById('totalAmount').innerText;
-            const orderAddress = document.getElementById('checkoutAddress').innerText;
+            const orderAddress = document.getElementById('orderAddress').innerText;
+            if(orderAddress == "Please Add Address"){
+                document.getElementById('paymentMessage').innerHTML = 
+                        `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Address Not Found</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+            setTimeout(() => {
+                document.getElementById('paymentMessage').innerHTML = ""
+            }, 3000);
+                return false
+            }
+            if(couponApply){
+                couponName =  document.getElementById('couponName').value;
+            }
             const url = window.location.origin;
             console.log(url);
             fetch(`${url}/cashOnDelivary?userId=${userId}`, {
@@ -836,30 +839,62 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 },
                 body: JSON.stringify({
                     address: orderAddress,
-                    totalAmount: ordertotalAmount
+                    totalAmount: ordertotalAmount,
+                    couponName
                 })
             })
-                .then((response) => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Network response was not ok');
-                })
-                .then((data) => {
-                    console.log(data, 'This is data');
-                    swal({
-                        title: "Order Placed Successfully!",
-                        text: `Your order has been placed successfully! Your order id is ${data.orderId}`,
-                        icon: "success",
-                        button: "Okay",
-                    })
-                        .then(() => {
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json().then((data) => {
+                        console.log(data, 'This is data');
+                        swal({
+                            title: "Order Placed Successfully!",
+                            text: `Your order has been placed successfully! Your order id is ${data.orderId}`,
+                            icon: "success",
+                            button: "Okay",
+                        })
+                            .then(() => {
+                                window.location.href = `/myOrder/${userId}`;
+                            });
+                        setTimeout(() => {
                             window.location.href = `/myOrder/${userId}`;
-                        });
-                    setTimeout(() => {
-                        window.location.href = `/myOrder/${userId}`;
-                    }, 3000);
-                })
+                        }, 3000);
+                    })
+                }else if (response.status === 400){
+                    return response.json().then((data) => {
+                        couponApply = false
+                        document.getElementById('paymentMessage').innerHTML = 
+                        `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>${data.message}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+                        setTimeout(() => {
+                            document.getElementById('paymentMessage').innerHTML = ""
+                        }, 3000);
+
+                        if(data.shipping){
+                            document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
+                        }else{
+                            document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ Free"
+                        }
+
+                        document.getElementById('totalAmount').innerText = data.totalAmount
+                        document.getElementById('discountAmount').style.display = "none"
+                        
+                        document.getElementById('couponInputBox').innerHTML=
+                                                    `<input type="text" id="couponName" class="form-control text-uppercase rounded"
+                                                        placeholder="Coupon name" aria-label="Recipient's username"
+                                                        aria-describedby="basic-addon2">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-warning" type="button"
+                                                        onclick="applyCoupon('${userId}')">Apply</button>
+                                                    </div>`
+                        document.getElementById('couponMessage').innerHTML = ""
+                    })
+                }
+            })
                 .catch((error) => {
                     console.error(`There was a problem with the fetch operation: ${error.message}`);
                     // Show error modal
@@ -872,12 +907,11 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 });
         }
 
-
         document.getElementById("rzp-button1").addEventListener("click", async function (e) {
             e.preventDefault();
             const userId = "<%= userDetails._id %>";
             const orderTotalAmount = document.getElementById("totalAmount").innerText;
-            const orderAddress = document.getElementById("checkoutAddress").innerText;
+            const orderAddress = document.getElementById("orderAddress").innerText;
             const url = window.location.origin;
             console.log(url);
             try {
@@ -893,8 +927,9 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                     })
                 });
                 let orderData = await response.json();
+                console.log(orderData)
                 var options = {
-                    key: "rzp_test_ifEOe80qfCYvOK",
+                    key: "rzp_test_MfMHXbdBnx5BYx",
                     amount: orderTotalAmount * 100,
                     currency: "INR",
                     name: "Bookworm",
@@ -970,6 +1005,208 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
         }
 
 
+
+
+
+        // document.getElementById("rzp-button1").addEventListener("click", async function (e) {
+        //     e.preventDefault();
+            
+        //     const userId = "<%= userDetails._id %>";
+        //     const orderTotalAmount = document.getElementById("totalAmount").innerText;
+        //     const orderAddress = document.getElementById("orderAddress").innerText;
+        //     if(orderAddress == "Please Add Address"){
+        //         document.getElementById('paymentMessage').innerHTML = 
+        //                 `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        //                     <strong>Address Not Found</strong>
+        //                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        //                         <span aria-hidden="true">&times;</span>
+        //                     </button>
+        //                 </div>`;
+        //         setTimeout(() => {
+        //             document.getElementById('paymentMessage').innerHTML = ""
+        //         }, 3000);
+        //         return false
+        //     }
+        //     let couponName = false
+        //     if(couponApply){
+        //         couponName =  document.getElementById('couponName').value;
+        //     }
+
+        //     const url = window.location.origin;
+        //     console.log(url);
+        //     try {
+        //         let response = await fetch(`${url}/onlinePayment?userId=${userId}`, {
+        //             method: "PUT",
+        //             headers: {
+        //                 Accept: "application/json",
+        //                 "Content-Type": "application/json"
+        //             },
+        //             body: JSON.stringify({
+        //                 address: orderAddress,
+        //                 totalAmount: orderTotalAmount,
+        //                 couponName
+        //             })
+        //         });
+
+
+        //         if (response.status === 400){
+        //             return response.json().then((data) => {
+        //                 couponApply = false
+        //                 document.getElementById('paymentMessage').innerHTML = 
+        //                 `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        //                     <strong>${data.message}</strong>
+        //                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        //                         <span aria-hidden="true">&times;</span>
+        //                     </button>
+        //                 </div>`;
+        //                 setTimeout(() => {
+        //                     document.getElementById('paymentMessage').innerHTML = ""
+        //                 }, 3000);
+
+        //                 if(data.shipping){
+        //                     document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
+        //                 }else{
+        //                     document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ Free"
+        //                 }
+
+        //                 document.getElementById('totalAmount').innerText = data.totalAmount
+        //                 document.getElementById('discountAmount').style.display = "none"
+                        
+        //                 document.getElementById('couponInputBox').innerHTML=
+        //                                             `<input type="text" id="couponName" class="form-control text-uppercase rounded"
+        //                                                 placeholder="Coupon name" aria-label="Recipient's username"
+        //                                                 aria-describedby="basic-addon2">
+        //                                             <div class="input-group-append">
+        //                                                 <button class="btn btn-warning" type="button"
+        //                                                 onclick="applyCoupon('${userId}')">Apply</button>
+        //                                             </div>`
+        //                 document.getElementById('couponMessage').innerHTML = ""
+        //             })
+        //         }
+
+
+
+        //         let orderData = await response.json();
+        //         console.log(orderData);
+        //         var options = {
+        //             key: "rzp_test_ifEOe80qfCYvOK",
+        //             amount: orderTotalAmount * 100,
+        //             currency: "INR",
+        //             name: "Bookworm",
+        //             description: "Test Transaction",
+        //             image: "../adminLogin/images/img-02.png",
+        //             order_id: orderData.options.id,
+        //             handler: function (response) {
+        //                 // Add a function call to store the order information in the database after successful payment
+        //                 console.log(response)
+        //                 storeOrderData(response, orderData.options, orderData.userDetails._id, orderAddress);
+        //             },
+        //             prefill: {
+        //                 name: orderData.userDetails.username,
+        //                 email: orderData.userDetails.email,
+        //                 contact: orderData.userDetails.phoneNumber
+        //             },
+        //             theme: {
+        //                 color: "#ffb30e"
+        //             }
+        //         };
+        //         var rzp1 = new Razorpay(options);
+        //         rzp1.open();
+        //     } catch (error) {
+        //         console.error("Error fetching order data:", error);
+        //     }
+        // });
+
+
+        // function storeOrderData(payment, order, userId, address) {
+        //     const url = window.location.origin;
+        //     console.log(url);
+        //     fetch(`${url}/verifyOnlinePayment`, {
+        //         method: 'PUT',
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({
+        //             payment,
+        //             order,
+        //             userId,
+        //             address
+        //         })
+        //     }).then((response) => {
+        //         if (response.ok) {
+        //             return response.json();
+        //         }
+        //         throw new Error('Network response was not ok');
+        //     })
+        //     .then((response) => {
+        //         if (response.status === 200) {
+        //             return response.json().then((data) => {
+        //                 console.log(data, 'This is data');
+        //                 swal({
+        //                     title: "Order Placed Successfully!",
+        //                     text: `Your order has been placed successfully! Your order id is ${data.orderId}`,
+        //                     icon: "success",
+        //                     button: "Okay",
+        //                 })
+        //                     .then(() => {
+        //                         window.location.href = `/myOrder/${userId}`;
+        //                     });
+        //                 setTimeout(() => {
+        //                     window.location.href = `/myOrder/${userId}`;
+        //                 }, 3000);
+        //             })
+        //         }else if (response.status === 400){
+        //             return response.json().then((data) => {
+        //                 couponApply = false
+        //                 document.getElementById('paymentMessage').innerHTML = 
+        //                 `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+        //                     <strong>${data.message}</strong>
+        //                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        //                         <span aria-hidden="true">&times;</span>
+        //                     </button>
+        //                 </div>`;
+        //                 setTimeout(() => {
+        //                     document.getElementById('paymentMessage').innerHTML = ""
+        //                 }, 3000);
+
+        //                 if(data.shipping){
+        //                     document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
+        //                 }else{
+        //                     document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ Free"
+        //                 }
+
+        //                 document.getElementById('totalAmount').innerText = data.totalAmount
+        //                 document.getElementById('discountAmount').style.display = "none"
+                        
+        //                 document.getElementById('couponInputBox').innerHTML=
+        //                                             `<input type="text" id="couponName" class="form-control text-uppercase rounded"
+        //                                                 placeholder="Coupon name" aria-label="Recipient's username"
+        //                                                 aria-describedby="basic-addon2">
+        //                                             <div class="input-group-append">
+        //                                                 <button class="btn btn-warning" type="button"
+        //                                                 onclick="applyCoupon('${userId}')">Apply</button>
+        //                                             </div>`
+        //                 document.getElementById('couponMessage').innerHTML = ""
+        //             })
+        //         }
+        //     })
+        //         .catch((error) => {
+        //             console.error(`There was a problem with the fetch operation: ${error.message}`);
+        //             // Show error modal
+        //             swal({
+        //                 title: "Error",
+        //                 text: "There was an error placing your order. Please try again later.",
+        //                 icon: "error",
+        //                 button: "Okay",
+        //             });
+        //         });
+        // }
+
+
+      
+      
+      
         function applyCoupon(userId) {
             const couponName = document.getElementById('couponName').value;
             const couponMessage = document.getElementById('couponMessage');
@@ -989,6 +1226,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 if (response.status === 200) {
                     return response.json().then((data) => {
                         console.log(data);
+                        couponApply = true
                         const discountTotal = parseInt(data.discountTotal)
                         const discountAmount = parseInt(data.discountAmount)
                         couponMessage.innerHTML =
@@ -1016,7 +1254,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 } else if (response.status === 400) {
                     return response.json().then((data) => {
                         console.log(data);
-
+                        couponApply = false
                         couponMessage.innerHTML =
                             `<div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <strong>${data.message}</strong>
@@ -1060,7 +1298,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 })
             }).then((response) => response.json())
             .then((data)=>{
-
+                couponApply = false
                 couponMessage.innerHTML =
                         `<div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <strong>${data.message}</strong>
@@ -1071,7 +1309,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
 
                 setTimeout(() => {
                     couponMessage.innerHTML = `<div></div>`
-                }, 5000);
+                }, 3000);
 
                 if(data.shipping){
                     document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
@@ -1093,8 +1331,10 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
         }
 
     </script>
-    <!-- setTimeout(() => {
-        }, 5000); -->
+
+
+
+
     <script type="text/javascript"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
