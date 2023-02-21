@@ -912,6 +912,25 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
             const userId = "<%= userDetails._id %>";
             const orderTotalAmount = document.getElementById("totalAmount").innerText;
             const orderAddress = document.getElementById("orderAddress").innerText;
+
+            if(orderAddress == "Please Add Address"){
+                document.getElementById('paymentMessage').innerHTML = 
+                        `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Address Not Found</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+                setTimeout(() => {
+                    document.getElementById('paymentMessage').innerHTML = ""
+                }, 3000);
+                return false
+            }
+            let couponName = false
+            if(couponApply){
+                couponName =  document.getElementById('couponName').value;
+            }
+
             const url = window.location.origin;
             console.log(url);
             try {
@@ -923,9 +942,46 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                     },
                     body: JSON.stringify({
                         address: orderAddress,
-                        totalAmount: orderTotalAmount
+                        totalAmount: orderTotalAmount,
+                        couponName
                     })
                 });
+
+                if (response.status === 400){
+                    return response.json().then((data) => {
+                        couponApply = false
+                        document.getElementById('paymentMessage').innerHTML = 
+                        `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>${data.message}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+                        setTimeout(() => {
+                            document.getElementById('paymentMessage').innerHTML = ""
+                        }, 3000);
+
+                        if(data.shipping){
+                            document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ 40"
+                        }else{
+                            document.getElementById('shippingFee').innerText = "Shipping Fee : ₹ Free"
+                        }
+
+                        document.getElementById('totalAmount').innerText = data.totalAmount
+                        document.getElementById('discountAmount').style.display = "none"
+                        
+                        document.getElementById('couponInputBox').innerHTML=
+                                                    `<input type="text" id="couponName" class="form-control text-uppercase rounded"
+                                                        placeholder="Coupon name" aria-label="Recipient's username"
+                                                        aria-describedby="basic-addon2">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-warning" type="button"
+                                                        onclick="applyCoupon('${userId}')">Apply</button>
+                                                    </div>`
+                        document.getElementById('couponMessage').innerHTML = ""
+                    })
+                }
+
                 let orderData = await response.json();
                 console.log(orderData)
                 var options = {
@@ -939,7 +995,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                     handler: function (response) {
                         // Add a function call to store the order information in the database after successful payment
                         console.log(response)
-                        storeOrderData(response, orderData.options, orderData.userDetails._id, orderAddress);
+                        storeOrderData(response, orderData.options, orderData.userDetails._id, orderAddress, orderData.couponName);
                     },
                     prefill: {
                         name: orderData.userDetails.username,
@@ -956,7 +1012,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 console.error("Error fetching order data:", error);
             }
         });
-        function storeOrderData(payment, order, userId, address) {
+        function storeOrderData(payment, order, userId, address, couponName) {
             const url = window.location.origin;
             console.log(url);
             fetch(`${url}/verifyOnlinePayment`, {
@@ -969,7 +1025,8 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                     payment,
                     order,
                     userId,
-                    address
+                    address,
+                    couponName
                 })
             }).then((response) => {
                 if (response.ok) {

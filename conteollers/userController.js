@@ -993,7 +993,7 @@ const cashOnDelivary = async (req, res) => {
         }
         return res.status(400).send({message:"Coupon name not valid",totalAmount,shipping})
       }
-      couponInfo.users.push(req.body.userId);
+      couponInfo.users.push(userId);
       await couponInfo.save();
     }
 
@@ -1051,7 +1051,6 @@ const cashOnDelivary = async (req, res) => {
 //         }
 //         return res.status(400).send({message:"Coupon name not valid",totalAmount,shipping})
 //       }
-
 //     }
 
 
@@ -1152,9 +1151,28 @@ const cashOnDelivary = async (req, res) => {
 
 const onlinePayment = async (req, res) => {
   try {
-    console.log("hiiiiiiiiiiiiiiii  1")
+
+    const userId = req.query.userId;
+    let couponName = req.body.couponName;
+    if(couponName){
+      const couponInfo = await coupon.findOne({ couponName });
+
+      const carts = await cart.find({user: userId}).populate('user').populate('product').
+      populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
+      
+      let totalAmount = productTotal(carts)
+      let shipping = false;
+
+      if(!couponInfo){
+        if(totalAmount<400){
+          totalAmount = totalAmount + 40;
+          shipping = true;
+        }
+        return res.status(400).send({message:"Coupon name not valid",totalAmount,shipping})
+      }
+    }
+
     const amount = req.body.totalAmount;
-    console.log("hiiiiiiiiiiiiiiii  2")
     const lastOrder = await order.find().sort({ _id: -1 }).limit(1);
     let orderId = 'BKWM000001';
     if (lastOrder.length > 0) {
@@ -1163,7 +1181,6 @@ const onlinePayment = async (req, res) => {
       orderId = `BKWM${("000000" + (orderIdNumber + 1)).slice(-6)}`;
     }
 
-    console.log("hiiiiiiiiiiiiiiii  3")
 
     const razorpayInstance = new Razorpay({
       key_id: "rzp_test_MfMHXbdBnx5BYx",
@@ -1171,26 +1188,24 @@ const onlinePayment = async (req, res) => {
     });
 
 
-    console.log("hiiiiiiiiiiiiiiii  4")
 
     let options = await razorpayInstance.orders.create({
       amount: amount * 100, 
       currency: "INR",
       receipt: orderId
     });
+ 
+    console.log("Option : ",options)
 
-    console.log("hiiiiiiiiiiiiiiii  5") 
-
-    const userId = req.query.userId;
     const userDetails = await user.findOne({_id: userId});
 
-    console.log("hiiiiiiiiiiiiiiii  6")
 
     res.status(201).json({
       success: true,
       options,
       userDetails,
-      amount
+      amount,
+      couponName
     });
   } catch (err) {
     console.error(`Error Online Payment:`, err);
@@ -1219,6 +1234,13 @@ const verifyOnlinePayment = async (req, res) => {
       let productArray = cartItems.map(item => {
         return { productId: item.product, quantity: item.quantity };
       });
+
+      let couponName = req.body.couponName;
+      if(couponName){
+        const couponInfo = await coupon.findOne({ couponName });
+        couponInfo.users.push(userId);
+        await couponInfo.save();
+      }
 
       const newOrder = new order({
         orderId : orderDetails.receipt,
