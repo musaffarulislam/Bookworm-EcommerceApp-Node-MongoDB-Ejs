@@ -323,38 +323,35 @@
                           </td>
                           <td>
                             Quantity : <%= product?.quantity %>
-                              <!-- <input type="text" class="form-control" placeholder="1"> -->
-                              <!-- <div class="wrap-num-product flex-w"> 
-                                  <input class="mtext-104 cl3 txt-center num-product" type="number" name="countProduct" min="1" step="1" value="<%= product?.quantity %>">
-                              </div> -->
                           </td>
 
                         </tr>
                     </tbody>
                   </table>
                   <% }) %>
-                  <% if (order.status != "Complete") { %>
-                  <hr>
-                  <div class="m-t-sm d-flex justify-content-center mb-2">
-                    <a id="removeCart" onclick="orderDeleteSwal('<%= order?._id %>','<%= order?.orderId %>')" class="text-muted" style="cursor: pointer;"><i class="fa fa-trash"></i> Delete Order</a>
-                    
-                    <script>
+                  <% if (order.status != "Complete" && order.status != "Delete") { %>
+                  <div id="orderCancel<%= order._id %>">
+                    <hr>
+                    <div class="m-t-sm d-flex justify-content-center mb-2">
+                      <a id="removeCart" onclick="orderDeleteSwal('<%= order?._id %>','<%= order?.orderId %>')" class="text-muted" style="cursor: pointer;"><i class="fa fa-trash"></i> Cancel Order</a>
                       
-                        function orderDeleteSwal(orderId,customOrderId){
-                          // Display Swal dialog
-                          swal({
-                            title: "Are you sure?",
-                            text: `${customOrderId} Delete or Not`,
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true,
-                          }).then((data)=>{
-                            orderDelete(orderId)
-                          }).catch(error => {
-                            swal("Error", "Order Not Delete", "error");
-                          });
-                      }
-                    </script>
+                      <script>
+                          function orderDeleteSwal(orderId,customOrderId){
+                            // Display Swal dialog
+                            swal({
+                              title: "Are you sure?",
+                              text: `${customOrderId} Cancel or Not`,
+                              icon: "warning",
+                              buttons: true,
+                              dangerMode: true,
+                            }).then((data)=>{
+                              orderDelete(orderId)
+                            }).catch(error => {
+                              swal("Error", "Order Not Delete", "error");
+                            });
+                        }
+                      </script>
+                    </div>
                   </div>
                   <% } %>
                 </div>
@@ -379,31 +376,52 @@
                 </h4>
               </div>
                 <hr>
-                <% if (order.status != "Complete") { %>
-                <div class="btn btn-outline-danger d-flex justify-content-center">
-                  Payment Method : <%= order?.paymentMethod %>
-                </div>
-                <hr>
+                <% if (order.status != "Complete" && order.status != "Delete") { %>
+                  <div id="orderPaymentCancel<%= order?._id %>">
+                    <div class="btn btn-outline-danger d-flex justify-content-center">
+                      Payment Method : <%= order?.paymentMethod %>
+                    </div>
+                    <hr>
+                  </div>
                 <% } %>
                 <!-- <span class="text-muted"> -->
-                <h5>
+                
                   <% if(order.status == "Pending") {%>
-                    <span class="badge bg-danger d-flex justify-content-center">
-                      Order Checking
-                    </span>
+                    <div id="orderStatus<%= order?._id %>">
+                      <h5>
+                      <span class="badge bg-danger d-flex justify-content-center">
+                        Order Checking
+                      </span>
+                      </h5>
+                    </div>
                   <% }else if(order.status == "On The Way"){ %>
-                    <span class="badge bg-primary d-flex justify-content-center">
-                      <%= order?.status %>
-                    </span>
+                    <div id="orderStatus<%= order?._id %>">
+                      <h5>
+                        <span class="badge bg-primary d-flex justify-content-center">
+                          <%= order?.status %>
+                        </span>
+                      </h5>
+                    </div>
+                  <% }else if(order.status == "Delete"){ %>
+                    <div id="orderStatus<%= order?._id %>">
+                      <h5>
+                        <span class="badge bg-dark d-flex justify-content-center">
+                          Cancel Order
+                        </span>
+                      </h5>
+                    </div>
                   <% }else{ %>
-                    <span class="badge bg-success d-flex justify-content-center">
-                      Order Complete
-                    </span>
+                    <div id="orderStatus<%= order?._id %>">
+                      <h5>
+                        <span class="badge bg-success d-flex justify-content-center">
+                          Order Complete
+                        </span>
+                      </h5>
+                    </div>
                   <% } %>
-                </h5>
                 <!-- </span> -->
               </div>
-              <% if (order.status != "Complete") { %>
+              <% if (order.status != "Complete" || order.status != "Delete") { %>
               <div class="ibox-content text-center">
                 <div>
                   <h6>Address</h6>
@@ -460,7 +478,13 @@
         }
       }).then((response)=>response)
       .then((data)=>{
-        document.getElementById(`order${orderId}`).remove()
+        console.log("hiiiiiiiiiiiiiiiiiii");
+        document.getElementById(`orderStatus${orderId}`).innerHTML = 
+                      `<h5><span class="badge bg-dark d-flex justify-content-center">
+                        Cancel Order
+                      </span></h5>`
+        document.getElementById(`orderPaymentCancel${orderId}`).innerHTML = "";
+        document.getElementById(`orderCancel${orderId}`).innerHTML = "";
       })
     }
   </script>

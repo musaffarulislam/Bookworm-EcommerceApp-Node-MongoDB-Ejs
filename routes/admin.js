@@ -80,6 +80,10 @@ router.get('/changeCompleteOrder/:id',midleware.adminSession,adminController.cha
 
 router.get('/completeManagement',midleware.adminSession,adminController.renderCompleteManagement);
 
+router.get('/changeDeleteOrder/:id',midleware.adminSession,adminController.changeDeleteOrder);
+
+router.get('/deleteManagement',midleware.adminSession,adminController.renderDeleteManagement);
+
 router.get('/logout',adminController.logout);
 
 module.exports=router;

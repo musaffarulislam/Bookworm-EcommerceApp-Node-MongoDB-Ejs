@@ -3,10 +3,12 @@
 <!-- =========================================================
 * Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
 ==============================================================
+
 * Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
 * Created by: ThemeSelection
 * License: You must have a valid license purchased in order to legally use the theme for your project.
 * Copyright ThemeSelection (https://themeselection.com)
+
 =========================================================
  -->
 <!-- beautify ignore:start -->
@@ -58,9 +60,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 
-    <!-- Page CSS -->
+
+
 
     <!-- Helpers -->
     <script src="../admin/assets/vendor/js/helpers.js"></script>
@@ -102,37 +106,36 @@
             <!-- Order -->
 
             <li class="menu-header small text-uppercase">
-                <span class="menu-header-text">Order</span>
-              </li>
-              <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                  <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                  <div data-i18n="Account Settings">Order Management</div>
-                </a>
-                <ul class="menu-sub">
-                  <li class="menu-item active">
-                    <a href="/admin/pendingManagement" class="menu-link">
-                      <div data-i18n="Account">Pending</div>
-                    </a>
-                  </li>
-                  <li class="menu-item">
-                    <a href="/admin/onthewayManagement" class="menu-link">
-                      <div data-i18n="On The Way">On the Way</div>
-                    </a>
-                  </li>
-                  <li class="menu-item">
-                    <a href="/admin/completeManagement" class="menu-link">
-                      <div data-i18n="Complete">Complete</div>
-                    </a>
-                  </li>
-                  <li class="menu-item">
-                    <a href="/admin/deleteManagement" class="menu-link">
-                      <div data-i18n="Complete">Delete</div>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-  
+              <span class="menu-header-text">Order</span>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <div data-i18n="Account Settings">Order Management</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="/admin/pendingManagement" class="menu-link">
+                    <div data-i18n="Account">Pending</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/admin/onthewayManagement" class="menu-link">
+                    <div data-i18n="On The Way">On the Way</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/admin/completeManagement" class="menu-link">
+                    <div data-i18n="Complete">Complete</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/admin/deleteManagement" class="menu-link">
+                    <div data-i18n="Complete">Delete</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
 
             <!-- Tables -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Managments</span></li>
@@ -143,8 +146,7 @@
                 <div data-i18n="Tables">User</div>
               </a>
             </li>
-            
-            
+
             <li class="menu-item">
               <a href="/admin/productManagement" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
@@ -152,6 +154,7 @@
               </a>
             </li>
 
+            
 
             <!-- Tables -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Sub Managments</span></li>
@@ -168,7 +171,7 @@
             <li class="menu-item">
               <a href="/admin/genreManagement" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Genre</div>
+                <div data-i18n="Tables active">Genre</div>
               </a>
             </li>
 
@@ -179,7 +182,7 @@
               </a>
             </li>
 
-            <li class="menu-item">
+            <li class="menu-item active">
               <a href="/admin/bannerManagement" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables active">Banner</div>
@@ -187,7 +190,6 @@
             </li>
 
 
-            
           </ul>
         </aside>
         <!-- / Menu -->
@@ -298,61 +300,153 @@
           </nav>
           <!-- / Navbar -->
 
+          <!-- Warning -->
+          <% if(warning) {%>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                    <button type="button" class="close" id="closeBtn" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <%= warning%>
+                  </div>
+                  <div class="modal-footer">
+                    <a href=""><button type="button" class="btn btn-primary" id="closeBtn" data-dismiss="modal">Close</button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <!-- / warning -->
+
+
           <!-- Content wrapper -->
           <div class="content-wrapper">
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"> User Management</h4>
+              <div class="d-flex justify-content-between">
+                <h4 class="fw-bold py-3 mb-4"> Genre Management</h4>
+               <button type="button" class="btn btn-danger" style="height: 50px;" data-toggle="modal" data-target="#exampleModal2">Add Genre</button>
+              </div>       
+
+              <!-- ============================================-->
+              <!-- model login ============================-->
+
+                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <form id="addGenre" action="/admin/addGenre" method="post">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Add Genre</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-outline mb-1">
+                            <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
+                              <input type="text" id="genre" class="form-control form-control-lg" name="genre" required/>  
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              <!-- model login ============================-->
+              <!-- ============================================-->
+
             
                           <div class="card">
-                            <h5 class="card-header">User Management</h5>
-                            <div class="table-responsive p-3">
+                            <h5 class="card-header">Genre Management</h5>
+                            <div class="table-responsive text-nowrap p-3">
                               <table class="table table-dark py-3" id="example">
                                 <thead>
                                   <tr>
-                                    <th>User Name</th>
-                                    <th>Product Details</th>
-                                    <th>Address</th>
-                                    <th>Amount</th>
+                                    <th>Genre</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                   </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                  <% orders.forEach((order) => { %>
-                                  <tr>  
-                                    <td width="15%"><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><%= order?.user?.username %></strong></td>
-                                    <td width="25%">
-                                        <% order.product.forEach(function(product) { %>
-                                            <%= product?.productId?.bookName %> x <%= product?.quantity %><br>
-                                        <% }); %>
-                                    </td>
-                                    <td width="25%"><%= order.address %></td>
-                                    <td width="15%"><%= order.totalAmount %></td>
-                                    <td width="10%"><span class="badge bg-label-danger me-1"><%= order.status %></span></td>
-                                    <td width="10%">
-                                      <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                          <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="/admin/changeOnTheWayOrder/<%= order._id %>" ><i class="bx bx-block me-1"></i> On the Way</a>
-                                            <a class="dropdown-item" href="/admin/changeDeleteOrder/<%= order._id %>"><i class="bx bx-lock-open-alt me-1"></i> Cancel</a>  
+                                  <% let i = 1 %>
+                                  <% genres.forEach((genre) => { %>
+                                    <tr>  
+                                      <td width="30%"><strong><%= genre.genreName %></strong></td>
+     
+                                      <% if (genre.delete) {%>
+                                        <td width="20%"><span class="badge bg-label-success me-1">Active</span></td>
+                                      <% }else{ %>
+                                        <td width="20%"><span class="badge bg-label-warning me-1">delete</span></td>
+                                      <% } %>
+                                      <td width="20%">
+                                        <div class="dropdown">
+                                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded" style="color: aliceblue;"></i>
+                                          </button>
+                                          <div class="dropdown-menu">
+                                            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit<%= genre.genreName %>"><i class="bx bx-edit-alt me-1"></i> Edit</button>
+                                            <% if (genre.delete) {%>
+                                              <a class="dropdown-item" href="/admin/deleteGenre/<%= genre._id %>"><i class="bx bx-trash me-1"></i> Delete</a>
+                                            <% }else{ %>
+                                              <a class="dropdown-item" href="/admin/undeleteGenre/<%= genre._id %>"><i class="bx bx-recycle me-1"></i> Un Delete</a>
+                                            <% } %>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </td>
-                                  </tr>
+                                      </td>
+                                    </tr>
+
+                                        <!-- ============================================-->
+                                        <!-- model login ============================-->
+
+                                        <div class="modal fade" id="edit<%= genre.genreName %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                          <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                              <form id="editGenre" action="/admin/editGenre/<%= genre._id %>" method="post">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLongTitle">Edit Genre</h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <div class="form-outline mb-1">
+                                                    <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
+                                                    <input type="text" id="genre" class="form-control form-control-lg" name="genre" value="<%= genre.genreName%>" required/>
+                                                    <input type="hidden" id="genredelete" class="form-control form-control-lg" name="genreDelete" value="<%= genre.delete%>" required/>  
+                                                  </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                  <button type="submit" class="btn btn-primary">Edit</button>
+                                                </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      <!-- model login ============================-->
+                                      <!-- ============================================-->
+
                                   <% }) %>
+                                  
                                 </tbody>
                               </table>
                             </div>
                           </div>
               </div>
           </div>
-          
-          <!-- / Layout page -->
         </div>
-      
+ 
+
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
         <script>
@@ -363,20 +457,40 @@
           "searching": true
           });
         </script>
+
+
+    <script>$
+      (document).ready(function(){
+      $('#myModal').modal('show');
+      $('#closeBtn').click(function(){
+        $('#myModal').modal('hide');
+      });
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../admin/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../admin/assets/vendor/libs/popper/popper.js"></script>
     <script src="../admin/assets/vendor/js/bootstrap.js"></script>
     <script src="../admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
     <script src="../admin/assets/vendor/js/menu.js"></script>
     <!-- endbuild -->
+
     <!-- Vendors JS -->
     <script src="../admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
     <!-- Main JS -->
     <script src="../admin/assets/js/main.js"></script>
+
     <!-- Page JS -->
     <script src="../admin/assets/js/dashboards-analytics.js"></script>
+
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>

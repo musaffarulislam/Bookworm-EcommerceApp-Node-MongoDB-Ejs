@@ -102,37 +102,36 @@
             <!-- Order -->
 
             <li class="menu-header small text-uppercase">
-                <span class="menu-header-text">Order</span>
-              </li>
-              <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                  <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                  <div data-i18n="Account Settings">Order Management</div>
-                </a>
-                <ul class="menu-sub">
-                  <li class="menu-item active">
-                    <a href="/admin/pendingManagement" class="menu-link">
-                      <div data-i18n="Account">Pending</div>
-                    </a>
-                  </li>
-                  <li class="menu-item">
-                    <a href="/admin/onthewayManagement" class="menu-link">
-                      <div data-i18n="On The Way">On the Way</div>
-                    </a>
-                  </li>
-                  <li class="menu-item">
-                    <a href="/admin/completeManagement" class="menu-link">
-                      <div data-i18n="Complete">Complete</div>
-                    </a>
-                  </li>
-                  <li class="menu-item">
-                    <a href="/admin/deleteManagement" class="menu-link">
-                      <div data-i18n="Complete">Delete</div>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-  
+              <span class="menu-header-text">Order</span>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <div data-i18n="Account Settings">Order Management</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="/admin/pendingManagement" class="menu-link">
+                    <div data-i18n="Account">Pending</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/admin/onthewayManagement" class="menu-link">
+                    <div data-i18n="On The Way">On the Way</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="/admin/completeManagement" class="menu-link">
+                    <div data-i18n="Complete">Complete</div>
+                  </a>
+                </li>
+                <li class="menu-item active">
+                  <a href="/admin/deleteManagement" class="menu-link">
+                    <div data-i18n="Complete">Delete</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
 
             <!-- Tables -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Managments</span></li>
@@ -171,6 +170,7 @@
                 <div data-i18n="Tables">Genre</div>
               </a>
             </li>
+
 
             <li class="menu-item">
               <a href="/admin/couponManagement" class="menu-link">
@@ -315,32 +315,20 @@
                                     <th>Address</th>
                                     <th>Amount</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
                                   </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                   <% orders.forEach((order) => { %>
                                   <tr>  
                                     <td width="15%"><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><%= order?.user?.username %></strong></td>
-                                    <td width="25%">
+                                    <td width="30%">
                                         <% order.product.forEach(function(product) { %>
                                             <%= product?.productId?.bookName %> x <%= product?.quantity %><br>
                                         <% }); %>
                                     </td>
-                                    <td width="25%"><%= order.address %></td>
+                                    <td width="30%"><%= order.address %></td>
                                     <td width="15%"><%= order.totalAmount %></td>
-                                    <td width="10%"><span class="badge bg-label-danger me-1"><%= order.status %></span></td>
-                                    <td width="10%">
-                                      <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                          <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="/admin/changeOnTheWayOrder/<%= order._id %>" ><i class="bx bx-block me-1"></i> On the Way</a>
-                                            <a class="dropdown-item" href="/admin/changeDeleteOrder/<%= order._id %>"><i class="bx bx-lock-open-alt me-1"></i> Cancel</a>  
-                                        </div>
-                                      </div>
-                                    </td>
+                                    <td width="10%"><span class="badge bg-label-success me-1"><%= order.status %></span></td>
                                   </tr>
                                   <% }) %>
                                 </tbody>

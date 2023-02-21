@@ -489,7 +489,7 @@ const renderMyOrder = async (req,res) =>{
 const orderDelete = async (req,res) => {
   try{
     const orderId = req.query.orderId;
-    await order.deleteOne({_id: orderId})
+    await order.updateOne({_id: orderId},{$set: { status: "Delete" }})
     res.status(200).send({
       data: "this is data"
     })
@@ -1031,122 +1031,6 @@ const cashOnDelivary = async (req, res) => {
 };
 
 
-// const onlinePayment = async (req, res) => {
-//   try {
-//     const userId = req.query.userId;
-//     let couponName = req.body.couponName;
-//     if(couponName){
-//       const couponInfo = await coupon.findOne({ couponName });
-
-//       const carts = await cart.find({user: userId}).populate('user').populate('product').
-//       populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
-      
-//       let totalAmount = productTotal(carts)
-//       let shipping = false;
-
-//       if(!couponInfo){
-//         if(totalAmount<400){
-//           totalAmount = totalAmount + 40;
-//           shipping = true;
-//         }
-//         return res.status(400).send({message:"Coupon name not valid",totalAmount,shipping})
-//       }
-//     }
-
-
-//     const amount = req.body.totalAmount;
-//     const lastOrder = await order.find().sort({ _id: -1 }).limit(1);
-//     let orderId = 'BKWM000001';
-//     if (lastOrder.length > 0) {
-//       const lastOrderId = lastOrder[0].orderId;
-//       const orderIdNumber = parseInt(lastOrderId.slice(4));
-//       orderId = `BKWM${("000000" + (orderIdNumber + 1)).slice(-6)}`;
-//     }
-
-//     const razorpayInstance = new Razorpay({
-//       key_id: "rzp_test_ifEOe80qfCYvOK",
-//       key_secret: "PIw0PiNYutnX30GerxbnYZNZ"
-//     });
-
-//     let options = await razorpayInstance.orders.create({
-//       amount: amount * 100, 
-//       currency: "INR",
-//       receipt: orderId
-//     });
-
-//     console.log(options)
-
-    
-//     const userDetails = await user.findOne({_id: userId});
-
-//     res.status(201).json({
-//       success: true,
-//       options,
-//       userDetails,
-//       amount,
-//       couponName
-//     });
-//   } catch (err) {
-//     console.error(`Error Online Payment:`, err);
-//     res.status(500).json({
-//       success: false,
-//       error: "Internal server error"
-//     });
-//   }
-// };
-
-
-
-
-// const verifyOnlinePayment = async (req, res) => {
-//   try {
-//     console.log(req.body);
-//     const payment = req.body.payment;
-//     const orderDetails = req.body.order
-//     let hmac = crypto.createHmac('sha256','PIw0PiNYutnX30GerxbnYZNZ')
-//     hmac.update(payment.razorpay_order_id +'|'+ payment.razorpay_payment_id)
-//     hmac=hmac.digest('hex')
-
-//     if(hmac == payment.razorpay_signature){
-//       const userId = req.body.userId;
-//       const cartItems = await cart.find({ user: userId });
-
-//       let productArray = cartItems.map(item => {
-//         return { productId: item.product, quantity: item.quantity };
-//       });
-
-//       let couponName = req.body.couponName;
-//       if(couponName){
-//         const couponInfo = await coupon.findOne({ couponName });
-//         couponInfo.users.push(userId);
-//         await couponInfo.save();
-//       }
-
-//       const newOrder = new order({
-//         orderId : orderDetails.receipt,
-//         user: userId,
-//         product: productArray,
-//         address: req.body.address,
-//         totalAmount: orderDetails.amount/100,
-//         paymentMethod: "Online",
-//       });
-  
-//       await newOrder.save();
-  
-//       await cart.deleteMany({ user: userId });
-  
-//       const orderId = orderDetails.receipt
-//       res.status(200).send({ orderId });
-//     }
-
-//   } catch (err) {
-//     console.error(`Error Verify Online Payment:`, err);
-//     res.status(500).json({
-//       success: false,
-//       error: "Internal server error"
-//     });
-//   }
-// };
 
 
 const onlinePayment = async (req, res) => {

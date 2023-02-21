@@ -678,6 +678,43 @@ const renderCompleteManagement = async (req,res) =>{
 }
 
 
+const changeDeleteOrder = async (req,res) =>{
+    try{
+        await order.updateOne({_id: req.params.id},{$set: { status: "Delete" }})
+        res.redirect('/admin/orderDeleteManagement');
+    }catch(err){
+        console.error(`Error change Complete Order : ${err}`);
+        res.redirect('/admin/genreManagement');
+    }
+}
+
+
+const renderDeleteManagement = async (req,res) =>{
+    try{
+        let orders = await order.find({status: "Delete"}).populate("user")
+        .populate({
+          path: "product.productId",
+          model: "book",
+          populate: [
+            {
+              path: "author",
+              model: "author"
+            },
+            {
+              path: "genre",
+              model: "genre"
+            }
+          ]
+        })
+        res.render('admin/orderDeleteManagment.ejs',{orders});
+    }catch(err){
+        console.error(`Error Get Delete Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+
+
 const logout = (req,res)=>{
     req.session.adminemail = null;
     res.redirect("/admin");
@@ -723,6 +760,8 @@ module.exports = {
     renderOnTheWayManagement,
     changeCompleteOrder,
     renderCompleteManagement,
+    changeDeleteOrder,
+    renderDeleteManagement,
 
     logout,
 }
