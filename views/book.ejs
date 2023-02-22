@@ -92,8 +92,8 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
                 <ul class="nav navbar-nav menu_nav ml-auto">
-                  <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-                  <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                  <li class="nav-item active"><a class="nav-link" href="/book">Book</a></li>
                   <% if (userDetails) { %>
                     <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
                     <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
@@ -260,9 +260,9 @@
                             <input class="form-control input-box form-foodwagon-control" id="searchBook" type="text" placeholder="Enter Book Name" onkeyup="searchBookInput()" >
                           </div>
                         </div>
-                        <div class="d-grid gap-3 col-sm-auto">
+                        <!-- <div class="d-grid gap-3 col-sm-auto">
                           <button class="btn btn-danger" type="submit">Find Book</button>
-                        </div>
+                        </div> -->
                       </form>
                     </div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -273,9 +273,9 @@
                             <input class="form-control input-box form-foodwagon-control" id="searchAuthor" type="text" placeholder="Enter Author Name" onkeyup="searchAuthorInput()" />
                           </div>
                         </div>
-                        <div class="d-grid gap-3 col-sm-auto">
+                        <!-- <div class="d-grid gap-3 col-sm-auto">
                           <button class="btn btn-danger" type="submit">Find Author</button>
-                        </div>
+                        </div> -->
                       </form>
                     </div>
                   </div>
@@ -291,7 +291,7 @@
 
       <!-- ============================================-->
       <!-- card ============================-->
-      <section class="food_section layout_padding-bottom">
+      <section class="food_section layout_padding-bottom pt-5">
         <div class="container">
           <div class="heading_container heading_center">
             <h2>
@@ -311,7 +311,7 @@
 
           <div class="filters-content">
             <div class="row grid" id="bookList">
-              <% books.forEach((book,index) =>{ %>
+              <% books.forEach((book) =>{ %>
 
                   <div class="col-sm-6 col-lg-4 books item <%= book?.genre?.genreName %> <%= book.language %> <%= book.rating %>" id="">
                     <div class="box">
@@ -452,18 +452,10 @@
               <% }) %>
             </div>
           </div>
-          <div class="btn-box">
-            <a href="/book">
-              View More
-            </a>
-          </div>
         </div>
       </section>
       <!-- card ============================-->
       <!-- ============================================-->
-
-
-
 
 
     </main>

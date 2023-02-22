@@ -16,11 +16,13 @@ const order = require('../models/orderModel')
 const author = require('../models/authorModel')
 const book = require('../models/bookModel')
 const genre = require('../models/genreModel')
+const banner = require('../models/bannerModel')
 const UserOTPVerification = require('../models/userOTPVerification');
 
 
 const renderHome = async (req,res)=>{
-  let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre')
+  let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre');
+  let banners = await banner.findOne({banner: true}).populate('bigCard1ProductId').populate('bigCard2ProductId')
   req.session.userInfo = false
   let userId = req.session.user;
   let userDetails = false;
@@ -29,7 +31,7 @@ const renderHome = async (req,res)=>{
   }
   let warning = req.session.errormsg;
   req.session.errormsg = false;
-  res.render('index',{ title: "Home",books,userDetails,warning});
+  res.render('index',{ title: "Home",books,banners,userDetails,warning});
 }
 
 
@@ -158,16 +160,6 @@ const userSignup = async (req, res) => {
         };
 
         res.redirect('/otp')
-        // res.redirect(`/otp?userName=${User.username}&email=${User.email}&phoneNumber=${User.phoneNumber}&age=${User.age}&=${User.password}&block=${User.block}&expiresAt=${expirationTime}`);
-        // res.status(200).send({message:"Signup success",
-        //   userName : User.username,
-        //   email : User.email,
-        //   phoneNumber : User.phoneNumber,
-        //   age : User.age,
-        //   password : User.password,
-        //   block : User.block,
-        //   expiresAt : expirationTime
-        // })
       });
     } catch (err) {
       console.error(`Error inserting user: ${err}`);
@@ -176,11 +168,8 @@ const userSignup = async (req, res) => {
 
 const renderOTP = (req,res) => {
     const userInfo = req.session.userInfo;
-    console.log(userInfo);
     warning = false;
-    console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-    
-    // res.status(200).send({status:200,title:"OTP",userInfo})
+
     return res.render('otp',{title: 'Otp',userInfo})
 }
 
@@ -502,13 +491,16 @@ const orderDelete = async (req,res) => {
 
 
 const renderBook = async (req,res)=>{
+    let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre')
+    req.session.userInfo = false
     let userId = req.session.user;
     let userDetails = false;
     if(userId){
       userDetails = await user.findOne({_id: userId})
     }
     let warning = req.session.errormsg;
-    res.render('book',{title: 'Book',userDetails,warning});
+    req.session.errormsg = false;
+    res.render('book',{ title: "Books",books,userDetails,warning});
 }
 
 

@@ -208,19 +208,7 @@
             </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-              <!-- Search -->
-              <div class="navbar-nav align-items-center">
-                <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
-                  <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  />
-                </div>
-              </div>
-              <!-- /Search -->
+          
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Place this tag where you want the button to render. -->
@@ -336,7 +324,7 @@
                           <div class="card">
                             <h5 class="card-header">Banner Management</h5>
                             <div class="table-responsive p-3">
-                              <table class="table table-dark py-3" id="example">
+                              <table class="table table-dark " id="example">
                                 <thead>
                                   <tr>
                                     <th>SI No.</th>
@@ -352,8 +340,8 @@
                                       <td width="5%">1</td> 
                                       <td width="20%">color Palatte</td>
                                       <td width="25%">
-                                        <% if(banners.colorPalatte) {%>
-                                          <%= banners.colorPalatte %>
+                                        <% if(banners) {%>
+                                          <div id="colorPalatteText"> <%= banners.colorPalatte %></div>
                                         <% }else{ %>
                                           Add Color Palatte
                                         <% } %>
@@ -365,8 +353,8 @@
                                       <td width="5%">2</td> 
                                       <td width="20%">Main Heading</td>
                                       <td width="25%">
-                                        <% if(banners.mainHeading) {%>
-                                          <%= banners.mainHeading %>
+                                        <% if(banners) {%>
+                                          <div id="mainHeadingText"><%= banners.mainHeading %></div>
                                         <% }else{ %>
                                           Add Main Heading
                                         <% } %>
@@ -378,8 +366,8 @@
                                       <td width="5%">3</td> 
                                       <td width="20%">Sub Heading 1</td>
                                       <td width="25%">
-                                        <% if(banners.subHeading1) {%>
-                                          <%= banners.subHeading1 %>
+                                        <% if(banners) {%>
+                                         <div id="subHeading1Text"><%= banners.subHeading1 %></div> 
                                         <% }else{ %>
                                           Add Sub Heading 1
                                         <% } %>
@@ -389,10 +377,10 @@
                                     </tr>
                                     <tr>  
                                       <td width="5%">4</td> 
-                                      <td width="20%">Sub Heading 1</td>
+                                      <td width="20%">Sub Heading 2</td>
                                       <td width="25%">
-                                        <% if(banners.subHeading2) {%>
-                                          <%= banners.subHeading2 %>
+                                        <% if(banners) {%>
+                                          <div id="subHeading2Text"><%= banners.subHeading2 %></div>
                                         <% }else{ %>
                                           Add Sub Heading 2
                                         <% } %>
@@ -404,99 +392,207 @@
                                       <td width="5%">5</td> 
                                       <td width="20%">Home Image</td>
                                       <td width="25%">
-                                        <% if(banners.homeImage) {%>
-                                          <%= banners.homeImage %>
+                                        <% if(banners) {%>
+                                          <img src="../<%= banners.homeImage %>" alt="Home Image" style="width: 100px;"> 
                                         <% }else{ %>
                                           Add Home Image
                                         <% } %>
                                       </td>
-                                      <td width="35%"><input type="file" id="homeImage" class="rounded" name="homeImage"></td>
-                                      <td width="15%"><button type="button" id="btnHomeImage" onclick="homeImage()" class="btn btn-primary">Update</button></td>
+                                      <form action="/admin/homeImage" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" id="oldHomeImage" name="oldHomeImage" value="<%= banners.homeImage %>">
+                                        <td width="35%"><input type="file" id="homeImage" class="rounded" name="homeImage"></td>
+                                        <td width="15%"><button type="submit" id="btnHomeImage" class="btn btn-primary">Update</button></td>
+                                      </form>
                                     </tr>
                                     <tr>  
                                       <td width="5%">6</td> 
-                                      <td width="20%">Big Card Heading 1</td>
+                                      <td width="20%">Big Card 1 Heading 1</td>
                                       <td width="25%">
-                                        <% if(banners.bigCardHeading1) {%>
-                                          <%= banners.bigCardHeading1 %>
+                                        <% if(banners) {%>
+                                          <div id="bigCard1Heading1Text"><%= banners.bigCard1Heading1 %></div>
                                         <% }else{ %>
-                                          Add Big Card Heading 1
+                                          Add Big Card 1 Heading 1
                                         <% } %>
                                       </td>
-                                      <td width="35%"><input type="text" id="bigCardHeading1" class="rounded" name="bigCardHeading1"></td>
-                                      <td width="15%"><button type="button" id="btnBigCardHeading1" onclick="bigCardHeading1()" class="btn btn-primary">Update</button></td>
+                                      <td width="35%"><input type="text" id="bigCard1Heading1" class="rounded" name="bigCard1Heading1"></td>
+                                      <td width="15%"><button type="button" id="btnBigCard1Heading1" onclick="bigCard1Heading1()" class="btn btn-primary">Update</button></td>
                                     </tr>
                                     <tr>  
                                       <td width="5%">7</td> 
-                                      <td width="20%">Big Card Heading 2</td>
+                                      <td width="20%">Big Card 1 Heading 2</td>
                                       <td width="25%">
-                                        <% if(banners.bigCardHeading2) {%>
-                                          <%= banners.bigCardHeading2 %>
+                                        <% if(banners) {%>
+                                          <div id="bigCard1Heading2Text"><%= banners.bigCard1Heading2 %></div>
                                         <% }else{ %>
-                                          Add Big Card Heading 2
+                                          Add Big Card 1 Heading 2
                                         <% } %>
                                       </td>
-                                      <td width="35%"><input type="text" id="bigCardHeading2" class="rounded" name="bigCardHeading2"></td>
-                                      <td width="15%"><button type="button" id="btnBigCardHeading2" onclick="bigCardHeading2()" class="btn btn-primary">Update</button></td>
+                                      <td width="35%"><input type="text" id="bigCard1Heading2" class="rounded" name="bigCard1Heading2"></td>
+                                      <td width="15%"><button type="button" id="btnBigCard1Heading2" onclick="bigCard1Heading2()" class="btn btn-primary">Update</button></td>
                                     </tr>
                                     <tr>  
                                       <td width="5%">8</td> 
-                                      <td width="20%">Big Card Discription</td>
+                                      <td width="20%">Big Card 1 Discription</td>
                                       <td width="25%">
-                                        <% if(banners.bigCardDiscription) {%>
-                                          <%= banners.bigCardDiscription %>
+                                        <% if(banners) {%>
+                                          <div id="bigCard1DiscriptionText"><%= banners.bigCard1Discription %></div>
                                         <% }else{ %>
-                                          Add Big Card Discription
+                                          Add Big Card1 Discription
                                         <% } %>
                                       </td>
-                                      <td width="35%"><input type="text" id="bigCardDiscription" class="rounded" name="bigCardDiscription"></td>
-                                      <td width="15%"><button type="button" id="btnBigCardDiscription" onclick="bigCardDiscription()" class="btn btn-primary">Update</button></td>
+                                      <td width="35%"><input type="text" id="bigCard1Discription" class="rounded" name="bigCard1Discription"></td>
+                                      <td width="15%"><button type="button" id="btnBigCard1Discription" onclick="bigCard1Discription()" class="btn btn-primary">Update</button></td>
                                     </tr>
                                     <tr>  
                                       <td width="5%">9</td> 
-                                      <td width="20%">Big Card ProductId</td>
+                                      <td width="20%">Big Card 1 ProductId</td>
                                       <td width="25%">
-                                        <% if(banners.bigCardProductId) {%>
-                                          <%= banners.bigCardProductId %>
+                                        <% if(banners) {%>
+                                          <div id="bigCard1ProductIdText"><%= banners?.bigCard1ProductId?.bookName %></div>
                                         <% }else{ %>
-                                          Add Big Card ProductId
+                                          Add Big Card 1 ProductId
                                         <% } %>
                                       </td>
                                       <td width="35%">
-                                        <select n15e="bigCardProductId" class="rounded" id="bigCardProductId" >
+                                        <select name="bigCard1ProductId" class="rounded" id="bigCard1ProductId" >
                                           <option value="">Select Book</option>
                                           <% books.forEach((book) =>{ %>
                                               <option value="<%= book._id %>"><%= book.bookName %></option>
                                           <% }) %>
                                       </select>
                                       </td>
-                                      <td width="20%"><button type="button" id="btnBigCardProductId" onclick="bigCardProductId()" class="btn btn-primary">Update</button></td>
+                                      <td width="20%"><button type="button" id="btnBigCard1ProductId" onclick="bigCard1ProductId()" class="btn btn-primary">Update</button></td>
                                     </tr>
                                     <tr>  
                                       <td width="5%">10</td> 
-                                      <td width="20%">Bottom Image 1</td>
+                                      <td width="20%">Big Card 1 Image</td>
                                       <td width="25%">
-                                        <% if(banners.bottomImage1) {%>
-                                          <%= banners.bottomImage1 %>
+                                        <% if(banners) {%>
+                                          <img src="../<%= banners.bigCard1Image %>" alt="Big Card 1 Image" style="width: 100px;"> 
                                         <% }else{ %>
-                                          Add Home Image
+                                          Add Big Card 1 Image
                                         <% } %>
                                       </td>
-                                      <td width="35%"><input type="file" id="bottomImage1" class="rounded" name="bottomImage1"></td>
-                                      <td width="15%"><button type="button" id="btnBottomImage1" onclick="bottomImage1()" class="btn btn-primary">Update</button></td>
+                                      <form action="/admin/bigCard1Image" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" id="oldBigCard1Image" name="oldBigCard1Image" value="<%= banners.bigCard1Image %>">
+                                        <td width="35%"><input type="file" id="bigCard1Image" class="rounded" name="bigCard1Image"></td>
+                                        <td width="15%"><button type="submit" id="btnBigCard1Image" class="btn btn-primary">Update</button></td>
+                                      </form>
                                     </tr>
+
+
+
                                     <tr>  
                                       <td width="5%">11</td> 
-                                      <td width="20%">Bottom Image 2</td>
+                                      <td width="20%">Big Card 2 Heading 1</td>
                                       <td width="25%">
-                                        <% if(banners.bottomImage2) {%>
-                                          <%= banners.bottomImage2 %>
+                                        <% if(banners) {%>
+                                          <div id="bigCard2Heading1Text"><%= banners.bigCard2Heading1 %></div>
                                         <% }else{ %>
-                                          Add Home Image
+                                          Add Big Card 2 Heading 1
                                         <% } %>
                                       </td>
-                                      <td width="35%"><input type="file" id="bottomImage2" class="rounded" name="bottomImage2"></td>
-                                      <td width="15%"><button type="button" id="btnBottomImage2" onclick="bottomImage2()" class="btn btn-primary">Update</button></td>
+                                      <td width="35%"><input type="text" id="bigCard2Heading1" class="rounded" name="bigCard2Heading1"></td>
+                                      <td width="15%"><button type="button" id="btnBigCard2Heading1" onclick="bigCard2Heading1()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">12</td> 
+                                      <td width="20%">Big Card 2 Heading 2</td>
+                                      <td width="25%">
+                                        <% if(banners) {%>
+                                          <div id="bigCard2Heading2Text"><%= banners.bigCard2Heading2 %></div>
+                                        <% }else{ %>
+                                          Add Big Card 2 Heading 2
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="text" id="bigCard2Heading2" class="rounded" name="bigCard2Heading2"></td>
+                                      <td width="15%"><button type="button" id="btnBigCard2Heading2" onclick="bigCard2Heading2()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">12</td> 
+                                      <td width="20%">Big Card 2 Discription</td>
+                                      <td width="25%">
+                                        <% if(banners) {%>
+                                          <div id="bigCard2DiscriptionText"><%= banners.bigCard2Discription %></div>
+                                        <% }else{ %>
+                                          Add Big Card 2 Discription
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="text" id="bigCard2Discription" class="rounded" name="bigCard2Discription"></td>
+                                      <td width="15%"><button type="button" id="btnBigCard2Discription" onclick="bigCard2Discription()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">13</td> 
+                                      <td width="20%">Big Card 2 ProductId</td>
+                                      <td width="25%">
+                                        <% if(banners) {%>
+                                          <div id="bigCard2ProductIdText"><%= banners?.bigCard2Product?.bookName %></div>
+                                        <% }else{ %>
+                                          Add Big Card 2 ProductId
+                                        <% } %>
+                                      </td>
+                                      <td width="35%">
+                                        <select n15e="bigCard2ProductId" class="rounded" id="bigCard2ProductId" >
+                                          <option value="">Select Book</option>
+                                          <% books.forEach((book) =>{ %>
+                                              <option value="<%= book._id %>"><%= book.bookName %></option>
+                                          <% }) %>
+                                      </select>
+                                      </td>
+                                      <td width="20%"><button type="button" id="btnBigCard2ProductId" onclick="bigCard2ProductId()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">14</td> 
+                                      <td width="20%">Big Card 2 Image</td>
+                                      <td width="25%">
+                                        <% if(banners) {%>
+                                          <img src="../<%= banners.bigCard2Image %>" alt="Big Card 2 Image" style="width: 100px;"> 
+                                        <% }else{ %>
+                                          Add Big Card 2 Image
+                                        <% } %>
+                                      </td>
+                                      <form action="/admin/bigCard2Image" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" id="oldBigCard2Image" name="oldBigCard2Image" value="<%= banners.bigCard2Image %>">
+                                        <td width="35%"><input type="file" id="bigCard2Image" class="rounded" name="bigCard2Image"></td>
+                                        <td width="15%"><button type="submit" id="btnBigCard2Image" class="btn btn-primary">Update</button></td>
+                                      </form>
+                                    </tr>
+
+
+
+
+                                    <tr>  
+                                      <td width="5%">14</td> 
+                                      <td width="20%">Bottom Image 1</td>
+                                      <td width="25%">
+                                        <% if(banners) {%>
+                                          <img src="../<%= banners.bottomImage1 %>" alt="bottom Image1" style="width: 100px;"> 
+                                        <% }else{ %>
+                                          Add bottom Image1
+                                        <% } %>
+                                      </td>
+                                      <form action="/admin/bottomImage1" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" id="oldBottomImage1" name="oldBottomImage1" value="<%= banners.bottomImage1 %>">
+                                        <td width="35%"><input type="file" id="bottomImage1" class="rounded" name="bottomImage1"></td>
+                                        <td width="15%"><button type="submit" id="btnBottomImage1" class="btn btn-primary">Update</button></td>
+                                      </form>
+                                    </tr>
+
+                                    <tr>  
+                                      <td width="5%">15</td> 
+                                      <td width="20%">Bottom Image 2</td>
+                                      <td width="25%">
+                                        <% if(banners) {%>
+                                          <img src="../<%= banners.bottomImage2 %>" alt="bottom Image2" style="width: 100px;"> 
+                                        <% }else{ %>
+                                          Add bottom Image2
+                                        <% } %>
+                                      </td>
+                                      <form action="/admin/bottomImage2" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" id="oldBottomImage2" name="oldBottomImage2" value="<%= banners.bottomImage2 %>">
+                                        <td width="35%"><input type="file" id="bottomImage2" class="rounded" name="bottomImage2"></td>
+                                        <td width="15%"><button type="submit" id="btnBottomImage2" class="btn btn-primary">Update</button></td>
+                                      </form>
                                     </tr>
 
                                 </tbody>
@@ -515,7 +611,7 @@
             console.log(colorPalatte);
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/colorPalatte`, {
+            fetch(`${url}/admin/colorPalatte`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -526,7 +622,8 @@
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-              console.log(data.data);
+              console.log(data.colorPalatte);
+              document.getElementById('colorPalatteText').innerText = data.colorPalatte
             })
           }
 
@@ -535,7 +632,7 @@
             const mainHeading = document.getElementById('mainHeading').value
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/mainHeading`, {
+            fetch(`${url}/admin/mainHeading`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -546,7 +643,8 @@
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-              
+              console.log(data.mainHeading);
+              document.getElementById('mainHeadingText').innerText = data.mainHeading
             })
           }
 
@@ -555,7 +653,7 @@
             const subHeading1 = document.getElementById('subHeading1').value
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/subHeading1`, {
+            fetch(`${url}/admin/subHeading1`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -566,7 +664,7 @@
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-              
+              document.getElementById('subHeading1Text').innerText = data.subHeading1
             })
           }
 
@@ -575,7 +673,7 @@
             const subHeading2 = document.getElementById('subHeading2').value
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/subHeading2`, {
+            fetch(`${url}/admin/subHeading2`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -586,114 +684,197 @@
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-              
+              document.getElementById('subHeading2Text').innerText = data.subHeading2
             })
           }
 
 
           function homeImage(){
-            const homeImage = document.getElementById('homeImage').value
+            const homeImage = document.getElementById('homeImage').files[0]; // get the file object
+            const url = window.location.origin;
+
+            const formData = new FormData(); // create a new FormData object
+            formData.append('homeImage', homeImage); // append the file object to the FormData object
+
+            fetch(`${url}/admin/homeImage`, {
+              method: 'POST',
+              body: formData // send the FormData object instead of JSON stringified data
+            })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data.data);
+            })
+            .catch((error) => {
+              console.error(`Error uploading home image: ${error}`);
+            });
+          }
+
+
+          function bigCard1Heading1(){
+            const bigCard1Heading1 = document.getElementById('bigCard1Heading1').value
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/homeImage`, {
+            fetch(`${url}/admin/bigCard1Heading1`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  homeImage : homeImage.files[0]
+                    bigCard1Heading1
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-              
+              document.getElementById('bigCard1Heading1Text').innerText = data.bigCard1Heading1
             })
           }
 
 
-          function bigCardHeading1(){
-            const bigCardHeading1 = document.getElementById('bigCardHeading1').value
+          function bigCard1Heading2(){
+            const bigCard1Heading2 = document.getElementById('bigCard1Heading2').value
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/bigCardHeading1`, {
+            fetch(`${url}/admin/bigCard1Heading2`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    bigCardHeading1
+                    bigCard1Heading2
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-              
+              document.getElementById('bigCard1Heading2Text').innerText = data.bigCard1Heading2
             })
           }
 
-
-          function bigCardHeading2(){
-            const bigCardHeading2 = document.getElementById('bigCardHeading2').value
+          function bigCard1Discription(){
+            const bigCard1Discription = document.getElementById('bigCard1Discription').value
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/bigCardHeading2`, {
+            fetch(`${url}/admin/bigCard1Discription`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    bigCardHeading2
+                    bigCard1Discription
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-              
+              document.getElementById('bigCard1DiscriptionText').innerText = data.bigCard1Discription
             })
           }
 
-          function bigCardDiscription(){
-            const bigCardDiscription = document.getElementById('bigCardDiscription').value
+
+          function bigCard1ProductId(){
+            const bigCard1ProductId = document.getElementById('bigCard1ProductId').value
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/bigCardDiscription`, {
+            fetch(`${url}/admin/bigCard1ProductId`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    bigCardDiscription
+                    bigCard1ProductId
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-              
+              document.getElementById('bigCard1ProductIdText').innerText = data.product.bigCard1ProductId.bookName;
             })
           }
 
 
-          function bigCardProductId(){
-            const bigCardProductId = document.getElementById('bigCardProductId').value
+
+          function bigCard2Heading1(){
+            const bigCard2Heading1 = document.getElementById('bigCard2Heading1').value
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/bigCardProductId`, {
+            fetch(`${url}/admin/bigCard2Heading1`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    bigCardProductId
+                    bigCard2Heading1
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-              
+              document.getElementById('bigCard2Heading1Text').innerText = data.bigCard2Heading1
             })
           }
+
+
+          function bigCard2Heading2(){
+            const bigCard2Heading2 = document.getElementById('bigCard2Heading2').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/admin/bigCard2Heading2`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    bigCard2Heading2
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              document.getElementById('bigCard2Heading2Text').innerText = data.bigCard2Heading2
+            })
+          }
+
+          function bigCard2Discription(){
+            const bigCard2Discription = document.getElementById('bigCard2Discription').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/admin/bigCard2Discription`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    bigCard2Discription
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              document.getElementById('bigCard2DiscriptionText').innerText = data.bigCard2Discription
+            })
+          }
+
+
+          function bigCard2ProductId(){
+            const bigCard2ProductId = document.getElementById('bigCard2ProductId').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/admin/bigCard2ProductId`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    bigCard2ProductId
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              document.getElementById('bigCard2ProductIdText').innerText = data.product.bigCard2ProductId.bookName;
+            })
+          }
+
+
 
           function bottomImage1(){
             const bottomImage1 = document.getElementById('bottomImage1').value
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/bottomImage1`, {
+            fetch(`${url}/admin/bottomImage1`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -713,7 +894,7 @@
             const bottomImage2 = document.getElementById('bottomImage2').value
             const url = window.location.origin;
             console.log(url);
-            fetch(`${url}/bottomImage2`, {
+            fetch(`${url}/admin/bottomImage2`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

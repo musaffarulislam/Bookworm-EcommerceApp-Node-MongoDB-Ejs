@@ -241,8 +241,8 @@
           <div class="row flex-center">
             <div class="col-md-5 col-lg-6 order-0 order-md-1 mt-8 mt-md-0"><a class="img-landing-banner" href="#!"><img class="img-fluid" src="template/assets/img/gallery/hero-header-2.png" alt="hero-header" /></a></div>
             <div class="col-md-7 col-lg-6 py-8 text-md-start text-center">
-              <h1 class="display-1 fs-md-5 fs-lg-6 fs-xl-8 text-light">Let's Start Reading</h1>
-              <h1 class="text-800 mb-5 fs-4">You can Reach a new world through reading, <br class="d-none d-xxl-block" /> Books await You</h1>
+              <h1 class="display-1 fs-md-5 fs-lg-6 fs-xl-8 text-light"><%= banners.mainHeading %></h1>
+              <h1 class="text-800 mb-5 fs-4"><%= banners.subHeading1 %> <br class="d-none d-xxl-block" /> <%= banners.subHeading2 %></h1>
               <div class="card w-xxl-75">
                 <div class="card-body">
                   <nav>
@@ -260,9 +260,9 @@
                             <input class="form-control input-box form-foodwagon-control" id="searchBook" type="text" placeholder="Enter Book Name" onkeyup="searchBookInput()" >
                           </div>
                         </div>
-                        <div class="d-grid gap-3 col-sm-auto">
+                        <!-- <div class="d-grid gap-3 col-sm-auto">
                           <button class="btn btn-danger" type="submit">Find Book</button>
-                        </div>
+                        </div> -->
                       </form>
                     </div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -273,9 +273,9 @@
                             <input class="form-control input-box form-foodwagon-control" id="searchAuthor" type="text" placeholder="Enter Author Name" onkeyup="searchAuthorInput()" />
                           </div>
                         </div>
-                        <div class="d-grid gap-3 col-sm-auto">
+                        <!-- <div class="d-grid gap-3 col-sm-auto">
                           <button class="btn btn-danger" type="submit">Find Author</button>
-                        </div>
+                        </div> -->
                       </form>
                     </div>
                   </div>
@@ -553,11 +553,11 @@
               <div class="card card-span mb-3 shadow-lg">
                 <div class="card-body py-0">
                   <div class="row justify-content-center">
-                    <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="template/assets/img/gallery/crispy-sandwiches.png" alt="..." /></div>
+                    <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="<%= banners.bigCard1Image %>" alt="bigCard1Image" /></div>
                     <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
-                      <h1 class="card-title mt-xl-5 mb-4">Best deals <span class="text-primary"> Crispy Sandwiches</span></h1>
-                      <p class="fs-1">Enjoy the large size of sandwiches. Complete your meal with the perfect slice of sandwiches.</p>
-                      <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">PROCEED TO ORDER<i class="fas fa-chevron-right ms-2"></i></a></div>
+                      <h1 class="card-title mt-xl-5 mb-4"><%= banners.bigCard1Heading1 %> <span class="text-primary"> <%= banners.bigCard1Heading2 %></span></h1>
+                      <p class=""><%= banners.bigCard1Discription %></p>
+                      <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="/book-details/<%= banners?.bigCard1ProductId?._id %>">PROCEED TO ORDER<i class="fas fa-chevron-right ms-2"></i></a></div>
                     </div>
                   </div>
                 </div>
@@ -570,18 +570,18 @@
       <!-- ============================================-->
       <!-- ============================================-->
       <!-- Big card 2 ============================-->
-      <section class="py-0">
+      <section class="py-0 pb-5">
         <div class="container">
           <div class="row">
             <div class="col-12">
               <div class="card card-span mb-3 shadow-lg">
                 <div class="card-body py-0">
                   <div class="row justify-content-center">
-                    <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-md-0"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-start rounded-md-top-0" src="template/assets/img/gallery/fried-chicken.png" alt="..." /></div>
+                    <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-md-0"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-start rounded-md-top-0" src="<%= banners.bigCard2Image %>" alt="..." /></div>
                     <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
-                      <h1 class="card-title mt-xl-5 mb-4">Celebrate parties with <span class="text-primary">Fried Chicken</span></h1>
-                      <p class="fs-1">Get the best fried chicken smeared with a lip smacking lemon chili flavor. Check out best deals for fried chicken.</p>
-                      <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="#!">PROCEED TO ORDER<i class="fas fa-chevron-right ms-2"></i></a></div>
+                      <h1 class="card-title mt-xl-5 mb-4"><%= banners.bigCard2Heading1 %> <span class="text-primary"><%= banners.bigCard2Heading2 %></span></h1>
+                      <p class=""><%= banners.bigCard2Discription %></p>
+                      <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="/book-details/<%= banners?.bigCard2ProductId?._id %>">PROCEED TO ORDER<i class="fas fa-chevron-right ms-2"></i></a></div>
                     </div>
                   </div>
                 </div>
@@ -675,7 +675,7 @@
           <hr class="border border-800" />
           <div class="row flex-center pb-3">
             <div class="col-md-6 order-0">
-              <p class="text-200 text-center text-md-start">All rights Reserved &copy; Your Company, 2021</p>
+              <!-- <p class="text-200 text-center text-md-start">All rights Reserved &copy; Your Company, 2021</p> -->
             </div>
             <div class="col-md-6 order-1">
               <p class="text-200 text-center text-md-end"> Made with&nbsp;

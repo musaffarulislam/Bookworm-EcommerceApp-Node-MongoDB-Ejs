@@ -94,7 +94,7 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
                 <ul class="nav navbar-nav menu_nav ml-auto">
-                  <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                   <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
                   <% if (userDetails) { %>
                     <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
@@ -510,620 +510,149 @@
 						</div>
 					</div>
 					<div class="filters-content">
-						<div class="row grid">
-							<div class="col-sm-6 col-lg-4 all pizza">
+						<div class="row grid" id="bookList">
+						  <% relatedbooks.forEach((book,index) =>{ %>
+							<% if(index < 6) { %>
+							  <div class="col-sm-6 col-lg-4 books item <%= book?.genre?.genreName %> <%= book.language %> <%= book.rating %>" id="">
 								<div class="box">
 								  <div>
 									  <div class="img-box">
-										<a href="/book-details">
-										  <img src="../card/images/b1.jpg" alt="">
+										<a href="/book-details/<%= book._id %>">
+										  <img src="../<%= book.image1 %>" alt="<%= book.bookName %>">
 										</a>
 									  </div>
 									  <div class="detail-box">
-										<a href="/book-details">
+										<a href="/book-details/<%= book._id %>">
 										  <h5 class="d-flex justify-content-center">
-											Rich Dad Poor Dad
+											<%= book.bookName %>
 										  </h5>
 										  <div class="row">
+											<div class="col-12  d-flex justify-content-center">
+											  <p class="authorName">
+												<%= book?.author?.authorName %>
+											  </p>
+											</div>
 											<div class="col-6  d-flex justify-content-center">
 											  <p>
-												Robert Kiyosaki
+												<%= book?.genre?.genreName %>
 											  </p>
 											</div>
 											<div class="col-6 d-flex justify-content-center">
 											  <p>
-												English
+												<%= book.language %>
 											  </p>
 											</div>
 											<div class="col-12 d-flex justify-content-center">
 											  <span class="fs-18 cl11">
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
+												<% for(let i=0;i<book.rating; i++){ %>
+													<i class="zmdi zmdi-star"></i>
+												<% } %>
+												<% for(let i=0;i<5-book.rating; i++){ %>
+													<i class="zmdi zmdi-star-outline"></i>
+												<% } %>
 											  </span>
 											</div>
 										  </div>
 										</a>
 										<div class="options">
 										  <h6>
-											$20
+											₹ <%= book.retailPrice %>
 										  </h6>
-										  <a href="">
-											<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-											  <g>
+										  <% if(userDetails) {%>
+											<a id="addCart<%= book._id %>" onclick="addCart('<%= book._id %>','<%= userDetails._id %>')" style="cursor: pointer;">
+											  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
 												<g>
-												  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-											  c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+												  <g>
+													<path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+												c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+												  </g>
 												</g>
-											  </g>
-											  <g>
 												<g>
-												  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-											  C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-											  c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-											  C457.728,97.71,450.56,86.958,439.296,84.91z" />
+												  <g>
+													<path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+												C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+												c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+												C457.728,97.71,450.56,86.958,439.296,84.91z" />
+												  </g>
 												</g>
-											  </g>
-											  <g>
 												<g>
-												  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-											  c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+												  <g>
+													<path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+												c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+												  </g>
 												</g>
-											  </g>
-										
-											</svg>
-										  </a>
+										  
+											  </svg>
+											</a>
+											<script>
+											  document.getElementById("addCart<%= book._id %>").addEventListener("click", function() {
+												Swal.fire({
+												  title: 'Added',
+												  text: "<%= book.bookName %> Added To Cart",
+												  icon: 'success',
+												  confirmButtonColor: '#3085d6',
+												  confirmButtonText: 'Ok',
+												})
+											  });
+											</script>
+									  
+										  <% }else{ %>
+											<a id="noLoginaddIcon<%= book._id %>" style="cursor: pointer;">
+											  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
+												<g>
+												  <g>
+													<path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
+												c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
+												  </g>
+												</g>
+												<g>
+												  <g>
+													<path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
+												C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
+												c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
+												C457.728,97.71,450.56,86.958,439.296,84.91z" />
+												  </g>
+												</g>
+												<g>
+												  <g>
+													<path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
+												c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
+												  </g>
+												</g>
+										  
+											  </svg>
+											</a>
+											<script>
+											  document.getElementById("noLoginaddIcon<%= book._id %>").addEventListener("click", function() {
+												Swal.fire({
+												  title: 'Not Login',
+												  text: "Please Login First",
+												  icon: 'error',
+												  showCancelButton: true,
+												  confirmButtonColor: '#3085d6',
+												  cancelButtonColor: '#d33',
+												  confirmButtonText: 'Log In'
+												}).then((result) => {
+												  if (result.value) {
+													$('#exampleModalCenter').modal('show');
+												  }
+												})
+											  })
+											  
+											  document.getElementById("close-modal").addEventListener("click", function() {
+												$('#exampleModalCenter').modal('hide');
+											  });
+											</script>
+										  <% } %>
 										</div>
 									  </div>
 								  </div>
 								</div>
 							  </div>
-							  <div class="col-sm-6 col-lg-4 all pizza">
-								<div class="box">
-								  <div>
-									  <div class="img-box">
-										<a href="/book-details">
-										  <img src="card/images/b1.jpg" alt="">
-										</a>
-									  </div>
-									  <div class="detail-box">
-										<a href="/book-details">
-										  <h5 class="d-flex justify-content-center">
-											Rich Dad Poor Dad
-										  </h5>
-										  <div class="row">
-											<div class="col-6  d-flex justify-content-center">
-											  <p>
-												Robert Kiyosaki
-											  </p>
-											</div>
-											<div class="col-6 d-flex justify-content-center">
-											  <p>
-												English
-											  </p>
-											</div>
-											<div class="col-12 d-flex justify-content-center">
-											  <span class="fs-18 cl11">
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-											  </span>
-											</div>
-										  </div>
-										</a>
-										<div class="options">
-										  <h6>
-											$20
-										  </h6>
-										  <a href="">
-											<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-											  <g>
-												<g>
-												  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-											  c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-											  C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-											  c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-											  C457.728,97.71,450.56,86.958,439.296,84.91z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-											  c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-												</g>
-											  </g>
-										
-											</svg>
-										  </a>
-										</div>
-									  </div>
-								  </div>
-								</div>
-							  </div>
-							  <div class="col-sm-6 col-lg-4 all pizza">
-								<div class="box">
-								  <div>
-									  <div class="img-box">
-										<a href="/book-details">
-										  <img src="card/images/b1.jpg" alt="">
-										</a>
-									  </div>
-									  <div class="detail-box">
-										<a href="/book-details">
-										  <h5 class="d-flex justify-content-center">
-											Rich Dad Poor Dad
-										  </h5>
-										  <div class="row">
-											<div class="col-6  d-flex justify-content-center">
-											  <p>
-												Robert Kiyosaki
-											  </p>
-											</div>
-											<div class="col-6 d-flex justify-content-center">
-											  <p>
-												English
-											  </p>
-											</div>
-											<div class="col-12 d-flex justify-content-center">
-											  <span class="fs-18 cl11">
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-											  </span>
-											</div>
-										  </div>
-										</a>
-										<div class="options">
-										  <h6>
-											$20
-										  </h6>
-										  <a href="">
-											<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-											  <g>
-												<g>
-												  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-											  c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-											  C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-											  c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-											  C457.728,97.71,450.56,86.958,439.296,84.91z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-											  c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-												</g>
-											  </g>
-										
-											</svg>
-										  </a>
-										</div>
-									  </div>
-								  </div>
-								</div>
-							  </div>
-							  <div class="col-sm-6 col-lg-4 all pizza">
-								<div class="box">
-								  <div>
-									  <div class="img-box">
-										<a href="/book-details">
-										  <img src="card/images/b1.jpg" alt="">
-										</a>
-									  </div>
-									  <div class="detail-box">
-										<a href="/book-details">
-										  <h5 class="d-flex justify-content-center">
-											Rich Dad Poor Dad
-										  </h5>
-										  <div class="row">
-											<div class="col-6  d-flex justify-content-center">
-											  <p>
-												Robert Kiyosaki
-											  </p>
-											</div>
-											<div class="col-6 d-flex justify-content-center">
-											  <p>
-												English
-											  </p>
-											</div>
-											<div class="col-12 d-flex justify-content-center">
-											  <span class="fs-18 cl11">
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-											  </span>
-											</div>
-										  </div>
-										</a>
-										<div class="options">
-										  <h6>
-											$20
-										  </h6>
-										  <a href="">
-											<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-											  <g>
-												<g>
-												  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-											  c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-											  C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-											  c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-											  C457.728,97.71,450.56,86.958,439.296,84.91z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-											  c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-												</g>
-											  </g>
-										
-											</svg>
-										  </a>
-										</div>
-									  </div>
-								  </div>
-								</div>
-							  </div>
-							  <div class="col-sm-6 col-lg-4 all pizza">
-								<div class="box">
-								  <div>
-									  <div class="img-box">
-										<a href="/book-details">
-										  <img src="card/images/b1.jpg" alt="">
-										</a>
-									  </div>
-									  <div class="detail-box">
-										<a href="/book-details">
-										  <h5 class="d-flex justify-content-center">
-											Rich Dad Poor Dad
-										  </h5>
-										  <div class="row">
-											<div class="col-6  d-flex justify-content-center">
-											  <p>
-												Robert Kiyosaki
-											  </p>
-											</div>
-											<div class="col-6 d-flex justify-content-center">
-											  <p>
-												English
-											  </p>
-											</div>
-											<div class="col-12 d-flex justify-content-center">
-											  <span class="fs-18 cl11">
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-											  </span>
-											</div>
-										  </div>
-										</a>
-										<div class="options">
-										  <h6>
-											$20
-										  </h6>
-										  <a href="">
-											<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-											  <g>
-												<g>
-												  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-											  c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-											  C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-											  c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-											  C457.728,97.71,450.56,86.958,439.296,84.91z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-											  c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-												</g>
-											  </g>
-										
-											</svg>
-										  </a>
-										</div>
-									  </div>
-								  </div>
-								</div>
-							  </div>
-							  <div class="col-sm-6 col-lg-4 all pizza">
-								<div class="box">
-								  <div>
-									  <div class="img-box">
-										<a href="/book-details">
-										  <img src="card/images/b1.jpg" alt="">
-										</a>
-									  </div>
-									  <div class="detail-box">
-										<a href="/book-details">
-										  <h5 class="d-flex justify-content-center">
-											Rich Dad Poor Dad
-										  </h5>
-										  <div class="row">
-											<div class="col-6  d-flex justify-content-center">
-											  <p>
-												Robert Kiyosaki
-											  </p>
-											</div>
-											<div class="col-6 d-flex justify-content-center">
-											  <p>
-												English
-											  </p>
-											</div>
-											<div class="col-12 d-flex justify-content-center">
-											  <span class="fs-18 cl11">
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-											  </span>
-											</div>
-										  </div>
-										</a>
-										<div class="options">
-										  <h6>
-											$20
-										  </h6>
-										  <a href="">
-											<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-											  <g>
-												<g>
-												  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-											  c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-											  C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-											  c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-											  C457.728,97.71,450.56,86.958,439.296,84.91z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-											  c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-												</g>
-											  </g>
-										
-											</svg>
-										  </a>
-										</div>
-									  </div>
-								  </div>
-								</div>
-							  </div>
-							  <div class="col-sm-6 col-lg-4 all pizza">
-								<div class="box">
-								  <div>
-									  <div class="img-box">
-										<a href="/book-details">
-										  <img src="card/images/b1.jpg" alt="">
-										</a>
-									  </div>
-									  <div class="detail-box">
-										<a href="/book-details">
-										  <h5 class="d-flex justify-content-center">
-											Rich Dad Poor Dad
-										  </h5>
-										  <div class="row">
-											<div class="col-6  d-flex justify-content-center">
-											  <p>
-												Robert Kiyosaki
-											  </p>
-											</div>
-											<div class="col-6 d-flex justify-content-center">
-											  <p>
-												English
-											  </p>
-											</div>
-											<div class="col-12 d-flex justify-content-center">
-											  <span class="fs-18 cl11">
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-											  </span>
-											</div>
-										  </div>
-										</a>
-										<div class="options">
-										  <h6>
-											$20
-										  </h6>
-										  <a href="">
-											<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-											  <g>
-												<g>
-												  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-											  c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-											  C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-											  c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-											  C457.728,97.71,450.56,86.958,439.296,84.91z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-											  c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-												</g>
-											  </g>
-										
-											</svg>
-										  </a>
-										</div>
-									  </div>
-								  </div>
-								</div>
-							  </div>
-							  <div class="col-sm-6 col-lg-4 all pizza">
-								<div class="box">
-								  <div>
-									  <div class="img-box">
-										<a href="/book-details">
-										  <img src="card/images/b1.jpg" alt="">
-										</a>
-									  </div>
-									  <div class="detail-box">
-										<a href="/book-details">
-										  <h5 class="d-flex justify-content-center">
-											Rich Dad Poor Dad
-										  </h5>
-										  <div class="row">
-											<div class="col-6  d-flex justify-content-center">
-											  <p>
-												Robert Kiyosaki
-											  </p>
-											</div>
-											<div class="col-6 d-flex justify-content-center">
-											  <p>
-												English
-											  </p>
-											</div>
-											<div class="col-12 d-flex justify-content-center">
-											  <span class="fs-18 cl11">
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-											  </span>
-											</div>
-										  </div>
-										</a>
-										<div class="options">
-										  <h6>
-											$20
-										  </h6>
-										  <a href="">
-											<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-											  <g>
-												<g>
-												  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-											  c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-											  C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-											  c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-											  C457.728,97.71,450.56,86.958,439.296,84.91z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-											  c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-												</g>
-											  </g>
-										
-											</svg>
-										  </a>
-										</div>
-									  </div>
-								  </div>
-								</div>
-							  </div>
-							  <div class="col-sm-6 col-lg-4 all pizza">
-								<div class="box">
-								  <div>
-									  <div class="img-box">
-										<a href="/book-details">
-										  <img src="card/images/b1.jpg" alt="">
-										</a>
-									  </div>
-									  <div class="detail-box">
-										<a href="/book-details">
-										  <h5 class="d-flex justify-content-center">
-											Rich Dad Poor Dad
-										  </h5>
-										  <div class="row">
-											<div class="col-6  d-flex justify-content-center">
-											  <p>
-												Robert Kiyosaki
-											  </p>
-											</div>
-											<div class="col-6 d-flex justify-content-center">
-											  <p>
-												English
-											  </p>
-											</div>
-											<div class="col-12 d-flex justify-content-center">
-											  <span class="fs-18 cl11">
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-												<i class="zmdi zmdi-star"></i>
-											  </span>
-											</div>
-										  </div>
-										</a>
-										<div class="options">
-										  <h6>
-											$20
-										  </h6>
-										  <a href="">
-											<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-											  <g>
-												<g>
-												  <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-											  c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-											  C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-											  c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-											  C457.728,97.71,450.56,86.958,439.296,84.91z" />
-												</g>
-											  </g>
-											  <g>
-												<g>
-												  <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-											  c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-												</g>
-											  </g>
-										
-											</svg>
-										  </a>
-										</div>
-									  </div>
-								  </div>
-								</div>
-							  </div>
+							<% } %>
+						  <% }) %>
 						</div>
+					</div>
 				</div>
 			</section>
 		<!-- card ============================-->

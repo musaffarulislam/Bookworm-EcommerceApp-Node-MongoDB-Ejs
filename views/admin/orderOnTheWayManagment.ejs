@@ -213,19 +213,7 @@
             </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-              <!-- Search -->
-              <div class="navbar-nav align-items-center">
-                <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
-                  <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  />
-                </div>
-              </div>
-              <!-- /Search -->
+          
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Place this tag where you want the button to render. -->
@@ -327,7 +315,7 @@
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                   <% orders.forEach((order) => { %>
-                                  <tr>  
+                                  <tr id="order<%= order._id %>">  
                                     <td width="15%"><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><%= order?.user?.username %></strong></td>
                                     <td width="25%">
                                         <% order.product.forEach(function(product) { %>
@@ -343,8 +331,10 @@
                                           <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="/admin/changeCompleteOrder/<%= order._id %>" ><i class="bx bx-check me-1"></i> Complete</a>
-                                            <a class="dropdown-item" href="/admin/cancelOrder/<%= order._id %>"><i class="bx bx-block me-1"></i> Cancel</a>  
+                                            <!-- <a class="dropdown-item" href="/admin/changeCompleteOrder/<%= order._id %>" ><i class="bx bx-check me-1"></i> Complete</a>
+                                            <a class="dropdown-item" href="/admin/cancelOrder/<%= order._id %>"><i class="bx bx-block me-1"></i> Cancel</a>   -->
+                                            <a class="dropdown-item" onclick="changeCompleteOrder('<%= order._id %>')" ><i class="bx bx-check me-1"></i> Complete</a>
+                                            <a class="dropdown-item" onclick="changeDeleteOrder('<%= order._id %>')" ><i class="bx bx-lock-open-alt me-1"></i> Cancel</a>  
                                         </div>
                                       </div>
                                     </td>
@@ -370,6 +360,50 @@
           "searching": true
           });
         </script>
+
+
+
+        <script>
+          function changeCompleteOrder(orderId){
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/admin/changeCompleteOrder/${orderId}`, {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                
+              })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              console.log("data",data)
+              document.getElementById(`order${orderId}`).remove()
+            })
+          }
+
+          function changeDeleteOrder(orderId){
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/admin/changeDeleteOrder/${orderId}`, {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                
+              })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              console.log("data",data)
+              document.getElementById(`order${orderId}`).remove()
+            })
+          }
+        </script>
+
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="../admin/assets/vendor/libs/jquery/jquery.js"></script>

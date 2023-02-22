@@ -75,15 +75,15 @@ router.post('/addCoupon',midleware.adminSession,adminController.addCoupon);
 
 router.get('/pendingManagement',midleware.adminSession,adminController.renderPendingManagement);
 
-router.get('/changeOnTheWayOrder/:id',midleware.adminSession,adminController.changeOnTheWayOrder);
+router.post('/changeOnTheWayOrder/:id',midleware.adminSession,adminController.changeOnTheWayOrder);
 
 router.get('/onthewayManagement',midleware.adminSession,adminController.renderOnTheWayManagement);
 
-router.get('/changeCompleteOrder/:id',midleware.adminSession,adminController.changeCompleteOrder);
+router.post('/changeCompleteOrder/:id',midleware.adminSession,adminController.changeCompleteOrder);
 
 router.get('/completeManagement',midleware.adminSession,adminController.renderCompleteManagement);
 
-router.get('/changeDeleteOrder/:id',midleware.adminSession,adminController.changeDeleteOrder);
+router.post('/changeDeleteOrder/:id',midleware.adminSession,adminController.changeDeleteOrder);
 
 router.get('/deleteManagement',midleware.adminSession,adminController.renderDeleteManagement);
 
@@ -101,19 +101,31 @@ router.post('/subHeading1',midleware.adminSession,adminController.subHeading1);
 
 router.post('/subHeading2',midleware.adminSession,adminController.subHeading2);
 
-router.post('/homeImage',midleware.adminSession,adminController.homeImage);
+router.post('/homeImage',upload.single('homeImage'),midleware.adminSession,adminController.homeImage);
 
-router.post('/bigCardHeading1',midleware.adminSession,adminController.bigCardHeading1);
+router.post('/bigCard1Heading1',midleware.adminSession,adminController.bigCard1Heading1);
 
-router.post('/bigCardHeading2',midleware.adminSession,adminController.bigCardHeading2);
+router.post('/bigCard1Heading2',midleware.adminSession,adminController.bigCard1Heading2);
 
-router.post('/bigCardDiscription',midleware.adminSession,adminController.bigCardDiscription);
+router.post('/bigCard1Discription',midleware.adminSession,adminController.bigCard1Discription);
 
-router.post('/bigCardProductId',midleware.adminSession,adminController.bigCardProductId);
+router.post('/bigCard1ProductId',midleware.adminSession,adminController.bigCard1ProductId);
 
-router.post('/bottomImage1',midleware.adminSession,adminController.bottomImage1);
+router.post('/bigCard1Image',upload.single('bigCard1Image'),midleware.adminSession,adminController.bigCard1Image);
 
-router.post('/bottomImage2',midleware.adminSession,adminController.bottomImage2);
+router.post('/bigCard2Heading1',midleware.adminSession,adminController.bigCard2Heading1);
+
+router.post('/bigCard2Heading2',midleware.adminSession,adminController.bigCard2Heading2);
+
+router.post('/bigCard2Discription',midleware.adminSession,adminController.bigCard2Discription);
+
+router.post('/bigCard2ProductId',midleware.adminSession,adminController.bigCard2ProductId);
+
+router.post('/bigCard2Image',upload.single('bigCard2Image'),midleware.adminSession,adminController.bigCard2Image);
+
+router.post('/bottomImage1',upload.single('bottomImage1'),midleware.adminSession,adminController.bottomImage1);
+
+router.post('/bottomImage2',upload.single('bottomImage2'),midleware.adminSession,adminController.bottomImage2);
 
 
 router.get('/logout',adminController.logout);
