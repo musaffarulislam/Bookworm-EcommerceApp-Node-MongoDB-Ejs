@@ -66,7 +66,10 @@ router.get('/undeleteGenre/:id',midleware.adminSession,adminController.undeleteG
 
 router.get('/couponManagement',midleware.adminSession,adminController.renderCouponManagement);
 
-router.post('/addCoupon',adminController.addCoupon);
+router.post('/addCoupon',midleware.adminSession,adminController.addCoupon);
+
+
+
 
 // Order management
 
@@ -83,6 +86,35 @@ router.get('/completeManagement',midleware.adminSession,adminController.renderCo
 router.get('/changeDeleteOrder/:id',midleware.adminSession,adminController.changeDeleteOrder);
 
 router.get('/deleteManagement',midleware.adminSession,adminController.renderDeleteManagement);
+
+
+
+// Banner Management
+
+router.get('/bannerManagement',midleware.adminSession,adminController.renderBannerManagement);
+
+router.post('/colorPalatte',midleware.adminSession,adminController.colorPalatte);
+
+router.post('/mainHeading',midleware.adminSession,adminController.mainHeading);
+
+router.post('/subHeading1',midleware.adminSession,adminController.subHeading1);
+
+router.post('/subHeading2',midleware.adminSession,adminController.subHeading2);
+
+router.post('/homeImage',midleware.adminSession,adminController.homeImage);
+
+router.post('/bigCardHeading1',midleware.adminSession,adminController.bigCardHeading1);
+
+router.post('/bigCardHeading2',midleware.adminSession,adminController.bigCardHeading2);
+
+router.post('/bigCardDiscription',midleware.adminSession,adminController.bigCardDiscription);
+
+router.post('/bigCardProductId',midleware.adminSession,adminController.bigCardProductId);
+
+router.post('/bottomImage1',midleware.adminSession,adminController.bottomImage1);
+
+router.post('/bottomImage2',midleware.adminSession,adminController.bottomImage2);
+
 
 router.get('/logout',adminController.logout);
 

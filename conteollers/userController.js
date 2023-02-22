@@ -32,6 +32,7 @@ const renderHome = async (req,res)=>{
   res.render('index',{ title: "Home",books,userDetails,warning});
 }
 
+
 const loginVarification = async(req,res)=>{
     try {
         const email = req.body.email;
@@ -514,6 +515,7 @@ const renderBook = async (req,res)=>{
 const bookDetails = async (req,res)=>{
     console.log(req.params.id);
     const books = await book.findOne({_id: req.params.id}).populate('author').populate('genre');
+    const relatedbooks = await book.find({ $or: [ {author: books.author}, {genre: books.genre}]}).populate('author').populate('genre');
     console.log(books);
     let userId = req.session.user;
     let userDetails = false;
@@ -522,7 +524,7 @@ const bookDetails = async (req,res)=>{
     }
     let warning = req.session.errormsg;
     req.session.errormsg = false;
-    res.render('book-detail',{title: 'Bookdetails',books,userDetails,warning});
+    res.render('book-detail',{title: 'Bookdetails',books,relatedbooks,userDetails,warning});
 }
 
 

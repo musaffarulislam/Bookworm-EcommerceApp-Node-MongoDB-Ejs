@@ -329,114 +329,176 @@
 
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="d-flex justify-content-between">
-                <h4 class="fw-bold py-3 mb-4"> Genre Management</h4>
-               <button type="button" class="btn btn-danger" style="height: 50px;" data-toggle="modal" data-target="#exampleModal2">Add Genre</button>
+                <h4 class="fw-bold py-3 mb-4"> Banner Management</h4>
               </div>       
-
-              <!-- ============================================-->
-              <!-- model login ============================-->
-
-                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                      <form id="addGenre" action="/admin/addGenre" method="post">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle">Add Genre</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="form-outline mb-1">
-                            <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
-                              <input type="text" id="genre" class="form-control form-control-lg" name="genre" required/>  
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="submit" class="btn btn-primary">Add</button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              <!-- model login ============================-->
-              <!-- ============================================-->
 
             
                           <div class="card">
-                            <h5 class="card-header">Genre Management</h5>
-                            <div class="table-responsive text-nowrap p-3">
+                            <h5 class="card-header">Banner Management</h5>
+                            <div class="table-responsive p-3">
                               <table class="table table-dark py-3" id="example">
                                 <thead>
                                   <tr>
-                                    <th>Genre</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>SI No.</th>
+                                    <th>Title</th>
+                                    <th>Banner</th>
+                                    <th>Input Field</th>
+                                    <th>Update</th>
                                   </tr>
                                 </thead>
-                                <tbody class="table-border-bottom-0">
-                                  <% let i = 1 %>
-                                  <% genres.forEach((genre) => { %>
-                                    <tr>  
-                                      <td width="30%"><strong><%= genre.genreName %></strong></td>
-     
-                                      <% if (genre.delete) {%>
-                                        <td width="20%"><span class="badge bg-label-success me-1">Active</span></td>
-                                      <% }else{ %>
-                                        <td width="20%"><span class="badge bg-label-warning me-1">delete</span></td>
-                                      <% } %>
-                                      <td width="20%">
-                                        <div class="dropdown">
-                                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded" style="color: aliceblue;"></i>
-                                          </button>
-                                          <div class="dropdown-menu">
-                                            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit<%= genre.genreName %>"><i class="bx bx-edit-alt me-1"></i> Edit</button>
-                                            <% if (genre.delete) {%>
-                                              <a class="dropdown-item" href="/admin/deleteGenre/<%= genre._id %>"><i class="bx bx-trash me-1"></i> Delete</a>
-                                            <% }else{ %>
-                                              <a class="dropdown-item" href="/admin/undeleteGenre/<%= genre._id %>"><i class="bx bx-recycle me-1"></i> Un Delete</a>
-                                            <% } %>
-                                          </div>
-                                        </div>
+                                <tbody class="table-border-bottom-0"> 
+
+                                    <tr> 
+                                      <td width="5%">1</td> 
+                                      <td width="20%">color Palatte</td>
+                                      <td width="25%">
+                                        <% if(banners.colorPalatte) {%>
+                                          <%= banners.colorPalatte %>
+                                        <% }else{ %>
+                                          Add Color Palatte
+                                        <% } %>
                                       </td>
+                                      <td width="35%"><input type="text" id="colorPalatte" class="rounded" name="colorPalatte"></td>
+                                      <td width="15%"><button type="button" id="btnColorPalatte" onclick="colorPalatte()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">2</td> 
+                                      <td width="20%">Main Heading</td>
+                                      <td width="25%">
+                                        <% if(banners.mainHeading) {%>
+                                          <%= banners.mainHeading %>
+                                        <% }else{ %>
+                                          Add Main Heading
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="text" id="mainHeading" class="rounded" name="mainHeading"></td>
+                                      <td width="15%"><button type="button" id="btnMainHeading" onclick="mainHeading()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">3</td> 
+                                      <td width="20%">Sub Heading 1</td>
+                                      <td width="25%">
+                                        <% if(banners.subHeading1) {%>
+                                          <%= banners.subHeading1 %>
+                                        <% }else{ %>
+                                          Add Sub Heading 1
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="text" id="subHeading1" class="rounded" name="subHeading1"></td>
+                                      <td width="15%"><button type="button" id="btnSubHeading1" onclick="subHeading1()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">4</td> 
+                                      <td width="20%">Sub Heading 1</td>
+                                      <td width="25%">
+                                        <% if(banners.subHeading2) {%>
+                                          <%= banners.subHeading2 %>
+                                        <% }else{ %>
+                                          Add Sub Heading 2
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="text" id="subHeading2" class="rounded" name="subHeading2"></td>
+                                      <td width="15%"><button type="button" id="btnSubHeading2" onclick="subHeading2()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">5</td> 
+                                      <td width="20%">Home Image</td>
+                                      <td width="25%">
+                                        <% if(banners.homeImage) {%>
+                                          <%= banners.homeImage %>
+                                        <% }else{ %>
+                                          Add Home Image
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="file" id="homeImage" class="rounded" name="homeImage"></td>
+                                      <td width="15%"><button type="button" id="btnHomeImage" onclick="homeImage()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">6</td> 
+                                      <td width="20%">Big Card Heading 1</td>
+                                      <td width="25%">
+                                        <% if(banners.bigCardHeading1) {%>
+                                          <%= banners.bigCardHeading1 %>
+                                        <% }else{ %>
+                                          Add Big Card Heading 1
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="text" id="bigCardHeading1" class="rounded" name="bigCardHeading1"></td>
+                                      <td width="15%"><button type="button" id="btnBigCardHeading1" onclick="bigCardHeading1()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">7</td> 
+                                      <td width="20%">Big Card Heading 2</td>
+                                      <td width="25%">
+                                        <% if(banners.bigCardHeading2) {%>
+                                          <%= banners.bigCardHeading2 %>
+                                        <% }else{ %>
+                                          Add Big Card Heading 2
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="text" id="bigCardHeading2" class="rounded" name="bigCardHeading2"></td>
+                                      <td width="15%"><button type="button" id="btnBigCardHeading2" onclick="bigCardHeading2()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">8</td> 
+                                      <td width="20%">Big Card Discription</td>
+                                      <td width="25%">
+                                        <% if(banners.bigCardDiscription) {%>
+                                          <%= banners.bigCardDiscription %>
+                                        <% }else{ %>
+                                          Add Big Card Discription
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="text" id="bigCardDiscription" class="rounded" name="bigCardDiscription"></td>
+                                      <td width="15%"><button type="button" id="btnBigCardDiscription" onclick="bigCardDiscription()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">9</td> 
+                                      <td width="20%">Big Card ProductId</td>
+                                      <td width="25%">
+                                        <% if(banners.bigCardProductId) {%>
+                                          <%= banners.bigCardProductId %>
+                                        <% }else{ %>
+                                          Add Big Card ProductId
+                                        <% } %>
+                                      </td>
+                                      <td width="35%">
+                                        <select n15e="bigCardProductId" class="rounded" id="bigCardProductId" >
+                                          <option value="">Select Book</option>
+                                          <% books.forEach((book) =>{ %>
+                                              <option value="<%= book._id %>"><%= book.bookName %></option>
+                                          <% }) %>
+                                      </select>
+                                      </td>
+                                      <td width="20%"><button type="button" id="btnBigCardProductId" onclick="bigCardProductId()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">10</td> 
+                                      <td width="20%">Bottom Image 1</td>
+                                      <td width="25%">
+                                        <% if(banners.bottomImage1) {%>
+                                          <%= banners.bottomImage1 %>
+                                        <% }else{ %>
+                                          Add Home Image
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="file" id="bottomImage1" class="rounded" name="bottomImage1"></td>
+                                      <td width="15%"><button type="button" id="btnBottomImage1" onclick="bottomImage1()" class="btn btn-primary">Update</button></td>
+                                    </tr>
+                                    <tr>  
+                                      <td width="5%">11</td> 
+                                      <td width="20%">Bottom Image 2</td>
+                                      <td width="25%">
+                                        <% if(banners.bottomImage2) {%>
+                                          <%= banners.bottomImage2 %>
+                                        <% }else{ %>
+                                          Add Home Image
+                                        <% } %>
+                                      </td>
+                                      <td width="35%"><input type="file" id="bottomImage2" class="rounded" name="bottomImage2"></td>
+                                      <td width="15%"><button type="button" id="btnBottomImage2" onclick="bottomImage2()" class="btn btn-primary">Update</button></td>
                                     </tr>
 
-                                        <!-- ============================================-->
-                                        <!-- model login ============================-->
-
-                                        <div class="modal fade" id="edit<%= genre.genreName %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                          <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                              <form id="editGenre" action="/admin/editGenre/<%= genre._id %>" method="post">
-                                                <div class="modal-header">
-                                                  <h5 class="modal-title" id="exampleModalLongTitle">Edit Genre</h5>
-                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                  </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="form-outline mb-1">
-                                                    <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
-                                                    <input type="text" id="genre" class="form-control form-control-lg" name="genre" value="<%= genre.genreName%>" required/>
-                                                    <input type="hidden" id="genredelete" class="form-control form-control-lg" name="genreDelete" value="<%= genre.delete%>" required/>  
-                                                  </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                  <button type="submit" class="btn btn-primary">Edit</button>
-                                                </div>
-                                              </form>
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                      <!-- model login ============================-->
-                                      <!-- ============================================-->
-
-                                  <% }) %>
-                                  
                                 </tbody>
                               </table>
                             </div>
@@ -445,6 +507,229 @@
           </div>
         </div>
  
+
+        <script>
+
+          function colorPalatte(){
+            const colorPalatte = document.getElementById('colorPalatte').value
+            console.log(colorPalatte);
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/colorPalatte`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    colorPalatte
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              console.log(data.data);
+            })
+          }
+
+
+          function mainHeading(){
+            const mainHeading = document.getElementById('mainHeading').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/mainHeading`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    mainHeading
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              
+            })
+          }
+
+
+          function subHeading1(){
+            const subHeading1 = document.getElementById('subHeading1').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/subHeading1`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    subHeading1
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              
+            })
+          }
+
+
+          function subHeading2(){
+            const subHeading2 = document.getElementById('subHeading2').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/subHeading2`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    subHeading2
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              
+            })
+          }
+
+
+          function homeImage(){
+            const homeImage = document.getElementById('homeImage').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/homeImage`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  homeImage : homeImage.files[0]
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              
+            })
+          }
+
+
+          function bigCardHeading1(){
+            const bigCardHeading1 = document.getElementById('bigCardHeading1').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/bigCardHeading1`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    bigCardHeading1
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              
+            })
+          }
+
+
+          function bigCardHeading2(){
+            const bigCardHeading2 = document.getElementById('bigCardHeading2').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/bigCardHeading2`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    bigCardHeading2
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              
+            })
+          }
+
+          function bigCardDiscription(){
+            const bigCardDiscription = document.getElementById('bigCardDiscription').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/bigCardDiscription`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    bigCardDiscription
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              
+            })
+          }
+
+
+          function bigCardProductId(){
+            const bigCardProductId = document.getElementById('bigCardProductId').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/bigCardProductId`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    bigCardProductId
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              
+            })
+          }
+
+          function bottomImage1(){
+            const bottomImage1 = document.getElementById('bottomImage1').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/bottomImage1`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  bottomImage1 : bottomImage1.files[0]
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              
+            })
+          }
+
+
+          function bottomImage2(){
+            const bottomImage2 = document.getElementById('bottomImage2').value
+            const url = window.location.origin;
+            console.log(url);
+            fetch(`${url}/bottomImage2`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  bottomImage2 : bottomImage2.files[0]
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+              console.log("data: ",data)
+            })
+          }
+
+
+        </script>
 
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

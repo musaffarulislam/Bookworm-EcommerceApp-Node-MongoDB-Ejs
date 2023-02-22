@@ -1,17 +1,20 @@
 const { response } = require('express');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+const session = require('express-session');
+dotenv.config({path : '.env'});
+
+
+
 const user = require('../models/userModel');
 const author = require('../models/authorModel')
 const book = require('../models/bookModel')
 const genre = require('../models/genreModel')
 const coupon = require('../models/couponModel')
 const order = require('../models/orderModel')
+const banner = require('../models/bannerModel')
 
-
-const bcrypt = require('bcrypt');
-const dotenv = require('dotenv');
-const session = require('express-session');
-dotenv.config({path : '.env'});
 
 
 const renderLogin = (req,res) =>{
@@ -28,7 +31,6 @@ const renderLogin = (req,res) =>{
     }
 }
 
-
 const adminLogin = (req,res) =>{
     try{
         const { email, password } = req.body;
@@ -44,16 +46,26 @@ const adminLogin = (req,res) =>{
     }
 }
 
-
-const adminPanel = (req,res) => {
+const adminPanel = async(req,res) => {
     try{
-        res.render('admin.ejs')
+        const orders = await order.find()
+        const totalOrder = await order.find().count()
+        const completeOrder = await order.find({status: "Complete"}).count()
+        const pendingOrder = await order.find({status: "Pending"}).count()
+        const onTheWayOrder = await order.find({status: "On The way"}).count()
+
+        let totalRevenue = 0;
+        for(let i=0; i< orders.length; i++){
+          let order = orders[i];
+          totalRevenue += order.totalAmount;
+        }
+
+        res.render('admin.ejs',{totalOrder,completeOrder,pendingOrder,onTheWayOrder,totalRevenue})
     }catch(err){
         console.error(`Error Get Admin Panel : ${err}`);
         res.redirect('/admin');
     }
 }
-
 
 const renderUserManagement = async (req,res) =>{
     try{
@@ -65,7 +77,6 @@ const renderUserManagement = async (req,res) =>{
     }
 }
 
-
 const blockUser = async (req,res) =>{
     try{
         await user.updateOne({_id: req.params.id},{$set: { block: false }})
@@ -75,7 +86,6 @@ const blockUser = async (req,res) =>{
         res.redirect('/admin/userManagement');
     }
 }
-
 
 const unblockUser = async (req,res) =>{
     try{
@@ -88,19 +98,18 @@ const unblockUser = async (req,res) =>{
 }
 
 
-
 const renderProductManagement = async (req,res) =>{
     try{
         let books = await book.find().populate('author').populate('genre')
         let authors = await author.find()
         let genres = await genre.find()
+
         res.render('admin/productManagement.ejs',{books,genres,authors});
     }catch(err){
         console.error(`Error Get Product Management : ${err}`);
         res.redirect('/admin/admin_panel');
     }
 }
-
 
 const renderAddBook = async (req,res) => {
     try{
@@ -114,7 +123,6 @@ const renderAddBook = async (req,res) => {
         res.redirect('/admin/productManagement');
     }
 }
-
 
 const addBook = async(req,res) =>{
     try{
@@ -149,7 +157,6 @@ const addBook = async(req,res) =>{
     }
 }
 
-
 const editBook = async (req,res) => {
     try{
         console.log(req.body.language);
@@ -175,7 +182,6 @@ const editBook = async (req,res) => {
     }
 }
 
-
 const deleteBook = async (req,res) =>{
     try{
         await book.updateOne({_id: req.params.id},{$set: { delete: false }})
@@ -186,7 +192,6 @@ const deleteBook = async (req,res) =>{
     }
 }
 
-
 const undeleteBook = async (req,res) =>{
     try{
         await book.updateOne({_id: req.params.id},{$set: { delete: true }})
@@ -196,7 +201,6 @@ const undeleteBook = async (req,res) =>{
         res.redirect('/admin/productManagement');
     }
 }
-
 
 const addAuthorInAddBook = async (req,res) => {
     try{
@@ -220,7 +224,6 @@ const addAuthorInAddBook = async (req,res) => {
     }
 }
 
-
 const addGenreInAddBook = async (req,res) => {
     try{
         const existingGenre = await genre.findOne({ genreName: req.body.genre });
@@ -240,7 +243,6 @@ const addGenreInAddBook = async (req,res) => {
         res.redirect('/admin/addBook');
     }
 }
-
 
 const coverImage = async (req,res) => {
     try{
@@ -299,7 +301,6 @@ const changeImage1 = async (req,res) => {
     }
 }
 
-
 const changeImage2 = async (req,res) => {
     try{
         await book.updateOne({_id: req.params.id},
@@ -329,7 +330,6 @@ const changeImage2 = async (req,res) => {
     }
 }
 
-
 const changeImage3 = async (req,res) => {
     try{
         await book.updateOne({_id: req.params.id},
@@ -358,7 +358,6 @@ const changeImage3 = async (req,res) => {
     }
 }
 
-
 const renderAuthorManagement = async (req,res) =>{
     try{
         let warning = req.session.errormsg;
@@ -370,7 +369,6 @@ const renderAuthorManagement = async (req,res) =>{
         res.redirect('/admin/admin_panel');
     }
 }
-
 
 const addAuthor = async (req,res) => {
     try{
@@ -394,7 +392,6 @@ const addAuthor = async (req,res) => {
     }
 }
 
-
 const editAuthor = async (req,res) => {
     try{
         await author.updateOne({_id: req.params.id},
@@ -412,7 +409,6 @@ const editAuthor = async (req,res) => {
         res.redirect('/admin/authorManagement');
     }
 }
-
 
 const changeAuthorImage = async (req,res) => {
     try{
@@ -445,7 +441,6 @@ const changeAuthorImage = async (req,res) => {
     }
 }
 
-
 const deleteAuthor = async (req,res) =>{
     try{
         await author.updateOne({_id: req.params.id},{$set: { delete: false }})
@@ -456,7 +451,6 @@ const deleteAuthor = async (req,res) =>{
     }
 }
 
-
 const undeleteAuthor = async (req,res) =>{
     try{
         await author.updateOne({_id: req.params.id},{$set: { delete: true }})
@@ -466,7 +460,6 @@ const undeleteAuthor = async (req,res) =>{
         res.redirect('/admin/authorManagement');
     }
 }
-
 
 const renderGenreManagement = async (req,res) =>{
     try{
@@ -479,7 +472,6 @@ const renderGenreManagement = async (req,res) =>{
         res.redirect('/admin/admin_panel');
     }
 }
-
 
 const addGenre = async (req,res) => {
     try{
@@ -501,7 +493,6 @@ const addGenre = async (req,res) => {
     }
 }
 
-
 const editGenre = async (req,res) => {
     try{
         await genre.updateOne({_id: req.params.id},
@@ -518,7 +509,6 @@ const editGenre = async (req,res) => {
     }
 }
 
-
 const deleteGenre = async (req,res) =>{
     try{
         await genre.updateOne({_id: req.params.id},{$set: { delete: false }})
@@ -529,7 +519,6 @@ const deleteGenre = async (req,res) =>{
     }
 }
 
-
 const undeleteGenre = async (req,res) =>{
     try{
         await genre.updateOne({_id: req.params.id},{$set: { delete: true }})
@@ -539,7 +528,6 @@ const undeleteGenre = async (req,res) =>{
         res.redirect('/admin/genreManagement');
     }
 }
-
 
 const renderCouponManagement = async (req,res) =>{
     try{
@@ -552,7 +540,6 @@ const renderCouponManagement = async (req,res) =>{
         res.redirect('/admin/admin_panel');
     }
 }
-
 
 const addCoupon = async (req,res) => {
     try{
@@ -606,7 +593,6 @@ const renderPendingManagement = async (req,res) =>{
     }
 }
 
-
 const changeOnTheWayOrder = async (req,res) =>{
     try{
         await order.updateOne({_id: req.params.id},{$set: { status: "On The Way" }})
@@ -616,7 +602,6 @@ const changeOnTheWayOrder = async (req,res) =>{
         res.redirect('/admin/genreManagement');
     }
 }
-
 
 const renderOnTheWayManagement = async (req,res) =>{
     try{
@@ -641,7 +626,6 @@ const renderOnTheWayManagement = async (req,res) =>{
         res.redirect('/admin/admin_panel');
     }
 }
-
 
 const changeCompleteOrder = async (req,res) =>{
     try{
@@ -677,7 +661,6 @@ const renderCompleteManagement = async (req,res) =>{
     }
 }
 
-
 const changeDeleteOrder = async (req,res) =>{
     try{
         await order.updateOne({_id: req.params.id},{$set: { status: "Delete" }})
@@ -687,7 +670,6 @@ const changeDeleteOrder = async (req,res) =>{
         res.redirect('/admin/genreManagement');
     }
 }
-
 
 const renderDeleteManagement = async (req,res) =>{
     try{
@@ -714,6 +696,131 @@ const renderDeleteManagement = async (req,res) =>{
 }
 
 
+// Banner Management
+
+const renderBannerManagement = async (req,res) =>{
+    try{
+        let books = await book.find().populate('author').populate('genre')
+        let banners = await banner.find();
+        let warning = req.session.errormsg;
+        req.session.errormsg = false;
+        res.render('admin/bannerManagement.ejs',{books,banners,warning});
+    }catch(err){
+        console.error(`Error Get Banner Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+
+const colorPalatte = async (req,res) =>{
+    try{
+  
+        const exit = await banner.findAndUpdateOne({$set:{
+            colorPalatte : req.body.colorPalatte
+        }})
+        console.log(exit);
+
+        res.status(200).send({data:"success"})
+    }catch(err){
+        console.error(`Error Get colorPalatte Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+
+const mainHeading = async (req,res) =>{
+    try{
+
+    }catch(err){
+        console.error(`Error Get mainHeading Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+const subHeading1 = async (req,res) =>{
+    try{
+
+    }catch(err){
+        console.error(`Error Get subHeading1 Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+const subHeading2 = async (req,res) =>{
+    try{
+
+    }catch(err){
+        console.error(`Error Get subHeading2 Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+const homeImage = async (req,res) =>{
+    try{
+
+    }catch(err){
+        console.error(`Error Get homeImage Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+const bigCardHeading1 = async (req,res) =>{
+    try{
+
+    }catch(err){
+        console.error(`Error Get bigCardHeading1 Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+const bigCardHeading2 = async (req,res) =>{
+    try{
+
+    }catch(err){
+        console.error(`Error Get bigCardHeading2 Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+const bigCardDiscription = async (req,res) =>{
+    try{
+
+    }catch(err){
+        console.error(`Error Get bigCardDiscription Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+const bigCardProductId = async (req,res) =>{
+    try{
+
+    }catch(err){
+        console.error(`Error Get bigCardProductId Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+const bottomImage1 = async (req,res) =>{
+    try{
+
+    }catch(err){
+        console.error(`Error Get bottomImage1 Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+const bottomImage2 = async (req,res) =>{
+    try{
+
+    }catch(err){
+        console.error(`Error Get bottomImage2 Management : ${err}`);
+        res.redirect('/admin/admin_panel');
+    }
+}
+
+
+
+// Logout
 
 const logout = (req,res)=>{
     req.session.adminemail = null;
@@ -762,6 +869,20 @@ module.exports = {
     renderCompleteManagement,
     changeDeleteOrder,
     renderDeleteManagement,
+
+    // BannerMangement
+    renderBannerManagement,
+    colorPalatte,
+    mainHeading,
+    subHeading1,
+    subHeading2,
+    homeImage,
+    bigCardHeading1,
+    bigCardHeading2,
+    bigCardDiscription,
+    bigCardProductId,
+    bottomImage1,
+    bottomImage2,
 
     logout,
 }

@@ -10,6 +10,8 @@ router.get('/',userController.renderHome);
 
 router.post('/login',userController.loginVarification);
 
+// router.post('/searchBox',userController.searchBox);
+
 router.get('/signup',midleware.signupSession,userController.renderSignup);
 
 router.post('/register',midleware.signupSession,userController.userSignup);

@@ -256,8 +256,8 @@
                       <form class="row gx-2 gy-2 align-items-center">
                         <div class="col">
                           <div class="input-group-icon"><i class="fas fa-search text-danger input-box-icon"></i>
-                            <label class="visually-hidden" for="inputDelivery">Book</label>
-                            <input class="form-control input-box form-foodwagon-control" id="inputDelivery" type="text" placeholder="Enter Book Name" />
+                            <label class="visually-hidden" for="searchBook">Book</label>
+                            <input class="form-control input-box form-foodwagon-control" id="searchBook" type="text" placeholder="Enter Book Name" onkeyup="searchBookInput()" >
                           </div>
                         </div>
                         <div class="d-grid gap-3 col-sm-auto">
@@ -269,8 +269,8 @@
                       <form class="row gx-4 gy-2 align-items-center">
                         <div class="col">
                           <div class="input-group-icon"><i class="fas fa-search text-danger input-box-icon"></i>
-                            <label class="visually-hidden" for="inputPickup">Author</label>
-                            <input class="form-control input-box form-foodwagon-control" id="inputPickup" type="text" placeholder="Enter Author Name" />
+                            <label class="visually-hidden" for="searchAuthor">Author</label>
+                            <input class="form-control input-box form-foodwagon-control" id="searchAuthor" type="text" placeholder="Enter Author Name" onkeyup="searchAuthorInput()" />
                           </div>
                         </div>
                         <div class="d-grid gap-3 col-sm-auto">
@@ -350,10 +350,10 @@
           </ul>
 
           <div class="filters-content">
-            <div class="row grid">
+            <div class="row grid" id="bookList">
               <% books.forEach((book,index) =>{ %>
                 <% if(index < 12) { %>
-                  <div class="col-sm-6 col-lg-4 item <%= book?.genre?.genreName %> <%= book.language %> <%= book.rating %>">
+                  <div class="col-sm-6 col-lg-4 books item <%= book?.genre?.genreName %> <%= book.language %> <%= book.rating %>" id="">
                     <div class="box">
                       <div>
                           <div class="img-box">
@@ -368,7 +368,7 @@
                               </h5>
                               <div class="row">
                                 <div class="col-12  d-flex justify-content-center">
-                                  <p>
+                                  <p class="authorName">
                                     <%= book?.author?.authorName %>
                                   </p>
                                 </div>
@@ -693,6 +693,9 @@
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
+    
+    
+    
     <script>
      function login() {
         const loginEmail = document.getElementById('email').value;
@@ -740,6 +743,56 @@
         })
       }
     </script>
+
+    <script>
+      function searchBookInput() {
+        const searchBox = document.getElementById('searchBook').value.toUpperCase();
+        const bookList = document.getElementById('bookList');
+        const books = document.getElementsByClassName('books');
+        const bname = bookList.getElementsByTagName('h5');
+
+        for (let i = 0; i < bname.length; i++) {
+          let match = bname[i];
+          if (match) {
+            let textValue = match.innerHTML.toUpperCase();
+            if (textValue.indexOf(searchBox) > -1) {
+              books[i].style.display = '';
+            } else {
+              books[i].style.display = 'none';
+            }
+          }
+        }
+      }
+    </script>
+
+
+    <script>
+      function searchAuthorInput() {
+        const searchBox = document.getElementById('searchAuthor').value.toUpperCase();
+        const bookList = document.getElementById('bookList');
+        const books = document.getElementsByClassName('books');
+        const aname = bookList.getElementsByClassName('authorName');
+
+        for (let i = 0; i < aname.length; i++) {
+          let match = aname[i];
+          console.log(match)
+          if (match) {
+            let textValue = match.innerHTML.toUpperCase();
+            if (textValue.indexOf(searchBox) > -1) {
+              books[i].style.display = '';
+            } else {
+              books[i].style.display = 'none';
+            }
+          }
+        }
+      }
+    </script>
+
+
+
+
+
+
     <!-- ===============================================-->
     <!--    Template JavaScripts-->
     <!-- ===============================================-->
