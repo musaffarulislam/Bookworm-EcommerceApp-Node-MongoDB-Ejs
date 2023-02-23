@@ -5,7 +5,7 @@ const town = form.querySelector("#town");
 const state = form.querySelector("#state");
 const zipCode = form.querySelector("#zipCode");
 const country = form.querySelector("#country");
-const errorElement = form.querySelector('#error');
+const errorElement = form.querySelector('#permanentAddressError');
 
 
 
@@ -18,8 +18,10 @@ function showErrorMessage(message){
         errorElement.innerHTML =`<div></div>`
     },3000);
 }
-function submitformpermanentAddress(e){
+function submitformpermanent(e){
     // e.preventDefault()
+
+    console.log("hiiiiiiiiii");
     if(houseName.value === ""){
         showErrorMessage("Name is required");
         return false;
