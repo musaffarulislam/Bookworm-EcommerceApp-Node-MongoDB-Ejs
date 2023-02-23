@@ -423,7 +423,12 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                 <div class="d-flex justify-content-center">
                                     <ul class="nav nav-tabs shadow" role="tablist">
                                         <li class="nav-item p-b-10 mt-3 addressTab" data-target="#Permanent">
-                                            <a class="addressSelect active border" data-toggle="tab" href="#" role="tab">Permanent Address</a>
+                                            <a class="addressSelect active border" data-toggle="tab" href="#" role="tab"
+                                                <% if (userDetails.address[0].address) { %>
+                                                    onclick="permanentAddress('<%= userDetails.address[0].houseName %>', '<%= userDetails.address[0].streetName %>', '<%= userDetails.address[0].town %>', '<%= userDetails.address[0].state %>', 
+                                                    '<%= userDetails.address[0].country %>','<%= userDetails.address[0].zipCode %>')"
+                                                <%} %>
+                                            >Permanent Address</a>
                                         </li>
                                         <li class="nav-item p-b-10 addressTab" data-target="#additionalAddress">
                                             <a class="addressSelect border" data-toggle="tab" href="#" role="tab">Other Address</a>
@@ -435,9 +440,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                     <% if (userDetails.address[0].address) { %>
                                     <div class="tab-pane fade show active" id="Permanent" role="tabpanel">
                                         <div class="p-lr-15-md">
-                                            <!-- <div id="orderAddress"><%= userDetails.address[0].houseName %>, <%= userDetails.address[0].streetName %>, <%= userDetails.address[0].town %>, <%= userDetails.address[0].state %>, 
-                                                <%= userDetails.address[0].country %>, <%= userDetails.address[0].zipCode %></div> -->
-                                            
+                                        
                                         <div class="text-secondary my-3">
                                                 <input type="button" class="btn btn-danger" value="Change Permanent Address" data-toggle="modal" data-target="#changeParmenantAddress">
                                         </div>
@@ -449,7 +452,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                         <div class="modal fade" id="changeParmenantAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                               <div class="modal-content">
-                                                <form id="addOtherAddress" action="/checkOutAddress/<%= userDetails._id %>" method="post">
+                                                <form id="changeParmenantAddressForm" action="/checkOutAddress/<%= userDetails._id %>" method="post" onselect="return submitformpermanent(event)">
                                                   <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLongTitle">Change Parmenant Address</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -480,12 +483,12 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                                 </form>
                                               </div>
                                             </div>
-                                          </div>
-
-                                        <!-- Add Other Address ============================-->
+                                        </div>
+                                        <!-- Change Permenant Address ============================-->
                                         <!-- ============================================-->
 
                                         </div>
+
                                     </div>
             
                                     <!-- - -->
@@ -503,11 +506,10 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                                 </select>
                                             </div>
 
-                                            <!-- <div id="orderAddressOther"></div> -->
 
                                             <div class="how-pos2 p-lr-15-md">
                                                 <form id="seleteAddress" style="display: none;" method="POST">
-                                                    <div class="otherAddressMessage"></div>
+                                                    <div id="otherAddressMessage"></div>
                                                     <div class="row mb-1">
                                                         <label class="form-label" for="houseName">House No / Name</label>
                                                         <input type="text" name="houseName" id="selectHouseName" class="form-control" value="<%= userDetails.address[0].houseName %>" required>
@@ -535,8 +537,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                                     <div class="row mt-2">
                                                         <div class="col-sm-3" style="box-sizing: content-box;">
                                                             <div class="col-sm-9 text-secondary mb-2">
-                                                                <!-- <input type="submit" class="btn btn-primary px-4" value="Save Changes"> -->
-                                                                <input type="submit" class="btn btn-primary" value="Save Changes">
+                                                                <input type="button" class="btn btn-primary" value="Save Changes" onclick="return checkOutUpdateAddress()">
                                                             </div>
                                                             <div class="col-sm-9 text-secondary">
                                                                 <input type="button" class="btn btn-danger" value="Add Address" data-toggle="modal" data-target="#addOtherAddressModal">
@@ -561,7 +562,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                         <div class="modal fade" id="addOtherAddressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                               <div class="modal-content">
-                                                <form id="addOtherAddress" action="/checkoutAddOtherAddress/<%= userDetails._id %>" method="post">
+                                                <form id="addOtherAddress" action="/checkoutAddOtherAddress/<%= userDetails._id %>" method="post" onsubmit="return submitformaddOtherAddress()">
                                                   <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLongTitle">Add Address</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -570,6 +571,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                                   </div>
                                                   <div class="modal-body">
                                                     <div class="form-outline mb-1">
+                                                      <div id="addOtherAddressError"></div>
                                                       <label class="form-label" for="addHouseName">House No / Name</label>
                                                       <input type="text" id="addHouseName" class="form-control form-control-lg" name="addHouseName" required/>
                                                       <label class="form-label" for="addStreetName">Street Name</label>
@@ -605,12 +607,12 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
 
 
                                         <!-- ============================================-->
-                                        <!-- Permenant Address ============================-->
+                                        <!-- Add Permenant Address ============================-->
 
                                         <div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                               <div class="modal-content">
-                                                <form id="addOtherAddress" action="/checkOutAddress/<%= userDetails._id %>" method="post">
+                                                <form id="addPermanantAddress" action="/checkOutAddress/<%= userDetails._id %>" method="post"  onsubmit="return submitformaddPermanentAddress()">
                                                   <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLongTitle">Add Address</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -619,18 +621,19 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                                   </div>
                                                   <div class="modal-body">
                                                     <div class="form-outline mb-1">
+                                                    <div id="addPermanantAddressError"></div>
                                                       <label class="form-label" for="houseName">House No / Name</label>
-                                                      <input type="text" id="houseName" class="form-control form-control-lg" name="houseName" required/>
+                                                      <input type="text" id="addPermanantHouseName" class="form-control form-control-lg" name="houseName" required/>
                                                       <label class="form-label" for="streetName">Street Name</label>
-                                                      <input type="text" id="streetName" class="form-control form-control-lg" name="streetName" required/>
+                                                      <input type="text" id="addPermanantStreetName" class="form-control form-control-lg" name="streetName" required/>
                                                       <label class="form-label" for="town">Town</label>
-                                                      <input type="text" id="town" class="form-control form-control-lg" name="town" required/>
+                                                      <input type="text" id="addPermanantTown" class="form-control form-control-lg" name="town" required/>
                                                       <label class="form-label" for="state">State</label>
-                                                      <input type="text" id="state" class="form-control form-control-lg" name="state" required/>
+                                                      <input type="text" id="addPermanantState" class="form-control form-control-lg" name="state" required/>
                                                       <label class="form-label" for="country">Country</label>
-                                                      <input type="text" id="country" class="form-control form-control-lg" name="country" required/>
+                                                      <input type="text" id="addPermanantCountry" class="form-control form-control-lg" name="country" required/>
                                                       <label class="form-label" for="zipCode">Pin Code</label>
-                                                      <input type="number" id="zipCode" class="form-control form-control-lg" name="zipCode" required/>
+                                                      <input type="number" id="addPermanantZipCode" class="form-control form-control-lg" name="zipCode" required/>
                                                     </div>
                                                   </div>
                                                   <div class="modal-footer">
@@ -642,7 +645,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                             </div>
                                           </div>
 
-                                        <!-- Permanat Address ============================-->
+                                        <!-- Add Permanent Address ============================-->
                                         <!-- ============================================-->
                                 </div>
                             </div>
@@ -754,7 +757,10 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
 
 
 
-    <script src="../javascripts/permanentaddressvalidation.js"></script>
+    <script src="../javascripts/checkOutpermanentaddressvalidation.js"></script>
+    <script src="../javascripts/checkoutPermanentaChangeressvalidation.js"></script>
+    <script src="../javascripts/checkoutAddPermanentAddressvalidation.js"></script>
+
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
    
     <script>
@@ -766,6 +772,12 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 $(target).addClass('show active');
             });
         });
+    </script>
+
+    <script>
+        function permanentAddress(houseName,streetName,town,state,country,zipCode){
+            document.getElementById('orderAddress').innerHTML = `${houseName}, ${streetName}, ${town}, ${state}, ${country}, ${zipCode}`
+        }
     </script>
 
     <script>
@@ -793,8 +805,8 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
             .then((data)=>{
                 console.log(data);
                 document.getElementById('orderAddress').innerHTML = `${data.address.houseName}, ${data.address.streetName}, ${data.address.town}, ${data.address.state}, ${data.address.country}, ${data.address.zipCode}`
-                const form = document.getElementById('seleteAddress')
-                form.action = `/checkOutUpdateAddress/${addressId}`
+                // const form = document.getElementById('seleteAddress')
+                // form.action = `/checkOutUpdateAddress/${addressId}`
                 document.getElementById('selectHouseName').value = data.address.houseName
                 document.getElementById('selectStreetName').value = data.address.streetName
                 document.getElementById('selectTown').value = data.address.town
@@ -803,6 +815,100 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 document.getElementById('selectCountry').value = data.address.country
             })
         }
+
+        function checkOutUpdateAddress(){
+            const url = window.location.origin;
+            const addressId = document.getElementById('address-select').value;
+            const houseName = document.getElementById('selectHouseName').value
+            const streetName = document.getElementById('selectStreetName').value
+            const town = document.getElementById('selectTown').value
+            const state = document.getElementById('selectState').value
+            const zipCode = document.getElementById('selectZipCode').value
+            const country = document.getElementById('selectCountry').value
+            const selectErrorElement = document.querySelector('#otherAddressMessage');
+
+            function hideErrorMessageother(){
+                selectErrorElement.innerHTML="";
+            }
+            function showErrorMessageother(message){
+                selectErrorElement.innerHTML =`<div class="alert alert-warning border border-warning d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
+                setTimeout(()=>{
+                    selectErrorElement.innerHTML =`<div></div>`
+                },3000);
+            }
+
+            if(houseName === "" || houseName.trim()==""){
+                showErrorMessageother("House Name is required");
+                return false;
+            }
+            if(houseName.length >40){
+                showErrorMessageother("Name must be less than 40");
+                return false;
+            }
+            if(streetName === "" || streetName.trim()==""){
+                showErrorMessageother("Street Name is required");
+                return false;
+            }
+            if(streetName.length >30){
+                showErrorMessageother("Street Name must be less than 30");
+                return false;
+            }
+            if(town === "" || town.trim()==""){
+                showErrorMessageother("Town is required");
+                return false;
+            }
+            if(town.length >30){
+                showErrorMessageother("Town must be less than 30");
+                return false;
+            }
+            if(state === "" || state.trim()==""){
+                showErrorMessageother("State is required");
+                return false;
+            }
+            if(state.length >30){
+                showErrorMessageother("State must be less than 30");
+                return false;
+            }
+            if(country === "" || country.trim()==""){
+                showErrorMessageother("Country is required");
+                return false;
+            }
+            if(country.length >30){
+                showErrorMessageother("Country must be less than 30");
+                return false;
+            }
+            if(zipCode === "" || zipCode.trim()==""){
+                showErrorMessageother("Pin Code is required");
+                return false;
+            }
+            if(zipCode.length <6 || zipCode.length >6 || selectZipCode.value <= 099999){
+                showErrorMessageother("Incorrect Pin Code");
+                return false;
+            }
+            hideErrorMessageother()
+
+            console.log(url);
+            fetch(`${url}/checkOutUpdateAddress/${addressId}`, {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    houseName,
+                    streetName,
+                    town,
+                    state,
+                    country,
+                    zipCode
+                })
+            }).then((response)=>response.json())
+            .then((data)=>{
+                console.log(data);
+                document.getElementById('orderAddress').innerHTML = `${houseName}, ${streetName}, ${town}, ${state}, ${country}, ${zipCode}`
+            })
+        }
+
     </script>  
    
 
@@ -1064,8 +1170,6 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
         }
 
 
-      
-      
         function applyCoupon(userId) {
             const couponName = document.getElementById('couponName').value;
             const couponMessage = document.getElementById('couponMessage');

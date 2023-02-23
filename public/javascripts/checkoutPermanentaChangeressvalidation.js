@@ -1,4 +1,4 @@
-const form = document.querySelector("#permanentAddress");
+const form = document.querySelector("#changeParmenantAddressForm");
 const houseName = form.querySelector("#houseName");
 const streetName = form.querySelector("#streetName");
 const town = form.querySelector("#town");
@@ -19,8 +19,7 @@ function showErrorMessagepermanent(message){
 }
 function submitformpermanent(e){
     // e.preventDefault()
-
-    console.log("hiiiiiiiiii");
+    
     if(houseName.value === ""){
         showErrorMessagepermanent("Name is required");
         return false;
@@ -98,7 +97,7 @@ function submitformpermanent(e){
 
     
     if(zipCode.value === ""){
-        showErrorMessagepermanent("Phonenumber is required");
+        showErrorMessagepermanent("Pincode is required");
         return false;
     }
 
@@ -124,7 +123,7 @@ function submitformpermanent(e){
 
 
 
-    hideErrorMessage()
+    hideErrorMessagepermanent()
     return true;
 }
     

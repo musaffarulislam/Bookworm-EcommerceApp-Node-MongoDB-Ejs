@@ -828,7 +828,8 @@ const checkOutUpdateAddress = async (req,res) =>{
 
 
     console.log(req.body.houseName);
-    res.redirect(`/checkout/${req.session.user}`);
+    res.status(200).send({data:"Success"})
+    // res.redirect(`/checkout/${req.session.user}`);
 
   }catch(err){
     console.error(`Error Edit User Info : ${err}`);
