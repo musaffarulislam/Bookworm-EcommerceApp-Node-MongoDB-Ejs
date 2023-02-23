@@ -68,6 +68,10 @@ router.get('/couponManagement',midleware.adminSession,adminController.renderCoup
 
 router.post('/addCoupon',midleware.adminSession,adminController.addCoupon);
 
+router.post('/editCoupon/:id',midleware.adminSession,adminController.editCoupon);
+
+router.delete('/deleteCoupon',midleware.adminSession,adminController.deleteCoupon);
+
 
 
 

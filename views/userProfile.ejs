@@ -317,10 +317,9 @@
                                                 <!-- - -->
                                                 <div class="tab-pane fade show active" id="Permanent" role="tabpanel">
                                                     <div class="how-pos2 p-lr-15-md pt-4">
-                                                        <form id="permanentAddress" action="/address/<%= userDetails._id %>" method="post" onsubmit="return submitformpermanent(event)">
+                                                        <form id="permanentAddress">
                                                         <!-- <form id="permanantAddress"> -->
                                                             <div id="permanentAddressError"></div>
-                                                            <div id="permanentAddressMessage"></div>
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-3">
                                                                     <h6 class="mb-0">House No. / Name</h6>
@@ -381,7 +380,7 @@
                                                             <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="col-sm-9 text-secondary">
-                                                                        <input type="submit" class="btn btn-primary px-4" value="Save Changes">
+                                                                        <input type="button" class="btn btn-primary px-4" value="Save Changes" onclick="return permanentUpdateAddress('<%= userDetails._id %>')">
                                                                         <!-- <input type="button" class="btn btn-primary px-4" value="Save Changes" onclick="addPermanentAddress('<%= userDetails._id %>')"> -->
                                                                     </div>
                                                                 </div>
@@ -399,14 +398,14 @@
                                                             <select id="address-select" onchange="showAddressDetails()">
                                                                 <option value="select">Select Address</option>
                                                                 <% for (let i = 1; i < userDetails.address.length; i++) { %>
-                                                                  <option value="<%= userDetails.address[i]._id %>"><%= userDetails.address[i].houseName %>, <%= userDetails.address[i].town %>, <%= userDetails.address[i].country %></option>
+                                                                  <option id="<%= userDetails.address[i]._id %>" value="<%= userDetails.address[i]._id %>"><%= userDetails.address[i].houseName %>, <%= userDetails.address[i].town %>, <%= userDetails.address[i].country %></option>
                                                                 <% } %>
                                                             </select>
                                                         </div>
 
                                                         <div class="how-pos2 p-lr-15-md pt-4">
                                                             <form id="seleteAddress" style="display: none;" method="POST">
-                                                                <div class="otherAddressMessage"></div>
+                                                                <div id="otherAddressMessage"></div>
                                                                 <div class="row mb-3">
                                                                     <div class="col-sm-3">
                                                                         <h6 class="mb-0">House No. / Name</h6>
@@ -461,11 +460,63 @@
                                                                     <div class="col-sm-3 d-flex justify-content-between" style="box-sizing: content-box;">
                                                                         <div class="col-sm-9 text-secondary">
                                                                             <!-- <input type="submit" class="btn btn-primary px-4" value="Save Changes"> -->
-                                                                            <input type="submit" class="btn btn-primary" value="Save Changes">
+                                                                            <input type="button" class="btn btn-primary" value="Save Changes" onclick="return otherUpdateAddress('<%= userDetails._id %>')">
+                                                                        </div>
+                                                                        <div class="col-sm-9 text-secondary">
+                                                                            <input type="button" id="deleteButton" class="btn btn-secondary" value="Delete">
                                                                         </div>
                                                                         <div class="col-sm-9 text-secondary">
                                                                             <input type="button" class="btn btn-danger" value="Add Address" data-toggle="modal" data-target="#addAddressModal">
                                                                         </div>
+
+                                                                        <script>
+                                                                            const myButton = document.querySelector('#deleteButton');
+                                                                            const addressId = document.getElementById('address-select').value;
+                                                                            myButton.addEventListener('click', () => {
+
+                                                                                Swal.fire({
+                                                                                title: 'Are you sure?',
+                                                                                text: "You won't be able to revert this!",
+                                                                                icon: 'warning',
+                                                                                showCancelButton: true,
+                                                                                confirmButtonText: 'Yes, delete it!',
+                                                                                cancelButtonText: 'No, cancel!',
+                                                                                reverseButtons: true
+                                                                              }).then((result) => {
+                                                                                if (result.isConfirmed) {
+                                                                                    console.log("hiiiiiiiiiiii");
+                                                                                    const url = window.location.origin;
+                                                                                    console.log(url);
+                                                                                    fetch(`${url}/deleteAddress/${addressId}`, 
+                                                                                    {
+                                                                                        method: 'POST',
+                                                                                        headers: {
+                                                                                        'Accept': 'application/json',
+                                                                                        'Content-Type': 'application/json'
+                                                                                        },
+                                                                                        body: JSON.stringify({
+                                                                                        })
+                                                                                    }).then((response)=>response.json())
+                                                                                    .then((data)=>{
+                                                                                        console.log(data);
+                                                                                        document.getElementById(`${userDetails.address[i]._id}`).remove()
+                                                                                    })
+                                                                                  Swal.fire(
+                                                                                    'Deleted!',
+                                                                                    'Your Address has been deleted.',
+                                                                                    'success'
+                                                                                  );
+                                                                                } else if (result.isDenied) {
+                                                                                  // User clicked on the "No" button
+                                                                                  Swal.fire(
+                                                                                    'Cancelled',
+                                                                                    'Your Address is safe :)',
+                                                                                    'info'
+                                                                                  )
+                                                                                }
+                                                                              });
+                                                                            });
+                                                                          </script>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -536,6 +587,10 @@
         </div>
 
 
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"></script>
+
+
         <script>
             function showAddressDetails(){
                 const url = window.location.origin;
@@ -560,8 +615,6 @@
                 }).then((response)=>response.json())
                 .then((data)=>{
                     console.log(data);
-                    const form = document.getElementById('seleteAddress')
-                    form.action = `/updateAddress/${addressId}`
                     document.getElementById('selectHouseName').value = data.address.houseName
                     document.getElementById('selectStreetName').value = data.address.streetName
                     document.getElementById('selectTown').value = data.address.town
@@ -570,6 +623,195 @@
                     document.getElementById('selectCountry').value = data.address.country
                 })
             }
+
+
+            function permanentUpdateAddress(userId){
+                const url = window.location.origin;
+                const houseName = document.getElementById('houseName').value
+                const streetName = document.getElementById('streetName').value
+                const town = document.getElementById('town').value
+                const state = document.getElementById('state').value
+                const zipCode = document.getElementById('zipCode').value
+                const country = document.getElementById('country').value
+                const selectErrorElement = document.querySelector('#permanentAddressError');
+
+                function hideErrorMessageother(){
+                    selectErrorElement.innerHTML="";
+                }
+                function showErrorMessageother(message){
+                    selectErrorElement.innerHTML =`<div class="alert alert-warning border border-warning d-flex w-80 justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
+                    setTimeout(()=>{
+                        selectErrorElement.innerHTML =`<div></div>`
+                    },3000);
+                }
+
+                if(houseName === "" || houseName.trim()==""){
+                    showErrorMessageother("House Name is required");
+                    return false;
+                }
+                if(houseName.length >40){
+                    showErrorMessageother("Name must be less than 40");
+                    return false;
+                }
+                if(streetName === "" || streetName.trim()==""){
+                    showErrorMessageother("Street Name is required");
+                    return false;
+                }
+                if(streetName.length >30){
+                    showErrorMessageother("Street Name must be less than 30");
+                    return false;
+                }
+                if(town === "" || town.trim()==""){
+                    showErrorMessageother("Town is required");
+                    return false;
+                }
+                if(town.length >30){
+                    showErrorMessageother("Town must be less than 30");
+                    return false;
+                }
+                if(state === "" || state.trim()==""){
+                    showErrorMessageother("State is required");
+                    return false;
+                }
+                if(state.length >30){
+                    showErrorMessageother("State must be less than 30");
+                    return false;
+                }
+                if(country === "" || country.trim()==""){
+                    showErrorMessageother("Country is required");
+                    return false;
+                }
+                if(country.length >30){
+                    showErrorMessageother("Country must be less than 30");
+                    return false;
+                }
+                if(zipCode === "" || zipCode.trim() ==""){
+                    showErrorMessageother("Pin Code is required");
+                    return false;
+                }
+                if(zipCode.length <6 || zipCode.length >6 || zipCode.value <= 099999){
+                    showErrorMessageother("Incorrect Pin Code");
+                    return false;
+                }
+                hideErrorMessageother()
+
+                console.log(url);
+                fetch(`${url}/address/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        houseName,
+                        streetName,
+                        town,
+                        state,
+                        country,
+                        zipCode
+                    })
+                }).then((response)=>response.json())
+                .then((data)=>{
+                    console.log(data);
+                
+                })
+            }
+        
+
+            function otherUpdateAddress(userId){
+                const addressId = document.getElementById('address-select').value;
+                const url = window.location.origin;
+                const houseName = document.getElementById('selectHouseName').value
+                const streetName = document.getElementById('selectStreetName').value
+                const town = document.getElementById('selectTown').value
+                const state = document.getElementById('selectState').value
+                const zipCode = document.getElementById('selectZipCode').value
+                const country = document.getElementById('selectCountry').value
+                const selectErrorElement = document.querySelector('#otherAddressMessage');
+
+                function hideErrorMessageother(){
+                    selectErrorElement.innerHTML="";
+                }
+                function showErrorMessageother(message){
+                    selectErrorElement.innerHTML =`<div class="alert alert-warning border border-warning d-flex w-80 justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
+                    setTimeout(()=>{
+                        selectErrorElement.innerHTML =`<div></div>`
+                    },3000);
+                }
+
+                if(houseName === "" || houseName.trim()==""){
+                    showErrorMessageother("House Name is required");
+                    return false;
+                }
+                if(houseName.length >40){
+                    showErrorMessageother("Name must be less than 40");
+                    return false;
+                }
+                if(streetName === "" || streetName.trim()==""){
+                    showErrorMessageother("Street Name is required");
+                    return false;
+                }
+                if(streetName.length >30){
+                    showErrorMessageother("Street Name must be less than 30");
+                    return false;
+                }
+                if(town === "" || town.trim()==""){
+                    showErrorMessageother("Town is required");
+                    return false;
+                }
+                if(town.length >30){
+                    showErrorMessageother("Town must be less than 30");
+                    return false;
+                }
+                if(state === "" || state.trim()==""){
+                    showErrorMessageother("State is required");
+                    return false;
+                }
+                if(state.length >30){
+                    showErrorMessageother("State must be less than 30");
+                    return false;
+                }
+                if(country === "" || country.trim()==""){
+                    showErrorMessageother("Country is required");
+                    return false;
+                }
+                if(country.length >30){
+                    showErrorMessageother("Country must be less than 30");
+                    return false;
+                }
+                if(zipCode === "" || zipCode.trim() ==""){
+                    showErrorMessageother("Pin Code is required");
+                    return false;
+                }
+                if(zipCode.length <6 || zipCode.length >6 || zipCode.value <= 099999){
+                    showErrorMessageother("Incorrect Pin Code");
+                    return false;
+                }
+                hideErrorMessageother()
+
+                console.log(url);
+                fetch(`${url}/updateAddress/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        houseName,
+                        streetName,
+                        town,
+                        state,
+                        country,
+                        zipCode
+                    })
+                }).then((response)=>response.json())
+                .then((data)=>{
+                    console.log(data);
+                
+                })
+            }
+        
+        
         </script>
 
         <script src="../javascripts/userinfovalidation.js"></script>

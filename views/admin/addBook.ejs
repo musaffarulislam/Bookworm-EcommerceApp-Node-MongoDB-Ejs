@@ -28,7 +28,7 @@
                     <img class="booking-img" src="../signup/images/form-img.jpg" alt="Booking Image" style="height: 100%;">
                 </div>
                 <div class="booking-form">
-                    <form class="py-4" id="addBook" action="/admin/addBook" method="post" enctype="multipart/form-data">
+                    <form class="py-4" id="addBook" action="/admin/addBook" method="post" enctype="multipart/form-data" onsubmit="return addBookValidation()">
                         <h2>Add Book</h2>
                         <div id="error"></div>
                         <% if(warning) {%>
@@ -55,8 +55,7 @@
                             <div class="pt-4">
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#addAuthor">Add Author</button>
                             </div>
-                        </div>
-                        
+                        </div>                   
                         <div class="d-flex justify-content-between">
                             <div class="form-group form-input pt-2 w-50">
                                 <label for="genre" style="color :#bebebe">Genre:</label>
@@ -235,7 +234,7 @@
                             </div>
                         </div>
                         <div class="form-submit pt-3">
-                            <input type="submit" value="Add Book" class="submit" id="submit" name="submit"/>
+                            <button type="submit" value="Add Book" class="submit" id="submit" name="submit"/>
                             <a href="/admin/productManagement" class="vertify-booking">back</a>
                         </div>
                     </form>
@@ -311,49 +310,7 @@
     </div>
 
 
-    <!-- <script>
-        const form = document.getElementById("addBook");
-        const input = document.getElementById("myFiles");
-        const fileList = document.getElementById("file-list");
-
-        const renderFiles = () => {
-        fileList.innerHTML = "";
-
-        for (let i = 0; i < input.files.length; i++) {
-            const li = document.createElement("li");
-            li.innerHTML = input.files[i].name;
-
-            const deleteBtn = document.createElement("button");
-            // deleteBtn.innerHTML = "Delete";
-            deleteBtn.addEventListener("click", () => {
-            input.files[i] = null;
-            renderFiles();
-            });
-
-            // li.appendChild(deleteBtn);
-            fileList.appendChild(li);
-        }
-        };
-
-        input.addEventListener("change", () => {
-        if (input.files.length > 3) {
-            alert("You can only upload 3 files");
-            input.value = "";
-        } else {
-            renderFiles();
-        }
-        });
-
-        form.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        const formData = new FormData();
-        for (let i = 0; i < input.files.length; i++) {
-            formData.append("myFiles", input.files[i]);
-        }
-        });
-
-    </script> -->
+    <script src="../javascripts/addBookValidation.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
@@ -366,7 +323,7 @@
     <!-- JS -->
     <script src="../signup/vendor/jquery/jquery.min.js"></script>
     <script src="../signup/js2/main.js"></script>
-    <script src="../signup/javascripts/signupvalidation.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->

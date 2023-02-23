@@ -1,4 +1,5 @@
 const { response } = require('express');
+const mongoose = require('mongoose');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
@@ -332,10 +333,7 @@ const address = async (req,res) =>{
     await user.updateOne({_id: userId}, 
       {$set: {"address.0": newAddress}})
 
-
-    console.log(req.body.houseName);
-    res.redirect(`/myProfile/${req.params.id}`);
-
+    res.status(200).send({data:"Success"})
   }catch(err){
     console.error(`Error Edit User Info : ${err}`);
     res.redirect(`/myProfile/${req.params.id}`);
@@ -361,7 +359,7 @@ const seleteAddress = async (req,res) =>{
 
 const updateAddress = async (req,res) =>{
   try{
-
+    const userId = req.params.id;
     const addressId = req.params.id;
     const updateAddress = {
       address : true,
@@ -373,12 +371,31 @@ const updateAddress = async (req,res) =>{
       zipCode: req.body.zipCode,
     };
 
-    await user.updateOne({_id: req.session.user, 'address._id': addressId}, 
+   const update =  await user.findOneAndUpdate({_id: userId, 'address._id': addressId}, 
       {$set: {"address.$": updateAddress}})
+    console.log(update);
+    res.status(200).send({data:"Success"})
+
+  }catch(err){
+    console.error(`Error Edit User Info : ${err}`);
+    res.redirect(`/myProfile/${req.params.id}`);
+  }
+}
 
 
-    console.log(req.body.houseName);
-    res.redirect(`/myProfile/${req.session.user}`);
+const deleteAddress = async (req,res) =>{
+  try{
+    console.log("hiiiiiiiiiiiiiiiiii");
+    const addressId = req.params.id;
+    
+    // Check if req.session.user is a valid ObjectId
+    if (!mongoose.isValidObjectId(req.session.user)) {
+      throw new Error(`Invalid user ID: ${req.session.user}`);
+    }
+
+    await user.deleteOne({ _id: req.session.user, 'address._id': addressId })
+
+    res.status(200).send({ data: "Success" })
 
   }catch(err){
     console.error(`Error Edit User Info : ${err}`);
@@ -798,8 +815,6 @@ const checkOutAddress = async (req,res) =>{
     await user.updateOne({_id: userId}, 
       {$set: {"address.0": newAddress}})
 
-
-    console.log(req.body.houseName);
     res.redirect(`/checkout/${req.params.id}`);
 
   }catch(err){
@@ -826,8 +841,6 @@ const checkOutUpdateAddress = async (req,res) =>{
     await user.updateOne({_id: req.session.user, 'address._id': addressId}, 
       {$set: {"address.$": updateAddress}})
 
-
-    console.log(req.body.houseName);
     res.status(200).send({data:"Success"})
     // res.redirect(`/checkout/${req.session.user}`);
 
@@ -1168,6 +1181,7 @@ module.exports = {
     address,
     seleteAddress,
     updateAddress,
+    deleteAddress,
     addOtherAddress,
     addUserImage,
     renderMyOrder,

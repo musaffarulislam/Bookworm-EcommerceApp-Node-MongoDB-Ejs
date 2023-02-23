@@ -36,6 +36,8 @@ router.post('/selectAddress',midleware.userSession,userController.seleteAddress)
 
 router.post('/updateAddress/:id',midleware.userSession,userController.updateAddress);
 
+router.post('/deleteAddress/:id',midleware.userSession,userController.deleteAddress);
+
 router.post('/addOtherAddress/:id',midleware.userSession,userController.addOtherAddress);
 
 router.post('/addUserImage/:id',midleware.userSession,upload.single('userImage'),userController.addUserImage);

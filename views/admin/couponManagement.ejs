@@ -330,7 +330,7 @@
                 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
-                      <form id="addCoupon" action="/admin/addCoupon" method="post">
+                      <form id="addCoupon" action="/admin/addCoupon" method="post"  onsubmit="return couponValidation()">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLongTitle">Add Coupon</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -338,6 +338,7 @@
                           </button>
                         </div>
                         <div class="modal-body">
+                          <div id="couponErrorMessage"></div>
                           <div class="form-outline mb-1">
                             <label class="form-label" for="typeUsernameX-1">Enter Coupon Name</label>
                               <input type="text" id="couponName" class="form-control form-control-lg text-uppercase" name="couponName" required/>  
@@ -373,7 +374,7 @@
             
                           <div class="card">
                             <h5 class="card-header">Coupon Management</h5>
-                            <div class="table-responsive text-nowrap p-3">
+                            <div class="table-responsive p-3">
                               <table class="table table-dark" id="example">
                                 <thead>
                                   <tr>
@@ -389,23 +390,22 @@
                                 <tbody class="table-border-bottom-0">
                                   <% let i = 1 %>
                                   <% coupons.forEach((coupon) => { %>
-                                    <tr>  
+                                    <tr id="<%= coupon._id %>">  
                                       <td><strong><%= coupon.couponName %></strong></td>
                                       <td><%= coupon.discountPercentage %></td>
                                       <td><%= coupon.maximumDiscountPrice %></td>
                                       <td><%= coupon.minimumTotal %></td>
-                                      <td><%= coupon.validationDate %></td>
-                                      <td><button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit<%= coupon.couponName %>" style="color:white; background-color: transparent;"><i class="bx bx-edit-alt me-1" style="color:white"></i> Edit</button></td>
-                                      <td><a class="dropdown-item" href="/admin/deleteCoupon/<%= coupon._id %>" style="color:white; background-color: transparent;"><i class="bx bx-trash me-1" style="color:white"></i> Delete</a></td>
-                                    </tr>
-
+                                      <td><%= new Date(coupon.ExpiredDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></td>
+                                      <td><button type="button" class="dropdown-item" data-toggle="modal" data-target="#<%= coupon.couponName %>" style="color:white; background-color: transparent;"><i class="bx bx-edit-alt me-1" style="color:white"></i> Edit</button></td>
+                                      <td><a class="dropdown-item" onclick="couponDelete('<%= coupon._id %>')" style="color:white; background-color: transparent;"><i class="bx bx-trash me-1" style="color:white"></i> Delete</a></td>
+                                    
                                         <!-- ============================================-->
                                         <!-- model login ============================-->
 
-                                        <div class="modal fade" id="edit<%= coupon.couponName %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal fade" id="<%= coupon.couponName %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                              <form id="editCoupon" action="/admin/editCoupon/<%= coupon._id %>" method="post">
+                                              <form id="editCoupon" onsubmit="return couponEditValidation()">
                                                 <div class="modal-header">
                                                   <h5 class="modal-title" id="exampleModalLongTitle">Edit Coupon</h5>
                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -413,6 +413,7 @@
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
+                                                  <div id="editcouponErrorMessage"></div>
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Enter Coupon Name</label>
                                                       <input type="text" id="editcouponName" class="form-control form-control-lg text-uppercase" name="couponName" value="<%= coupon.couponName %>" required/>  
@@ -445,6 +446,8 @@
 
                                       <!-- model login ============================-->
                                       <!-- ============================================-->
+                                    
+                                    </tr>
 
                                   <% }) %>
                                   
@@ -457,7 +460,31 @@
         </div>
  
 
+        <script src="../javascripts/couponValidation.js"></script>
+        <script src="../javascripts/couponEditValidation.js"></script>
 
+        <script>
+            function couponDelete(couponId){
+              const url = window.location.origin;
+              console.log(url);
+              fetch(`${url}/admin/deleteCoupon`, {
+                method: 'DELETE',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    couponId
+                })
+              }).then((response)=>response.json())
+              .then((data)=>{
+                console.log("data",data)
+                document.getElementById(`${couponId}`).remove()
+              })
+            }
+        </script>
+ 
+ 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
         <script>
