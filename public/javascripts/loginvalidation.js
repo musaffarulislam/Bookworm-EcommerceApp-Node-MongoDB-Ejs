@@ -17,6 +17,11 @@ form.submitform = () =>{
         return false;
     }
 
+    if(email.value.trim()==""){
+        showErrorMessage("Email is required");
+        return false;
+    }
+
     let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.value.match(validRegex)) {
       
@@ -31,6 +36,11 @@ form.submitform = () =>{
     }
 
     if(password.value === ""){
+        showErrorMessage("Password is required");
+        return false;
+    }
+
+    if(password.value.trim()==""){
         showErrorMessage("Password is required");
         return false;
     }

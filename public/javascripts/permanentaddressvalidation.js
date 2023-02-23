@@ -9,11 +9,11 @@ const errorElement = form.querySelector('#permanentAddressError');
 
 
 
-function hideErrorMessage(){
+function hideErrorMessagepermanent(){
     errorElement.innerHTML="";
 }
-function showErrorMessage(message){
-    errorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
+function showErrorMessagepermanent(message){
+    errorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2 mx-5" role="alert" >${message}</div>`;
     setTimeout(()=>{
         errorElement.innerHTML =`<div></div>`
     },3000);
@@ -23,73 +23,103 @@ function submitformpermanent(e){
 
     console.log("hiiiiiiiiii");
     if(houseName.value === ""){
-        showErrorMessage("Name is required");
+        showErrorMessagepermanent("Name is required");
+        return false;
+    }
+
+    if(houseName.value.trim()==""){
+        showErrorMessage("House Name is required");
         return false;
     }
 
     if(houseName.value.length >40){
-        showErrorMessage("Name must be less than 40");
+        showErrorMessagepermanent("Name must be less than 40");
         return false;
     }
 
     if(streetName.value === ""){
-        showErrorMessage("Street Name is required");
+        showErrorMessagepermanent("Street Name is required");
+        return false;
+    }
+
+    if(streetName.value.trim()==""){
+        showErrorMessage("streetName is required");
         return false;
     }
 
     if(streetName.value.length >30){
-        showErrorMessage("Street Name must be less than 30");
+        showErrorMessagepermanent("Street Name must be less than 30");
         return false;
     }
 
     if(town.value === ""){
+        showErrorMessagepermanent("Town is required");
+        return false;
+    }
+
+    if(town.value.trim()==""){
         showErrorMessage("Town is required");
         return false;
     }
 
     if(town.value.length >30){
-        showErrorMessage("Town must be less than 30");
+        showErrorMessagepermanent("Town must be less than 30");
         return false;
     }
 
     if(state.value === ""){
+        showErrorMessagepermanent("State is required");
+        return false;
+    }
+
+    if(state.value.trim()==""){
         showErrorMessage("State is required");
         return false;
     }
 
     if(state.value.length >30){
-        showErrorMessage("State must be less than 30");
+        showErrorMessagepermanent("State must be less than 30");
         return false;
     }
 
     if(country.value === ""){
-        showErrorMessage("country is required");
+        showErrorMessagepermanent("country is required");
+        return false;
+    }
+
+    if(country.value.trim()==""){
+        showErrorMessage("Country is required");
         return false;
     }
 
     if(country.value.length >30){
-        showErrorMessage("country must be less than 30");
+        showErrorMessagepermanent("country must be less than 30");
         return false;
     }
 
     
     if(zipCode.value === ""){
-        showErrorMessage("Phonenumber is required");
+        showErrorMessagepermanent("Phonenumber is required");
+        return false;
+    }
+
+    if(zipCode.value.trim()==""){
+        showErrorMessage("Pin code is required");
         return false;
     }
 
     if(zipCode.value.length <6){
-        showErrorMessage("Pin Code must be 6 numbers");
+        showErrorMessagepermanent("Pin Code must be 6 numbers");
         return false;
     }
 
     if(zipCode.value.length >6){
-        showErrorMessage("Incorrect Pin Code");
+        showErrorMessagepermanent("Incorrect Pin Code");
         return false;
     }
 
-    if(zipCode.value <= 0){
-        showErrorMessage("Incorrect Pin Code");
+    if(zipCode.value <= 099999){
+        showErrorMessagepermanent("Incorrect Pin Code");
         return false;
     }
 

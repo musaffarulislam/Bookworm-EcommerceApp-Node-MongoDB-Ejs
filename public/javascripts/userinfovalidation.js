@@ -3,22 +3,27 @@ const userName1 = form1.querySelector("#userName");
 const email1 = form1.querySelector("#email");
 const phoneNumber1 = form1.querySelector("#phoneNumber");
 const age1 = form1.querySelector("#age");
-let errorElement = form1.querySelector('#error');
+const errorElement1 = form1.querySelector('#error');
 
 
 
 function hideErrorMessage(){
-    errorElement.innerHTML="";
+    errorElement1.innerHTML="";
 }
 function showErrorMessage(message){
-    errorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
+    errorElement1.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2 mx-5" role="alert" >${message}</div>`;
     setTimeout(()=>{
-        errorElement.innerHTML =`<div></div>`
+        errorElement1.innerHTML =`<div></div>`
     },3000);
 }
 function submitformUserInfo(e){
     // e.preventDefault()
     if(userName1.value === ""){
+        showErrorMessage("Name is required");
+        return false;
+    }
+
+    if(userName1.value.trim()==""){
         showErrorMessage("Name is required");
         return false;
     }
@@ -34,6 +39,10 @@ function submitformUserInfo(e){
         return false;
     }
 
+    if(email1.value.trim()==""){
+        showErrorMessage("Email is required");
+        return false;
+    }
 
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email1.value.match(validRegex)) {
@@ -45,6 +54,11 @@ function submitformUserInfo(e){
     
     if(phoneNumber1.value === ""){
         showErrorMessage("Phonenumber is required");
+        return false;
+    }
+
+    if(phoneNumber1.value.trim()==""){
+        showErrorMessage("Phone Number is required");
         return false;
     }
 
@@ -64,6 +78,11 @@ function submitformUserInfo(e){
     }
 
     if(age1.value === ""){
+        showErrorMessage("Age is required");
+        return false;
+    }
+
+    if(age1.value.trim()==""){
         showErrorMessage("Age is required");
         return false;
     }

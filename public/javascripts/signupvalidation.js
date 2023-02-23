@@ -17,14 +17,15 @@ function showErrorMessage(message){
     setTimeout(()=>{
         errorElement.innerHTML =`<div></div>`
     },3000);
-    // errorElement.innerHTML = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    // ${message}
-    // <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    // <span aria-hidden="true">&times;</span></button></div>`
 }
 function submitform(e){
     // e.preventDefault()
     if(username.value === ""){
+        showErrorMessage("Name is required");
+        return false;
+    }
+
+    if(username.value.trim()==""){
         showErrorMessage("Name is required");
         return false;
     }
@@ -40,6 +41,10 @@ function submitform(e){
         return false;
     }
 
+    if(email.value.trim()==""){
+        showErrorMessage("Email is required");
+        return false;
+    }
 
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (email.value.match(validRegex)) {
@@ -54,22 +59,32 @@ function submitform(e){
         return false;
     }
 
+    if(phonenumber.value.trim()==""){
+        showErrorMessage("Phone number is required");
+        return false;
+    }
+
     if(phonenumber.value.length <10){
         showErrorMessage("Phone Number must be 10 numbers");
         return false;
     }
 
-    if(phonenumber.value.length >10){
+    if(phonenumber.value.length >12){
         showErrorMessage("Phone Number must be 10 numbers");
         return false;
     }
 
-    if(phonenumber.value <= 6999999999){
+    if(phonenumber.value <= 5999999999){
         showErrorMessage("Incorrect Phone Number");
         return false;
     }
 
     if(age.value === ""){
+        showErrorMessage("Age is required");
+        return false;
+    }
+
+    if(age.value.trim()==""){
         showErrorMessage("Age is required");
         return false;
     }
@@ -92,6 +107,11 @@ function submitform(e){
     }
 
     if(fpassword.value === ""){
+        showErrorMessage("Password is required");
+        return false;
+    }
+
+    if(fpassword.value.trim()==""){
         showErrorMessage("Password is required");
         return false;
     }

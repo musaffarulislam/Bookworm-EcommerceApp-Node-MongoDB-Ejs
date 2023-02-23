@@ -29,7 +29,15 @@
                         <h2>Sign Up</h2>
                         <div id="error"></div>
                         <% if(warning) {%>
-                            <div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >Email Already Exist</div>
+                            <div  id="warningMessage" class="py-2 mt-2">
+                                <div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold" role="alert" >Email Already Exist</div>
+                            </div>
+                            <script>
+                                setTimeout(()=>{
+                                    document.getElementById('warningMessage').innerHTML = ""
+                                },3000)
+                                
+                            </script>
                         <% } %>
                         <div class="form-group form-input">
                             <input type="text" name="userName" id="username" required/>
