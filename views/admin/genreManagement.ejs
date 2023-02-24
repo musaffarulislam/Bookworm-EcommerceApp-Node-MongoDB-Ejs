@@ -355,8 +355,8 @@
             
                           <div class="card">
                             <h5 class="card-header">Genre Management</h5>
-                            <div class="table-responsive text-nowrap p-3">
-                              <table class="table table-dark py-3" id="example">
+                            <div class="table-responsive p-3">
+                              <table class="table table-dark" id="example">
                                 <thead>
                                   <tr>
                                     <th>Genre</th>
@@ -373,7 +373,7 @@
                                       <% if (genre.delete) {%>
                                         <td width="20%"><span class="badge bg-label-success me-1">Active</span></td>
                                       <% }else{ %>
-                                        <td width="20%"><span class="badge bg-label-warning me-1">delete</span></td>
+                                        <td width="20%"><span class="badge bg-label-warning me-1">In Active</span></td>
                                       <% } %>
                                       <td width="20%">
                                         <div class="dropdown">
@@ -393,12 +393,12 @@
                                     </tr>
 
                                         <!-- ============================================-->
-                                        <!-- model login ============================-->
+                                        <!-- Edit Genre ============================-->
 
                                         <div class="modal fade" id="edit<%= genre._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                              <form id="editGenre" action="/admin/editGenre/<%= genre._id %>" method="post">
+                                              <form id="editGenre" action="/admin/editGenre/<%= genre._id %>" method="post" onsubmit="return editGenre()">
                                                 <div class="modal-header">
                                                   <h5 class="modal-title" id="exampleModalLongTitle">Edit Genre</h5>
                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -406,9 +406,10 @@
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
+                                                  <div id="editAlert"></div>
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
-                                                    <input type="text" id="genre" class="form-control form-control-lg" name="genre" value="<%= genre.genreName%>" required/>
+                                                    <input type="text" id="editGenreName" class="form-control form-control-lg" name="editGenreName" value="<%= genre.genreName%>" required/>
                                                     <input type="hidden" id="genredelete" class="form-control form-control-lg" name="genreDelete" value="<%= genre.delete%>" required/>  
                                                   </div>
                                                 </div>
@@ -421,7 +422,7 @@
                                           </div>
                                         </div>
 
-                                      <!-- model login ============================-->
+                                      <!-- Edit Genre ============================-->
                                       <!-- ============================================-->
 
                                   <% }) %>
@@ -433,8 +434,36 @@
               </div>
           </div>
         </div>
- 
 
+
+
+        <script>
+            const form = document.querySelector("#editGenre");
+            const editGenreName = form.querySelector("#editGenreName");
+            const errorElement = form.querySelector('#editAlert');
+
+            function hideErrorMessage(){
+                errorElement.innerHTML="";
+            }
+            function showErrorMessage(message){
+                errorElement.innerHTML =`<div class="alert alert-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
+            }
+            form.editGenre = () =>{
+
+                if(editGenreName.value === "" || editGenreName.value.trim()==""){
+                    showErrorMessage("Genre name field is empty");
+                    return false;
+                }
+
+                if(editGenreName.value.length >30){
+                    showErrorMessage("Genre name must be less than 30");
+                    return false;
+                }
+
+                hideErrorMessage()
+                return true;
+            }
+        </script>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
