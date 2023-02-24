@@ -20,7 +20,7 @@ function showErrorMessage(message){
 function couponValidation(e){
     // e.preventDefault()
     if(couponName.value === "" || couponName.value.trim()==""){
-        showErrorMessage("Coupon Name is required");
+        showErrorMessage("Coupon Name field is empty");
         return false;
     }
 
@@ -32,7 +32,7 @@ function couponValidation(e){
 
 
     if(discountPercentage.value === "" || discountPercentage.value.trim()==""){
-        showErrorMessage("Discount Percentage is required");
+        showErrorMessage("Discount Percentage field is empty");
         return false;
     }
 
@@ -44,7 +44,7 @@ function couponValidation(e){
 
 
     if(maxDiscountPrice.value === "" || maxDiscountPrice.value.trim()==""){
-        showErrorMessage("Discount Percentage is required");
+        showErrorMessage("Discount Percentage field is empty");
         return false;
     }
 
@@ -56,7 +56,7 @@ function couponValidation(e){
 
 
     if(minTotalAmount.value === "" || minTotalAmount.value.trim()==""){
-        showErrorMessage("Discount Percentage is required");
+        showErrorMessage("Discount Percentage field is empty");
         return false;
     }
 

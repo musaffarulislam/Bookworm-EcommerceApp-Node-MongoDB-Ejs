@@ -21,12 +21,12 @@ function showErrorMessage(message){
 function submitform(e){
     // e.preventDefault()
     if(username.value === ""){
-        showErrorMessage("Name is required");
+        showErrorMessage("Name field is empty");
         return false;
     }
 
     if(username.value.trim()==""){
-        showErrorMessage("Name is required");
+        showErrorMessage("Name field is empty");
         return false;
     }
 
@@ -37,12 +37,12 @@ function submitform(e){
 
 
     if(email.value === ""){
-        showErrorMessage("Email is required");
+        showErrorMessage("Email field is empty");
         return false;
     }
 
     if(email.value.trim()==""){
-        showErrorMessage("Email is required");
+        showErrorMessage("Email field is empty");
         return false;
     }
 
@@ -55,12 +55,12 @@ function submitform(e){
       }
     
     if(phonenumber.value === ""){
-        showErrorMessage("Phonenumber is required");
+        showErrorMessage("Phonenumber field is empty");
         return false;
     }
 
     if(phonenumber.value.trim()==""){
-        showErrorMessage("Phone number is required");
+        showErrorMessage("Phone number field is empty");
         return false;
     }
 
@@ -80,12 +80,12 @@ function submitform(e){
     }
 
     if(age.value === ""){
-        showErrorMessage("Age is required");
+        showErrorMessage("Age field is empty");
         return false;
     }
 
     if(age.value.trim()==""){
-        showErrorMessage("Age is required");
+        showErrorMessage("Age field is empty");
         return false;
     }
 
@@ -107,12 +107,12 @@ function submitform(e){
     }
 
     if(fpassword.value === ""){
-        showErrorMessage("Password is required");
+        showErrorMessage("Password field is empty");
         return false;
     }
 
     if(fpassword.value.trim()==""){
-        showErrorMessage("Password is required");
+        showErrorMessage("Password field is empty");
         return false;
     }
 
@@ -128,7 +128,7 @@ function submitform(e){
 
 
     if(spassword.value === ""){
-        showErrorMessage("Confirm Password is required");
+        showErrorMessage("Confirm Password field is empty");
         return false;
     }
 

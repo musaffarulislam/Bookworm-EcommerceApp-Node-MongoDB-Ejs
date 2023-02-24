@@ -714,7 +714,6 @@
         }).then((response)=> {
           if(response.status === 200){
             return response.json().then(() => {
-                console.log("Success");
                 location.reload();
             });
           }else if(response.status === 401){
@@ -775,7 +774,6 @@
 
         for (let i = 0; i < aname.length; i++) {
           let match = aname[i];
-          console.log(match)
           if (match) {
             let textValue = match.innerHTML.toUpperCase();
             if (textValue.indexOf(searchBox) > -1) {

@@ -12,21 +12,21 @@ function hideErrorMessagepermanent(){
     errorElement.innerHTML="";
 }
 function showErrorMessagepermanent(message){
-    errorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2 mx-5" role="alert" >${message}</div>`;
+    errorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
     setTimeout(()=>{
         errorElement.innerHTML =`<div></div>`
     },3000);
 }
-function submitformpermanent(e){
+function submitformEditParmanent(e){
     // e.preventDefault()
     
     if(houseName.value === ""){
-        showErrorMessagepermanent("Name is required");
+        showErrorMessagepermanent("Name field is empty");
         return false;
     }
 
     if(houseName.value.trim()==""){
-        showErrorMessage("House Name is required");
+        showErrorMessagepermanent("House Name field is empty");
         return false;
     }
 
@@ -36,12 +36,12 @@ function submitformpermanent(e){
     }
 
     if(streetName.value === ""){
-        showErrorMessagepermanent("Street Name is required");
+        showErrorMessagepermanent("Street Name field is empty");
         return false;
     }
 
     if(streetName.value.trim()==""){
-        showErrorMessage("streetName is required");
+        showErrorMessagepermanent("streetName field is empty");
         return false;
     }
 
@@ -51,12 +51,12 @@ function submitformpermanent(e){
     }
 
     if(town.value === ""){
-        showErrorMessagepermanent("Town is required");
+        showErrorMessagepermanent("Town field is empty");
         return false;
     }
 
     if(town.value.trim()==""){
-        showErrorMessage("Town is required");
+        showErrorMessagepermanent("Town field is empty");
         return false;
     }
 
@@ -66,12 +66,12 @@ function submitformpermanent(e){
     }
 
     if(state.value === ""){
-        showErrorMessagepermanent("State is required");
+        showErrorMessagepermanent("State field is empty");
         return false;
     }
 
     if(state.value.trim()==""){
-        showErrorMessage("State is required");
+        showErrorMessagepermanent("State field is empty");
         return false;
     }
 
@@ -81,12 +81,12 @@ function submitformpermanent(e){
     }
 
     if(country.value === ""){
-        showErrorMessagepermanent("country is required");
+        showErrorMessagepermanent("country field is empty");
         return false;
     }
 
     if(country.value.trim()==""){
-        showErrorMessage("Country is required");
+        showErrorMessagepermanent("Country field is empty");
         return false;
     }
 
@@ -97,12 +97,12 @@ function submitformpermanent(e){
 
     
     if(zipCode.value === ""){
-        showErrorMessagepermanent("Pincode is required");
+        showErrorMessagepermanent("Pincode field is empty");
         return false;
     }
 
     if(zipCode.value.trim()==""){
-        showErrorMessage("Pin code is required");
+        showErrorMessagepermanent("Pin code field is empty");
         return false;
     }
 

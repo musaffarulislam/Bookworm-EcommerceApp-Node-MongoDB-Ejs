@@ -11,7 +11,7 @@ function hideErrorMessage(){
     errorElement1.innerHTML="";
 }
 function showErrorMessage(message){
-    errorElement1.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2 mx-5" role="alert" >${message}</div>`;
+    errorElement1.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
     setTimeout(()=>{
         errorElement1.innerHTML =`<div></div>`
     },3000);
@@ -19,12 +19,12 @@ function showErrorMessage(message){
 function submitformUserInfo(e){
     // e.preventDefault()
     if(userName1.value === ""){
-        showErrorMessage("Name is required");
+        showErrorMessage("Name field is empty");
         return false;
     }
 
     if(userName1.value.trim()==""){
-        showErrorMessage("Name is required");
+        showErrorMessage("Name field is empty");
         return false;
     }
 
@@ -35,12 +35,12 @@ function submitformUserInfo(e){
 
 
     if(email1.value === ""){
-        showErrorMessage("Email1 is required");
+        showErrorMessage("Email1 field is empty");
         return false;
     }
 
     if(email1.value.trim()==""){
-        showErrorMessage("Email is required");
+        showErrorMessage("Email field is empty");
         return false;
     }
 
@@ -53,12 +53,12 @@ function submitformUserInfo(e){
       }
     
     if(phoneNumber1.value === ""){
-        showErrorMessage("Phonenumber is required");
+        showErrorMessage("Phonenumber field is empty");
         return false;
     }
 
     if(phoneNumber1.value.trim()==""){
-        showErrorMessage("Phone Number is required");
+        showErrorMessage("Phone Number field is empty");
         return false;
     }
 
@@ -78,12 +78,12 @@ function submitformUserInfo(e){
     }
 
     if(age1.value === ""){
-        showErrorMessage("Age is required");
+        showErrorMessage("Age field is empty");
         return false;
     }
 
     if(age1.value.trim()==""){
-        showErrorMessage("Age is required");
+        showErrorMessage("Age field is empty");
         return false;
     }
 

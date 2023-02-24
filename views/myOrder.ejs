@@ -467,7 +467,6 @@
 
   <script>
     function orderDelete(orderId) {
-      console.log("asdfghjsdfghjk");
       const url = window.location.origin;
       console.log(url);
       fetch(`${url}/orderDelete?orderId=${orderId}`, {
@@ -478,7 +477,6 @@
         }
       }).then((response)=>response)
       .then((data)=>{
-        console.log("hiiiiiiiiiiiiiiiiiii");
         document.getElementById(`orderStatus${orderId}`).innerHTML = 
                       `<h5><span class="badge bg-dark d-flex justify-content-center">
                         Cancel Order

@@ -22,12 +22,12 @@ function submitformpermanent(e){
 
     console.log("hiiiiiiiiii");
     if(houseName.value === ""){
-        showErrorMessagepermanent("Name is required");
+        showErrorMessagepermanent("Name field is empty");
         return false;
     }
 
     if(houseName.value.trim()==""){
-        showErrorMessage("House Name is required");
+        showErrorMessage("House Name field is empty");
         return false;
     }
 
@@ -37,12 +37,12 @@ function submitformpermanent(e){
     }
 
     if(streetName.value === ""){
-        showErrorMessagepermanent("Street Name is required");
+        showErrorMessagepermanent("Street Name field is empty");
         return false;
     }
 
     if(streetName.value.trim()==""){
-        showErrorMessage("streetName is required");
+        showErrorMessage("streetName field is empty");
         return false;
     }
 
@@ -52,12 +52,12 @@ function submitformpermanent(e){
     }
 
     if(town.value === ""){
-        showErrorMessagepermanent("Town is required");
+        showErrorMessagepermanent("Town field is empty");
         return false;
     }
 
     if(town.value.trim()==""){
-        showErrorMessage("Town is required");
+        showErrorMessage("Town field is empty");
         return false;
     }
 
@@ -67,12 +67,12 @@ function submitformpermanent(e){
     }
 
     if(state.value === ""){
-        showErrorMessagepermanent("State is required");
+        showErrorMessagepermanent("State field is empty");
         return false;
     }
 
     if(state.value.trim()==""){
-        showErrorMessage("State is required");
+        showErrorMessage("State field is empty");
         return false;
     }
 
@@ -82,12 +82,12 @@ function submitformpermanent(e){
     }
 
     if(country.value === ""){
-        showErrorMessagepermanent("country is required");
+        showErrorMessagepermanent("country field is empty");
         return false;
     }
 
     if(country.value.trim()==""){
-        showErrorMessage("Country is required");
+        showErrorMessage("Country field is empty");
         return false;
     }
 
@@ -98,12 +98,12 @@ function submitformpermanent(e){
 
     
     if(zipCode.value === ""){
-        showErrorMessagepermanent("Phonenumber is required");
+        showErrorMessagepermanent("Phonenumber field is empty");
         return false;
     }
 
     if(zipCode.value.trim()==""){
-        showErrorMessage("Pin code is required");
+        showErrorMessage("Pin code field is empty");
         return false;
     }
 

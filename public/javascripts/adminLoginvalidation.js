@@ -1,4 +1,4 @@
-const form = document.querySelector("#login");
+const form = document.querySelector("#adminLogin");
 const email = form.querySelector("#email");
 const password = form.querySelector("#password");
 const errorElement = form.querySelector('#alert');
@@ -7,11 +7,14 @@ function hideErrorMessage(){
     errorElement.innerHTML="";
 }
 function showErrorMessage(message){
-    errorElement.innerHTML =`<div class="alert alert-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
+    errorElement.innerHTML =`<div class="alert alert-danger w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
+    setTimeout(()=>{
+        errorElement.innerHTML = ""
+    },5000)
 }
 form.submitform = () =>{
     // e.preventDefault()
-    // console.log(email.value)
+    console.log(email.value)
     if(email.value === ""){
         showErrorMessage("Email field is empty");
         return false;

@@ -405,7 +405,7 @@
                                         <div class="modal fade" id="<%= coupon.couponName %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                              <form id="editCoupon" onsubmit="return couponEditValidation()">
+                                              <form id="editCoupon">
                                                 <div class="modal-header">
                                                   <h5 class="modal-title" id="exampleModalLongTitle">Edit Coupon</h5>
                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -413,31 +413,32 @@
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                  <div id="editcouponErrorMessage"></div>
+                                                  <div id="editErrorMessage"></div>
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Enter Coupon Name</label>
-                                                      <input type="text" id="editcouponName" class="form-control form-control-lg text-uppercase" name="couponName" value="<%= coupon.couponName %>" required/>  
+                                                      <input type="text" id="editcouponName" class="form-control form-control-lg text-uppercase" name="editcouponName" value="<%= coupon.couponName %>" required/>  
                                                   </div>
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Discount Percentage</label>
-                                                      <input type="Number" id="editdiscountPercentage" class="form-control form-control-lg" name="discountPercentage" value="<%= coupon.discountPercentage %>" required/>  
+                                                      <input type="Number" id="editdiscountPercentage" class="form-control form-control-lg" name="editdiscountPercentage" value="<%= coupon.discountPercentage %>" required/>  
                                                   </div>
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Maximum Discount Price</label>
-                                                      <input type="Number" id="editmaxDiscountPrice" class="form-control form-control-lg" name="maxDiscountPrice" value="<%= coupon.maximumDiscountPrice %>" required/>  
+                                                      <input type="Number" id="editmaxDiscountPrice" class="form-control form-control-lg" name="editmaxDiscountPrice" value="<%= coupon.maximumDiscountPrice %>" required/>  
                                                   </div>
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Minimum Total Amount</label>
-                                                      <input type="Number" id="editminTotalAmount" class="form-control form-control-lg" name="minTotalAmount" value="<%= coupon.minimumTotal %>" required/>  
+                                                      <input type="Number" id="editminTotalAmount" class="form-control form-control-lg" name="editminTotalAmount" value="<%= coupon.minimumTotal %>" required/>  
                                                   </div>
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Expired Date</label>
-                                                      <input type="date" id="editexpDate" class="form-control form-control-lg" name="expDate" value="<%= coupon.ExpiredDate %>" required/>  
+                                                      <input type="date" id="editexpDate" class="form-control form-control-lg" name="editexpDate" value="<%= coupon.ExpiredDate %>" required/>  
                                                   </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                  <button type="submit" class="btn btn-primary">Edit</button>
+                                                  <button type="button" class="btn btn-primary" onclick="editCoupon('<%= coupon._id %>','<%= coupon.couponName %>')">Edit</button>
+
                                                 </div>
                                               </form>
                                             </div>
@@ -461,9 +462,128 @@
  
 
         <script src="../javascripts/couponValidation.js"></script>
-        <script src="../javascripts/couponEditValidation.js"></script>
+        <!-- <script src="../javascripts/couponEditValidation.js"></script> -->
 
-        <script>
+        <script>  
+            function editCoupon(couponId, couponNameModal) {
+                const editcouponName = document.getElementById("editcouponName").value;
+                const editdiscountPercentage = document.getElementById("editdiscountPercentage").value;
+                const editmaximumDiscountPrice = document.getElementById("editmaxDiscountPrice").value;
+                const editminimumTotal = document.getElementById("editminTotalAmount").value;
+                const ExpiredDate = new Date(document.getElementById('editexpDate').value);
+                const editerrorElement = document.getElementById('editErrorMessage');
+
+
+                function hideEditErrorMessage(){
+                  editerrorElement.innerHTML="";
+                }
+                function showEditErrorMessage(message){
+                  if (typeof editerrorElement !== "undefined" && editerrorElement !== null) {
+                    editerrorElement.innerHTML = message;
+                    editerrorElement.style.display = "block";
+                  }
+                  editerrorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
+                    setTimeout(()=>{
+                      editerrorElement.innerHTML =`<div></div>`
+                    },3000);
+                }
+
+                if(editcouponName === "" || editcouponName.trim()==""){
+                    showEditErrorMessage("Coupon Name field is empty");
+                    return false;
+                }
+
+                if(editcouponName.length >30){
+                    showEditErrorMessage("Coupon name must be less than 15");
+                    return false;
+                }
+
+
+
+                if(editdiscountPercentage === "" || editdiscountPercentage.trim()==""){
+                    showEditErrorMessage("Discount Percentage field is empty");
+                    return false;
+                }
+
+
+                if(editdiscountPercentage > 100 || editdiscountPercentage <= 0){
+                    showEditErrorMessage("Incorrect Discount Percentage");
+                    return false;
+                }
+
+
+                if(editmaximumDiscountPrice === "" || editmaximumDiscountPrice.trim()==""){
+                    showEditErrorMessage("Discount Percentage field is empty");
+                    return false;
+                }
+
+
+                if(editmaximumDiscountPrice >= 100000 || editmaximumDiscountPrice <= 0){
+                    showEditErrorMessage("Incorrect max DiscountPrice");
+                    return false;
+                }
+
+
+                if(editminimumTotal === "" || editminimumTotal.trim()==""){
+                    showEditErrorMessage("Discount Percentage field is empty");
+                    return false;
+                }
+
+
+                if(editminimumTotal >= 100000 || editminimumTotal <= 0){
+                    showEditErrorMessage("Incorrect Minimum Total Amount");
+                    return false;
+                }
+
+
+                const edittoday = new Date();
+
+                if (ExpiredDate < edittoday) {
+                    showEditErrorMessage("Please Enter Valid Date");
+                    return false;
+                }
+
+                hideEditErrorMessage()
+
+
+                const url = window.location.origin;
+                console.log(url);
+                fetch(`${url}/admin/editCoupon`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        couponId,
+                        couponName : editcouponName,
+                        discountPercentage : editdiscountPercentage,
+                        maximumDiscountPrice : editmaximumDiscountPrice,
+                        minimumTotal : editminimumTotal,
+                        ExpiredDate
+                    })
+                }).then((response) => response.json())
+                .then((data) => {
+                    const modal = document.getElementById(couponNameModal);
+                    modal.classList.remove('show');
+                    modal.style.display = 'none';
+                    const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
+                    modalBackdrop.parentNode.removeChild(modalBackdrop);
+
+                    document.getElementById(`${couponId}`).innerHTML = 
+                                      `<td><strong>${data.couponName}</strong></td>
+                                      <td>${data.discountPercentage}</td>
+                                      <td>${data.maximumDiscountPrice}</td>
+                                      <td>${data.minimumTotal}</td>
+                                      <td>${data.ExpiredDate}</td>
+                                      <td><button type="button" class="dropdown-item" data-toggle="modal" data-target="#${data.couponName}" style="color:white; background-color: transparent;"><i class="bx bx-edit-alt me-1" style="color:white"></i> Edit</button></td>
+                                      <td><a class="dropdown-item" onclick="couponDelete('${couponId}')" style="color:white; background-color: transparent;"><i class="bx bx-trash me-1" style="color:white"></i> Delete</a></td>`
+                });
+            }
+
+
+
+
             function couponDelete(couponId){
               const url = window.location.origin;
               console.log(url);
@@ -478,13 +598,12 @@
                 })
               }).then((response)=>response.json())
               .then((data)=>{
-                console.log("data",data)
                 document.getElementById(`${couponId}`).remove()
               })
             }
         </script>
  
- 
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
         <script>

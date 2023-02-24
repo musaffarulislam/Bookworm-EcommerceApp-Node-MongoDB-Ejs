@@ -22,15 +22,15 @@ const UserOTPVerification = require('../models/userOTPVerification');
 
 
 const renderHome = async (req,res)=>{
-  let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre');
-  let banners = await banner.findOne({banner: true}).populate('bigCard1ProductId').populate('bigCard2ProductId')
+  const books = await book.find({delete: {$ne: false}}).populate('author').populate('genre');
+  const banners = await banner.findOne({banner: true}).populate('bigCard1ProductId').populate('bigCard2ProductId')
   req.session.userInfo = false
-  let userId = req.session.user;
+  const userId = req.session.user;
   let userDetails = false;
   if(userId){
     userDetails = await user.findOne({_id: userId})
   }
-  let warning = req.session.errormsg;
+  const warning = req.session.errormsg;
   req.session.errormsg = false;
   res.render('index',{ title: "Home",books,banners,userDetails,warning});
 }
@@ -51,7 +51,6 @@ const loginVarification = async(req,res)=>{
                     req.session.user = response._id;
                     res.status(200).send({message:"Success",status:200})
                 }else{                  
-                    console.log("Incorrect Password");
                     res.status(401).send({message:"Incorrect Password",status:401})
                 }
             })
@@ -59,7 +58,6 @@ const loginVarification = async(req,res)=>{
             res.status(401).send({message:"This Email Id Blocked",status:401})
           }
         }else {        
-            console.log("Incorrect Email")
             res.status(401).send({message:"Incorrect Email",status:401})
         }
       }catch(err){
@@ -69,7 +67,7 @@ const loginVarification = async(req,res)=>{
 }
 
 const renderSignup = (req,res)=>{
-  let warning = req.session.errormsg;
+  const warning = req.session.errormsg;
   req.session.errormsg = false;
   res.render('signup',{title: 'Signup',warning});
 }
@@ -107,11 +105,8 @@ const userSignup = async (req, res) => {
           block: true,
       };
 
-
       const OTP = Math.floor(1000 + Math.random() * 9000).toString();
       const expirationTime = new Date(Date.now() + 5 * 60 * 1000);
-
-      console.log(OTP);
 
       await UserOTPVerification.deleteMany({email: User.email})
 
@@ -188,7 +183,7 @@ const verifyOTP = async (req,res)=> {
           block: true,
         };
         if(req.body.otp == userOtp.otp){
-          let date = new Date(Date.now());
+          const date = new Date(Date.now());
           if(date < userOtp.expiresAt){
             const newUser = new user({
                 username: req.body.userName,
@@ -240,7 +235,6 @@ const resendOTP = async (req,res) =>{
         };
 
         const OTP = Math.floor(1000 + Math.random() * 9000).toString();
-        console.log(OTP);
         const expirationTime = new Date(Date.now() + 5 * 60 * 1000);
     
         await UserOTPVerification.deleteMany({email: User.email})
@@ -344,11 +338,9 @@ const address = async (req,res) =>{
 const seleteAddress = async (req,res) =>{
   try{
     const addressId = req.body.addressId;
-    console.log(addressId);
     const userDetails = await user.findOne({_id: req.session.user})
     // const address = userDetails.address.find(addressItems=> addressItems === addressId)
     const address = userDetails.address.id(addressId)
-    console.log(address);
     res.status(200).send({address})
 
   }catch(err){
@@ -373,7 +365,6 @@ const updateAddress = async (req,res) =>{
 
    const update =  await user.findOneAndUpdate({_id: userId, 'address._id': addressId}, 
       {$set: {"address.$": updateAddress}})
-    console.log(update);
     res.status(200).send({data:"Success"})
 
   }catch(err){
@@ -385,15 +376,14 @@ const updateAddress = async (req,res) =>{
 
 const deleteAddress = async (req,res) =>{
   try{
-    console.log("hiiiiiiiiiiiiiiiiii");
     const addressId = req.params.id;
-    
+    const userId = req.body.userId
     // Check if req.session.user is a valid ObjectId
-    if (!mongoose.isValidObjectId(req.session.user)) {
-      throw new Error(`Invalid user ID: ${req.session.user}`);
+    if (!mongoose.isValidObjectId(userId)) {
+      throw new Error(`Invalid user ID: ${userId}`);
     }
 
-    await user.deleteOne({ _id: req.session.user, 'address._id': addressId })
+    await user.deleteOne({ _id: userId, 'address._id' : addressId })
 
     res.status(200).send({ data: "Success" })
 
@@ -430,7 +420,6 @@ const addOtherAddress = async (req, res) => {
 
 
 const addUserImage = async (req,res) =>{
-  console.log("add user working ");
   try{
     await user.findOneAndUpdate({_id: req.params.id},
       {$set: 
@@ -482,8 +471,6 @@ const renderMyOrder = async (req,res) =>{
       ]
     }).sort({orderTime : -1});
     const count =  await order.find({user : userId}).count()
-    console.log(orders);
-    console.log(orders?.product);
     res.render('myOrder',{title: "my Order",userDetails,orders,count,warning});
   }catch(err){
     console.error(`Error Render myOrder page : ${err}`);
@@ -508,30 +495,28 @@ const orderDelete = async (req,res) => {
 
 
 const renderBook = async (req,res)=>{
-    let books = await book.find({delete: {$ne: false}}).populate('author').populate('genre')
+    const books = await book.find({delete: {$ne: false}}).populate('author').populate('genre')
     req.session.userInfo = false
-    let userId = req.session.user;
+    const userId = req.session.user;
     let userDetails = false;
     if(userId){
       userDetails = await user.findOne({_id: userId})
     }
-    let warning = req.session.errormsg;
+    const warning = req.session.errormsg;
     req.session.errormsg = false;
     res.render('book',{ title: "Books",books,userDetails,warning});
 }
 
 
 const bookDetails = async (req,res)=>{
-    console.log(req.params.id);
     const books = await book.findOne({_id: req.params.id}).populate('author').populate('genre');
     const relatedbooks = await book.find({ $or: [ {author: books.author}, {genre: books.genre}]}).populate('author').populate('genre');
-    console.log(books);
-    let userId = req.session.user;
+    const userId = req.session.user;
     let userDetails = false;
     if(userId){
       userDetails = await user.findOne({_id: userId})
     }
-    let warning = req.session.errormsg;
+    const warning = req.session.errormsg;
     req.session.errormsg = false;
     res.render('book-detail',{title: 'Bookdetails',books,relatedbooks,userDetails,warning});
 }
@@ -563,52 +548,10 @@ const renderCart = async (req,res) => {
 }
 
 
-
-// const addcoupon = async (req,res) => {
-//     try {
-
-//       const coupon = await coupon.findOne({ couponCode });
-//       if (!coupon) {
-//         return res.status(400).send({ error: "Invalid coupon code" });
-//       } 
-
-//       const currentDate = new Date();
-
-//       if (coupon.validationDate < currentDate) {
-//         return res.status(400).send({ error: "Coupan has expired" });
-//       }
-
-//       if (coupon.usedBy.includes(userId)) {
-//         return res.status(400).send({ error: "You have already used this coupon" });
-//       }
-
-//       if (req.body.total < coupon.minimumTotal) {
-//         return res.status(400).send({ error: "Total is below the minimum required to use this coupon" });
-//       }
-
-//       const discountPercentage = coupon.discountPercentage / 100;
-//       const discountAmount = req.body.totalAmount * discountPercentage;
-
-//       if (discountAmount > coupon.maximumDiscount) {
-//         discountAmount = coupon.maximumDiscount;
-//       }
-
-//       coupon.users.push(userId);
-//       await coupon.save();
-      
-//       return res.send({ discountAmount });
-//     } catch (err) {
-//       console.error(`Error applying coupon: ${err}`);
-//       return res.status(500).send("Internal server error");
-//     }
-// }
-
 const addToCart = async (req,res) => {
   try{
     const userId = req.query.userId;
     const productId = req.query.productId;
-    // const userdb = await user.findOne({_id: userId})
-    // req.session.user = userdb;
 
     const existingProduct = await cart.findOne({ user: userId, product: productId })
     if(existingProduct){
@@ -637,7 +580,6 @@ const productDec = async (req, res) => {
   try {
     const cartId = req.query.cartId;
     const userId = req.query.userId;
-    console.log(userId);
     let shipping = false;
     let quantityZero = false;
 
@@ -687,7 +629,6 @@ const productInc = async (req,res) => {
  try {
     const cartId = req.query.cartId;
     const userId = req.query.userId;
-    console.log(userId);
     let shipping = false;
 
       await cart.findOneAndUpdate({ _id: cartId },
@@ -712,7 +653,6 @@ const productInc = async (req,res) => {
       product = await cart.findOne({ _id: cartId }).populate('product');
 
       productPriceAndQuantity = parseInt(product.product.retailPrice*product.quantity)
-      console.log(productPriceAndQuantity);
 
       res.status(200).send({
         data: "this is data",totalAmount,shipping,product,productPriceAndQuantity,
@@ -729,7 +669,6 @@ const productRemove = async (req,res) => {
   try{
     const cartId = req.query.cartId;
     const userId = req.query.userId;
-    console.log(userId);
     let shipping = false;
 
     const product = await cart.findOne({ _id: cartId }).populate('product');
@@ -779,7 +718,6 @@ const renderCheckout = async (req,res) => {
       res.redirect('/');
     }
   
-    console.log(userDetails.address[0].address);
     let totalAmount = productTotal(carts)
     let shipping = false;
     if(totalAmount<400){
@@ -842,7 +780,6 @@ const checkOutUpdateAddress = async (req,res) =>{
       {$set: {"address.$": updateAddress}})
 
     res.status(200).send({data:"Success"})
-    // res.redirect(`/checkout/${req.session.user}`);
 
   }catch(err){
     console.error(`Error Edit User Info : ${err}`);
@@ -877,7 +814,6 @@ const checkOutAddOtherAddress = async (req, res) => {
 const applyCoupon = async (req,res) => {
   try{
     const couponName = req.body.couponName
-    console.log(couponName);
 
     const carts = await cart.find({user: req.body.userId}).populate('user').populate('product').
     populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
@@ -932,7 +868,7 @@ const applyCoupon = async (req,res) => {
     }
 
 
-    let discountPercentage = couponInfo.discountPercentage / 100;
+    const discountPercentage = couponInfo.discountPercentage / 100;
     let discountAmount = totalAmount * discountPercentage;
 
     if (discountAmount > couponInfo.maximumDiscountPrice) {
@@ -960,7 +896,6 @@ const applyCoupon = async (req,res) => {
 const deleteCoupon = async (req,res) => {
   try{
     const couponName = req.body.couponName
-    console.log(couponName);
 
     const carts = await cart.find({user: req.session.user}).populate('user').populate('product').
     populate({path: 'product', populate: {path: 'author'}}).populate({path: 'product', populate: {path: 'genre'}})
@@ -1045,7 +980,7 @@ const onlinePayment = async (req, res) => {
   try {
 
     const userId = req.query.userId;
-    let couponName = req.body.couponName;
+    const couponName = req.body.couponName;
     if(couponName){
       const couponInfo = await coupon.findOne({ couponName });
 
@@ -1081,16 +1016,13 @@ const onlinePayment = async (req, res) => {
 
 
 
-    let options = await razorpayInstance.orders.create({
+    const options = await razorpayInstance.orders.create({
       amount: amount * 100, 
       currency: "INR",
       receipt: orderId
     });
- 
-    console.log("Option : ",options)
 
     const userDetails = await user.findOne({_id: userId});
-
 
     res.status(201).json({
       success: true,
@@ -1112,7 +1044,6 @@ const onlinePayment = async (req, res) => {
 
 const verifyOnlinePayment = async (req, res) => {
   try {
-    console.log(req.body);
     const payment = req.body.payment;
     const orderDetails = req.body.order
     let hmac = crypto.createHmac('sha256','egXXr5eoXtsziGUkWHfUAm0F')
@@ -1127,7 +1058,7 @@ const verifyOnlinePayment = async (req, res) => {
         return { productId: item.product, quantity: item.quantity };
       });
 
-      let couponName = req.body.couponName;
+      const couponName = req.body.couponName;
       if(couponName){
         const couponInfo = await coupon.findOne({ couponName });
         couponInfo.users.push(userId);

@@ -8,123 +8,123 @@ const addPermanantCountry = form3.querySelector("#addPermanantCountry");
 const addPermanantErrorElement = form3.querySelector('#addPermanantAddressError');
 
 
-function hideErrorMessageaddaddPermanantAddress(){
+function hideErrorMessageAddPermanantAddress(){
     addPermanantErrorElement.innerHTML="";
 }
-function showErrorMessageaddaddPermanantAddress(message){
-    addPermanantErrorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2 mx-5" role="alert" >${message}</div>`;
+function showErrorMessageAddPermanantAddress(message){
+    addPermanantErrorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
     setTimeout(()=>{
         addPermanantErrorElement.innerHTML =`<div></div>`
     },3000);
 }
-function submitformaddaddPermanantAddress(){
+function submitformaddPermanentAddress(){
     // e.preventDefault()
 
     if(addPermanantHouseName.value === ""){
-        showErrorMessageaddaddPermanantAddress("Name is required");
+        showErrorMessageAddPermanantAddress("House Name field is empty");
         return false;
     }
 
     if(addPermanantHouseName.value.trim() ===""){
-        showErrorMessageaddaddPermanantAddress("House Name is required");
+        showErrorMessageAddPermanantAddress("House Name field is empty");
         return false;
     }
 
     if(addPermanantHouseName.value.length >40){
-        showErrorMessageaddaddPermanantAddress("Name must be less than 40");
+        showErrorMessageAddPermanantAddress("Name must be less than 40");
         return false;
     }
 
     if(addPermanantStreetName.value === ""){
-        showErrorMessageaddaddPermanantAddress("Street Name is required");
+        showErrorMessageAddPermanantAddress("Street Name field is empty");
         return false;
     }
 
     
     if(addPermanantStreetName.value.trim()==""){
-        showErrorMessage("StreetName is required");
+        showErrorMessageAddPermanantAddress("StreetName field is empty");
         return false;
     }
 
     if(addPermanantStreetName.value.length >30){
-        showErrorMessageaddaddPermanantAddress("Street Name must be less than 30");
+        showErrorMessageAddPermanantAddress("Street Name must be less than 30");
         return false;
     }
 
     if(addPermanantTown.value === ""){
-        showErrorMessageaddaddPermanantAddress("Town is required");
+        showErrorMessageAddPermanantAddress("Town field is empty");
         return false;
     }
 
     if(addPermanantTown.value.trim()==""){
-        showErrorMessageaddaddPermanantAddress("Town is required");
+        showErrorMessageAddPermanantAddress("Town field is empty");
         return false;
     }
 
     if(addPermanantTown.value.length >30){
-        showErrorMessageaddaddPermanantAddress("Town must be less than 30");
+        showErrorMessageAddPermanantAddress("Town must be less than 30");
         return false;
     }
 
     if(addPermanantState.value === ""){
-        showErrorMessageaddaddPermanantAddress("State is required");
+        showErrorMessageAddPermanantAddress("State field is empty");
         return false;
     }
 
     if(addPermanantState.value.trim()==""){
-        showErrorMessageaddaddPermanantAddress("State is required");
+        showErrorMessageAddPermanantAddress("State field is empty");
         return false;
     }
 
     if(addPermanantState.value.length >30){
-        showErrorMessageaddaddPermanantAddress("State must be less than 30");
+        showErrorMessageAddPermanantAddress("State must be less than 30");
         return false;
     }
 
     if(addPermanantCountry.value === ""){
-        showErrorMessageaddaddPermanantAddress("Country is required");
+        showErrorMessageAddPermanantAddress("Country field is empty");
         return false;
     }
 
     if(addPermanantCountry.value.trim()==""){
-        showErrorMessageaddaddPermanantAddress("Country is required");
+        showErrorMessageAddPermanantAddress("Country field is empty");
         return false;
     }
 
     if(addPermanantCountry.value.length >30){
-        showErrorMessageaddaddPermanantAddress("Country must be less than 30");
+        showErrorMessageAddPermanantAddress("Country must be less than 30");
         return false;
     }
 
     
     if(addPermanantZipCode.value === ""){
-        showErrorMessageaddaddPermanantAddress("Phonenumber is required");
+        showErrorMessageAddPermanantAddress("Phonenumber field is empty");
         return false;
     }
 
     if(addPermanantZipCode.value.trim()==""){
-        showErrorMessageaddaddPermanantAddress("Pin code is required");
+        showErrorMessageAddPermanantAddress("Pin code field is empty");
         return false;
     }
 
     if(addPermanantZipCode.value.length <6){
-        showErrorMessageaddaddPermanantAddress("Pin Code must be 6 numbers");
+        showErrorMessageAddPermanantAddress("Pin Code must be 6 numbers");
         return false;
     }
 
     if(addPermanantZipCode.value.length >6){
-        showErrorMessageaddaddPermanantAddress("Incorrect Pin Code");
+        showErrorMessageAddPermanantAddress("Incorrect Pin Code");
         return false;
     }
 
     if(addPermanantZipCode.value <= 099999){
-        showErrorMessageaddaddPermanantAddress("Incorrect Pin Code");
+        showErrorMessageAddPermanantAddress("Incorrect Pin Code");
         return false;
     }
 
 
 
-    hideErrorMessageaddaddPermanantAddress()
+    hideErrorMessageAddPermanantAddress()
     return true;
 }
     

@@ -18,7 +18,6 @@ const renderLogin = (req, res) => {
     const session = req.session.adminemail;
     if (session) {
       res.redirect("/admin/admin_panel");
-      r;
     } else {
       res.render("adminLogin.ejs");
     }
@@ -56,8 +55,7 @@ const adminPanel = async (req, res) => {
 
     let totalRevenue = 0;
     for (let i = 0; i < orders.length; i++) {
-      let order = orders[i];
-      totalRevenue += order.totalAmount;
+      totalRevenue += orders[i].totalAmount;
     }
 
     res.render("admin.ejs", {
@@ -75,7 +73,7 @@ const adminPanel = async (req, res) => {
 
 const renderUserManagement = async (req, res) => {
   try {
-    let users = await user.find();
+    const users = await user.find();
     res.render("admin/userManagement.ejs", { users });
   } catch (err) {
     console.error(`Error Get User Management : ${err}`);
@@ -105,9 +103,9 @@ const unblockUser = async (req, res) => {
 
 const renderProductManagement = async (req, res) => {
   try {
-    let books = await book.find().populate("author").populate("genre");
-    let authors = await author.find();
-    let genres = await genre.find();
+    const books = await book.find().populate("author").populate("genre");
+    const authors = await author.find();
+    const genres = await genre.find();
 
     res.render("admin/productManagement.ejs", { books, genres, authors });
   } catch (err) {
@@ -120,8 +118,8 @@ const renderAddBook = async (req, res) => {
   try {
     const warning = req.session.errormsg;
     req.session.errormsg = false;
-    let authors = await author.find();
-    let genres = await genre.find();
+    const authors = await author.find();
+    const genres = await genre.find();
     res.render("admin/addBook.ejs", {
       title: "Add Book",
       warning,
@@ -143,7 +141,6 @@ const addBook = async (req, res) => {
       req.session.errormsg = "Book Already Exit";
       return res.redirect("/admin/addBook");
     }
-    console.log();
 
     const newBook = new book({
       bookName: req.body.bookName,
@@ -170,7 +167,6 @@ const addBook = async (req, res) => {
 
 const editBook = async (req, res) => {
   try {
-    console.log(req.body.language);
     await book.updateOne(
       { _id: req.params.id },
       {
@@ -380,9 +376,9 @@ const changeImage3 = async (req, res) => {
 
 const renderAuthorManagement = async (req, res) => {
   try {
-    let warning = req.session.errormsg;
+    const warning = req.session.errormsg;
     req.session.errormsg = false;
-    let authors = await author.find();
+    const authors = await author.find();
     res.render("admin/authorManagement.ejs", { authors, warning });
   } catch (err) {
     console.error(`Error Get Author Management : ${err}`);
@@ -486,9 +482,9 @@ const undeleteAuthor = async (req, res) => {
 
 const renderGenreManagement = async (req, res) => {
   try {
-    let warning = req.session.errormsg;
+    const warning = req.session.errormsg;
     req.session.errormsg = false;
-    let genres = await genre.find();
+    const genres = await genre.find();
     res.render("admin/genreManagement.ejs", { genres, warning });
   } catch (err) {
     console.error(`Error Get Genre Management : ${err}`);
@@ -556,9 +552,9 @@ const undeleteGenre = async (req, res) => {
 
 const renderCouponManagement = async (req, res) => {
   try {
-    let warning = req.session.errormsg;
+    const warning = req.session.errormsg;
     req.session.errormsg = false;
-    let coupons = await coupon.find();
+    const coupons = await coupon.find();
     res.render("admin/couponManagement.ejs", { coupons, warning });
   } catch (err) {
     console.error(`Error Get Coupon Management : ${err}`);
@@ -568,7 +564,6 @@ const renderCouponManagement = async (req, res) => {
 
 const addCoupon = async (req, res) => {
   try {
-    console.log(req.body);
     const existingCoupon = await coupon.findOne({
       couponName: req.body.couponName,
     });
@@ -594,8 +589,7 @@ const addCoupon = async (req, res) => {
 
 const editCoupon = async (req, res) => {
   try {
-    console.log(req.body);
-    const couponId = req.params.id;
+    const couponId = req.body.couponId;
 
     await coupon.updateOne(
       { _id: couponId },
@@ -603,14 +597,22 @@ const editCoupon = async (req, res) => {
         $set: {
           couponName: req.body.couponName,
           discountPercentage: req.body.discountPercentage,
-          maximumDiscountPrice: req.body.maxDiscountPrice,
-          minimumTotal: req.body.minTotalAmount,
+          maximumDiscountPrice: req.body.maximumDiscountPrice,
+          minimumTotal: req.body.minimumTotal,
           ExpiredDate: req.body.expDate,
         },
       }
     );
 
-    res.redirect("/admin/couponManagement");
+    res.status(200).send(
+      {
+        data:"Success",
+        couponName: req.body.couponName,
+        discountPercentage: req.body.discountPercentage,
+        maximumDiscountPrice: req.body.maximumDiscountPrice,
+        minimumTotal: req.body.minTotalAmount,
+        ExpiredDate: new Date(req.body.ExpiredDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    })
   } catch (err) {
     console.error(`Error Edit Genre : ${err}`);
     res.redirect("/admin/couponManagement");
@@ -634,7 +636,7 @@ const deleteCoupon = async (req, res) => {
 
 const renderPendingManagement = async (req, res) => {
   try {
-    let orders = await order
+    const orders = await order
       .find({ status: "Pending" })
       .populate("user")
       .populate({
@@ -674,7 +676,7 @@ const changeOnTheWayOrder = async (req, res) => {
 
 const renderOnTheWayManagement = async (req, res) => {
   try {
-    let orders = await order
+    const orders = await order
       .find({ status: "On The Way" })
       .populate("user")
       .populate({
@@ -714,7 +716,7 @@ const changeCompleteOrder = async (req, res) => {
 
 const renderCompleteManagement = async (req, res) => {
   try {
-    let orders = await order
+    const orders = await order
       .find({ status: "Complete" })
       .populate("user")
       .populate({
@@ -754,7 +756,7 @@ const changeDeleteOrder = async (req, res) => {
 
 const renderDeleteManagement = async (req, res) => {
   try {
-    let orders = await order
+    const orders = await order
       .find({ status: "Delete" })
       .populate("user")
       .populate({
@@ -782,12 +784,12 @@ const renderDeleteManagement = async (req, res) => {
 
 const renderBannerManagement = async (req, res) => {
   try {
-    let books = await book.find().populate("author").populate("genre");
-    let banners = await banner
+    const books = await book.find().populate("author").populate("genre");
+    const banners = await banner
       .findOne({ banner: true })
       .populate("bigCard1ProductId")
       .populate("bigCard2ProductId");
-    let warning = req.session.errormsg;
+    const warning = req.session.errormsg;
     req.session.errormsg = false;
     res.render("admin/bannerManagement.ejs", { books, banners, warning });
   } catch (err) {
@@ -799,9 +801,8 @@ const renderBannerManagement = async (req, res) => {
 const colorPalatte = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         colorPalatte: req.body.colorPalatte,
       });
       newBanner.save();
@@ -829,9 +830,8 @@ const colorPalatte = async (req, res) => {
 const mainHeading = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         mainHeading: req.body.mainHeading,
       });
       newBanner.save();
@@ -859,9 +859,8 @@ const mainHeading = async (req, res) => {
 const subHeading1 = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         subHeading1: req.body.subHeading1,
       });
       newBanner.save();
@@ -889,9 +888,8 @@ const subHeading1 = async (req, res) => {
 const subHeading2 = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         subHeading2: req.body.subHeading2,
       });
       newBanner.save();
@@ -922,9 +920,8 @@ const homeImage = async (req, res) => {
       throw new Error("No file uploaded!");
     }
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         homeImage: req.file.filename,
       });
       newBanner.save();
@@ -963,9 +960,8 @@ const homeImage = async (req, res) => {
 const bigCard1Heading1 = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bigCard1Heading1: req.body.bigCard1Heading1,
       });
       newBanner.save();
@@ -993,9 +989,8 @@ const bigCard1Heading1 = async (req, res) => {
 const bigCard1Heading2 = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bigCard1Heading2: req.body.bigCard1Heading2,
       });
       newBanner.save();
@@ -1023,9 +1018,8 @@ const bigCard1Heading2 = async (req, res) => {
 const bigCard1Discription = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bigCard1Discription: req.body.bigCard1Discription,
       });
       newBanner.save();
@@ -1059,9 +1053,8 @@ const bigCard1Discription = async (req, res) => {
 const bigCard1ProductId = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bigCard1ProductId: req.body.bigCard1ProductId,
       });
       newBanner.save();
@@ -1083,7 +1076,6 @@ const bigCard1ProductId = async (req, res) => {
     const product = await banner
       .findOne({ banner: true })
       .populate("bigCard1ProductId");
-    console.log(product);
     res.status(200).send({ data: "success", product });
   } catch (err) {
     console.error(`Error Get bigCard1ProductId Management : ${err}`);
@@ -1097,9 +1089,8 @@ const bigCard1Image = async (req, res) => {
       throw new Error("No file uploaded!");
     }
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bigCard1Image: req.file.filename,
       });
       newBanner.save();
@@ -1138,9 +1129,8 @@ const bigCard1Image = async (req, res) => {
 const bigCard2Heading1 = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bigCard2Heading1: req.body.bigCard2Heading1,
       });
       newBanner.save();
@@ -1168,9 +1158,8 @@ const bigCard2Heading1 = async (req, res) => {
 const bigCard2Heading2 = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bigCard2Heading2: req.body.bigCard2Heading2,
       });
       newBanner.save();
@@ -1198,9 +1187,8 @@ const bigCard2Heading2 = async (req, res) => {
 const bigCard2Discription = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bigCard2Discription: req.body.bigCard2Discription,
       });
       newBanner.save();
@@ -1234,9 +1222,8 @@ const bigCard2Discription = async (req, res) => {
 const bigCard2ProductId = async (req, res) => {
   try {
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bigCard2ProductId: req.body.bigCard2ProductId,
       });
       newBanner.save();
@@ -1271,9 +1258,8 @@ const bigCard2Image = async (req, res) => {
       throw new Error("No file uploaded!");
     }
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bigCard2Image: req.file.filename,
       });
       newBanner.save();
@@ -1315,9 +1301,8 @@ const bottomImage1 = async (req, res) => {
       throw new Error("No file uploaded!");
     }
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bottomImage1: req.file.filename,
       });
       newBanner.save();
@@ -1358,9 +1343,8 @@ const bottomImage2 = async (req, res) => {
       throw new Error("No file uploaded!");
     }
     const existingBanner = await banner.find().count();
-    console.log(existingBanner);
     if (existingBanner == 0) {
-      let newBanner = new banner({
+      const newBanner = new banner({
         bottomImage2: req.file.filename,
       });
       newBanner.save();
@@ -1382,7 +1366,6 @@ const bottomImage2 = async (req, res) => {
         if (err) {
           throw err;
         }
-        console.log("Delete old Bottom Image 2 successfully.");
       } catch (err) {
         console.error(`Error Deleting Book : ${err}`);
       }

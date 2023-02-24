@@ -12,7 +12,7 @@ function hideErrorMessageaddOtherAddress(){
     addErrorElement.innerHTML="";
 }
 function showErrorMessageaddOtherAddress(message){
-    addErrorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2 mx-5" role="alert" >${message}</div>`;
+    addErrorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
     setTimeout(()=>{
         addErrorElement.innerHTML =`<div></div>`
     },3000);
@@ -21,12 +21,12 @@ function submitformaddOtherAddress(){
     // e.preventDefault()
 
     if(addHouseName.value === ""){
-        showErrorMessageaddOtherAddress("Name is required");
+        showErrorMessageaddOtherAddress("House field is empty");
         return false;
     }
 
     if(addHouseName.value.trim() ===""){
-        showErrorMessageaddOtherAddress("House Name is required");
+        showErrorMessageaddOtherAddress("House Name field is empty");
         return false;
     }
 
@@ -36,13 +36,12 @@ function submitformaddOtherAddress(){
     }
 
     if(addStreetName.value === ""){
-        showErrorMessageaddOtherAddress("Street Name is required");
+        showErrorMessageaddOtherAddress("Street Name field is empty");
         return false;
     }
 
-    
     if(addStreetName.value.trim()==""){
-        showErrorMessage("StreetName is required");
+        showErrorMessageaddOtherAddress("StreetName field is empty");
         return false;
     }
 
@@ -52,12 +51,12 @@ function submitformaddOtherAddress(){
     }
 
     if(addTown.value === ""){
-        showErrorMessageaddOtherAddress("Town is required");
+        showErrorMessageaddOtherAddress("Town field is empty");
         return false;
     }
 
     if(addTown.value.trim()==""){
-        showErrorMessageaddOtherAddress("Town is required");
+        showErrorMessageaddOtherAddress("Town field is empty");
         return false;
     }
 
@@ -67,12 +66,12 @@ function submitformaddOtherAddress(){
     }
 
     if(addState.value === ""){
-        showErrorMessageaddOtherAddress("State is required");
+        showErrorMessageaddOtherAddress("State field is empty");
         return false;
     }
 
     if(addState.value.trim()==""){
-        showErrorMessageaddOtherAddress("State is required");
+        showErrorMessageaddOtherAddress("State field is empty");
         return false;
     }
 
@@ -82,12 +81,12 @@ function submitformaddOtherAddress(){
     }
 
     if(addCountry.value === ""){
-        showErrorMessageaddOtherAddress("Country is required");
+        showErrorMessageaddOtherAddress("Country field is empty");
         return false;
     }
 
     if(addCountry.value.trim()==""){
-        showErrorMessageaddOtherAddress("Country is required");
+        showErrorMessageaddOtherAddress("Country field is empty");
         return false;
     }
 
@@ -98,12 +97,12 @@ function submitformaddOtherAddress(){
 
     
     if(addZipCode.value === ""){
-        showErrorMessageaddOtherAddress("Phonenumber is required");
+        showErrorMessageaddOtherAddress("Phonenumber field is empty");
         return false;
     }
 
     if(addZipCode.value.trim()==""){
-        showErrorMessageaddOtherAddress("Pin code is required");
+        showErrorMessageaddOtherAddress("Pin code field is empty");
         return false;
     }
 
@@ -121,8 +120,6 @@ function submitformaddOtherAddress(){
         showErrorMessageaddOtherAddress("Incorrect Pin Code");
         return false;
     }
-
-
 
     hideErrorMessageaddOtherAddress()
     return true;

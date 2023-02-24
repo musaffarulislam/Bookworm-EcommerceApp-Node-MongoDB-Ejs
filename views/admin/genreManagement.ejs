@@ -381,7 +381,7 @@
                                             <i class="bx bx-dots-vertical-rounded" style="color: aliceblue;"></i>
                                           </button>
                                           <div class="dropdown-menu">
-                                            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit<%= genre.genreName %>"><i class="bx bx-edit-alt me-1"></i> Edit</button>
+                                            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit<%= genre._id %>"><i class="bx bx-edit-alt me-1"></i> Edit</button>
                                             <% if (genre.delete) {%>
                                               <a class="dropdown-item" href="/admin/deleteGenre/<%= genre._id %>"><i class="bx bx-trash me-1"></i> Delete</a>
                                             <% }else{ %>
@@ -395,7 +395,7 @@
                                         <!-- ============================================-->
                                         <!-- model login ============================-->
 
-                                        <div class="modal fade" id="edit<%= genre.genreName %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal fade" id="edit<%= genre._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
                                               <form id="editGenre" action="/admin/editGenre/<%= genre._id %>" method="post">

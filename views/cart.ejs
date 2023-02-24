@@ -449,7 +449,6 @@
     function productDecrement(cartId,userId) {
       const url = window.location.origin;
       console.log(url);
-      console.log(userId);
       fetch(`${url}/productDec?cartId=${cartId}&userId=${userId}`, {
         method: 'PUT',
         headers: {
@@ -483,7 +482,6 @@
     function productIncriment(cartId,userId) {
       const url = window.location.origin;
       console.log(url);
-      console.log(userId);
       fetch(`${url}/productInc?cartId=${cartId}&userId=${userId}`, {
         method: 'PUT',
         headers: {
@@ -524,29 +522,15 @@
         }
         document.getElementById(`cart${data.product.product._id}`).remove()
         document.getElementById('count').innerText = data.count
+
+        if(data.count == 0){
+          document.getElementById('countNotZero').style.display = "none"
+          document.getElementById('countZero').style.display = "block"
+        }
       })
     }
 
 
-    function addCoupon(userId){
-      const url = window.location.origin;
-      const couponName = document.getElementById('couponName').value 
-      console.log(url);
-      console.log(userId);
-      fetch(`${url}/addCoupon?userId=${userId}`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            couponName
-        })
-      }).then((response)=>response.json())
-      .then((data)=>{
-        console.log("data",data)
-      })
-    }
   </script>
   
   <script type="text/javascript"></script>

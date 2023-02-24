@@ -203,7 +203,6 @@
         }
     </style>
 
-
     <style>
         body {
             background-color: #eee;
@@ -250,9 +249,8 @@
         }
     </style>
 
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
-integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+    integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 
 
     <style type="text/css">
@@ -452,7 +450,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                         <div class="modal fade" id="changeParmenantAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                               <div class="modal-content">
-                                                <form id="changeParmenantAddressForm" action="/checkOutAddress/<%= userDetails._id %>" method="post" onselect="return submitformpermanent(event)">
+                                                <form id="changeParmenantAddressForm" action="/checkOutAddress/<%= userDetails._id %>" method="post" onsubmit="return submitformEditParmanent(event)">
                                                   <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLongTitle">Change Parmenant Address</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -512,27 +510,27 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                                                     <div id="otherAddressMessage"></div>
                                                     <div class="row mb-1">
                                                         <label class="form-label" for="houseName">House No / Name</label>
-                                                        <input type="text" name="houseName" id="selectHouseName" class="form-control" value="<%= userDetails.address[0].houseName %>" required>
+                                                        <input type="text" name="selectHouseName" id="selectHouseName" class="form-control" value="<%= userDetails.address[0].houseName %>" required>
                                                     </div>
                                                     <div class="row mb-1">
                                                         <label class="form-label" for="streetName">Street Name</label>
-                                                        <input type="text" name="streetName" id="selectStreetName" class="form-control" value="<%= userDetails.address[0].streetName %>" required>
+                                                        <input type="text" name="selectStreetName" id="selectStreetName" class="form-control" value="<%= userDetails.address[0].streetName %>" required>
                                                     </div>
                                                     <div class="row mb-1">
                                                         <label class="form-label" for="town">Town</label>
-                                                        <input type="text" name="town" id="selectTown" class="form-control" value="<%= userDetails.address[0].town %>" required>
+                                                        <input type="text" name="selectTown" id="selectTown" class="form-control" value="<%= userDetails.address[0].town %>" required>
                                                     </div>
                                                     <div class="row mb-1">
                                                         <label class="form-label" for="state">State</label>
-                                                        <input type="text" name="state" id="selectState" class="form-control" value="<%= userDetails.address[0].state %>" required>
+                                                        <input type="text" name="selectState" id="selectState" class="form-control" value="<%= userDetails.address[0].state %>" required>
                                                     </div>
                                                     <div class="row mb-1">
                                                         <label class="form-label" for="zipCode">Pin Code</label>
-                                                        <input type="number" name="zipCode" id="selectZipCode" class="form-control" value="<%= userDetails.address[0].zipCode %>" required>
+                                                        <input type="number" name="selectZipCode" id="selectZipCode" class="form-control" value="<%= userDetails.address[0].zipCode %>" required>
                                                     </div>
                                                     <div class="row mb-1">
                                                         <label class="form-label" for="country">Country</label>
-                                                        <input type="text" name="country" id="selectCountry" class="form-control" value="<%= userDetails.address[0].country %>" required>
+                                                        <input type="text" name="selectCountry" id="selectCountry" class="form-control" value="<%= userDetails.address[0].country %>" required>
                                                     </div>
                                                     <div class="row mt-2">
                                                         <div class="col-sm-3" style="box-sizing: content-box;">
@@ -757,8 +755,8 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
 
 
 
-    <script src="../javascripts/checkOutpermanentaddressvalidation.js"></script>
-    <script src="../javascripts/checkoutPermanentaChangeressvalidation.js"></script>
+    <script src="../javascripts/checkoutAddOtherAddressvalidation.js"></script>
+    <script src="../javascripts/checkoutPermanentaChangeAddressValidation.js"></script>
     <script src="../javascripts/checkoutAddPermanentAddressvalidation.js"></script>
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -803,10 +801,7 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-                console.log(data);
                 document.getElementById('orderAddress').innerHTML = `${data.address.houseName}, ${data.address.streetName}, ${data.address.town}, ${data.address.state}, ${data.address.country}, ${data.address.zipCode}`
-                // const form = document.getElementById('seleteAddress')
-                // form.action = `/checkOutUpdateAddress/${addressId}`
                 document.getElementById('selectHouseName').value = data.address.houseName
                 document.getElementById('selectStreetName').value = data.address.streetName
                 document.getElementById('selectTown').value = data.address.town
@@ -904,7 +899,6 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 })
             }).then((response)=>response.json())
             .then((data)=>{
-                console.log(data);
                 document.getElementById('orderAddress').innerHTML = `${houseName}, ${streetName}, ${town}, ${state}, ${country}, ${zipCode}`
             })
         }
@@ -954,7 +948,6 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
             .then((response) => {
                 if (response.status === 200) {
                     return response.json().then((data) => {
-                        console.log(data, 'This is data');
                         swal({
                             title: "Order Placed Successfully!",
                             text: `Your order has been placed successfully! Your order id is ${data.orderId}`,
@@ -1091,7 +1084,6 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 }
 
                 let orderData = await response.json();
-                console.log(orderData)
                 var options = {
                     key: "rzp_test_MfMHXbdBnx5BYx",
                     amount: orderTotalAmount * 100,
@@ -1101,8 +1093,6 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                     image: "../adminLogin/images/img-02.png",
                     order_id: orderData.options.id,
                     handler: function (response) {
-                        // Add a function call to store the order information in the database after successful payment
-                        console.log(response)
                         storeOrderData(response, orderData.options, orderData.userDetails._id, orderAddress, orderData.couponName);
                     },
                     prefill: {
@@ -1143,7 +1133,6 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                 throw new Error('Network response was not ok');
             })
                 .then((data) => {
-                    console.log(data, 'This is data');
                     swal({
                         title: "Order Placed Successfully!",
                         text: `Your order has been placed successfully! Your order id is ${data.orderId}`,
@@ -1188,7 +1177,6 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
             }).then((response) => {
                 if (response.status === 200) {
                     return response.json().then((data) => {
-                        console.log(data);
                         couponApply = true
                         const discountTotal = parseInt(data.discountTotal)
                         const discountAmount = parseInt(data.discountAmount)
@@ -1216,7 +1204,6 @@ integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xb
                     })
                 } else if (response.status === 400) {
                     return response.json().then((data) => {
-                        console.log(data);
                         couponApply = false
                         couponMessage.innerHTML =
                             `<div class="alert alert-warning alert-dismissible fade show" role="alert">

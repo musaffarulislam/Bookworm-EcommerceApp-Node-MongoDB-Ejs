@@ -26,7 +26,7 @@ function showErrorMessage(message){
 function addBookValidation(e){
     // e.preventDefault()
     if(bookName.value === "" || bookName.value.trim()==""){
-        showErrorMessage("Book Name is required");
+        showErrorMessage("Book Name field is empty");
         return false;
     }
 
@@ -37,7 +37,7 @@ function addBookValidation(e){
 
 
     if(bookDetails.value === "" || bookDetails.value.trim()==""){
-        showErrorMessage("Book Name is required");
+        showErrorMessage("Book Name field is empty");
         return false;
     }
 
@@ -48,23 +48,23 @@ function addBookValidation(e){
 
 
     if(author.value === ""){
-        showErrorMessage("Author is required");
+        showErrorMessage("Author field is empty");
         return false;
     }
 
     if(genre.value === ""){
-        showErrorMessage("Genre is required");
+        showErrorMessage("Genre field is empty");
         return false;
     }
 
     if(language.value === ""){
-        showErrorMessage("Language is required");
+        showErrorMessage("Language field is empty");
         return false;
     }
 
 
     if(rating.value === "" || rating.value.trim()==""){
-        showErrorMessage("Rating is required");
+        showErrorMessage("Rating field is empty");
         return false;
     }
 
@@ -76,7 +76,7 @@ function addBookValidation(e){
 
 
     if(pages.value === "" || pages.value.trim()==""){
-        showErrorMessage("Pages is required");
+        showErrorMessage("Pages field is empty");
         return false;
     }
 
@@ -88,7 +88,7 @@ function addBookValidation(e){
 
 
     if(retailPrice.value === "" || retailPrice.value.trim()==""){
-        showErrorMessage("Retail Price is required");
+        showErrorMessage("Retail Price field is empty");
         return false;
     }
 
@@ -99,7 +99,7 @@ function addBookValidation(e){
     }
 
     if(rentPrice.value === "" || rentPrice.value.trim()==""){
-        showErrorMessage("Rent Price is required");
+        showErrorMessage("Rent Price field is empty");
         return false;
     }
 

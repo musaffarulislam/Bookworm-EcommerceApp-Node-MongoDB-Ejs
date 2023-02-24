@@ -218,7 +218,7 @@
                                                                                 </label>
                                                                                 <input type="file" id="userImage"
                                                                                     class="form-control form-control-lg"
-                                                                                    name="userImage" />
+                                                                                    name="userImage" accept="image/png, image/jpeg, image/jpg"/>
                                                                                 <input type="hidden"
                                                                                     name="userImageLocation"
                                                                                     value="<%= userDetails.userImage %>">
@@ -263,7 +263,7 @@
                                     </div>
                                     <div class="col-sm-9 text-secondary">
                                         <input type="text" name="email" id="email" class="form-control"
-                                            value="<%= userDetails.email %>" required>
+                                            value="<%= userDetails.email %>" readonly>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -381,7 +381,6 @@
                                                                 <div class="col-sm-3">
                                                                     <div class="col-sm-9 text-secondary">
                                                                         <input type="button" class="btn btn-primary px-4" value="Save Changes" onclick="return permanentUpdateAddress('<%= userDetails._id %>')">
-                                                                        <!-- <input type="button" class="btn btn-primary px-4" value="Save Changes" onclick="addPermanentAddress('<%= userDetails._id %>')"> -->
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -459,11 +458,10 @@
                                                                 <div class="row">
                                                                     <div class="col-sm-3 d-flex justify-content-between" style="box-sizing: content-box;">
                                                                         <div class="col-sm-9 text-secondary">
-                                                                            <!-- <input type="submit" class="btn btn-primary px-4" value="Save Changes"> -->
                                                                             <input type="button" class="btn btn-primary" value="Save Changes" onclick="return otherUpdateAddress('<%= userDetails._id %>')">
                                                                         </div>
                                                                         <div class="col-sm-9 text-secondary">
-                                                                            <input type="button" id="deleteButton" class="btn btn-secondary" value="Delete">
+                                                                            <input type="button" id="deleteButton" onclick="deleteAddress('<%= userDetails._id %>')" class="btn btn-secondary" value="Delete">
                                                                         </div>
                                                                         <div class="col-sm-9 text-secondary">
                                                                             <input type="button" class="btn btn-danger" value="Add Address" data-toggle="modal" data-target="#addAddressModal">
@@ -471,8 +469,8 @@
 
                                                                         <script>
                                                                             const myButton = document.querySelector('#deleteButton');
-                                                                            const addressId = document.getElementById('address-select').value;
-                                                                            myButton.addEventListener('click', () => {
+                                                                            const addressId = document.getElementById('address-select').value; 
+                                                                            function deleteAddress(userId){
 
                                                                                 Swal.fire({
                                                                                 title: 'Are you sure?',
@@ -484,7 +482,6 @@
                                                                                 reverseButtons: true
                                                                               }).then((result) => {
                                                                                 if (result.isConfirmed) {
-                                                                                    console.log("hiiiiiiiiiiii");
                                                                                     const url = window.location.origin;
                                                                                     console.log(url);
                                                                                     fetch(`${url}/deleteAddress/${addressId}`, 
@@ -495,10 +492,10 @@
                                                                                         'Content-Type': 'application/json'
                                                                                         },
                                                                                         body: JSON.stringify({
+                                                                                            userId
                                                                                         })
                                                                                     }).then((response)=>response.json())
                                                                                     .then((data)=>{
-                                                                                        console.log(data);
                                                                                         document.getElementById(`${userDetails.address[i]._id}`).remove()
                                                                                     })
                                                                                   Swal.fire(
@@ -515,7 +512,7 @@
                                                                                   )
                                                                                 }
                                                                               });
-                                                                            });
+                                                                            };
                                                                           </script>
                                                                     </div>
                                                                 </div>
@@ -614,7 +611,6 @@
                     })
                 }).then((response)=>response.json())
                 .then((data)=>{
-                    console.log(data);
                     document.getElementById('selectHouseName').value = data.address.houseName
                     document.getElementById('selectStreetName').value = data.address.streetName
                     document.getElementById('selectTown').value = data.address.town
@@ -712,8 +708,6 @@
                     })
                 }).then((response)=>response.json())
                 .then((data)=>{
-                    console.log(data);
-                
                 })
             }
         
@@ -806,8 +800,6 @@
                     })
                 }).then((response)=>response.json())
                 .then((data)=>{
-                    console.log(data);
-                
                 })
             }
         
@@ -817,8 +809,7 @@
         <script src="../javascripts/userinfovalidation.js"></script>
         <script src="../javascripts/permanentaddressvalidation.js"></script>
 
-<!-- 
-        <script>
+<!-- <script>
             const form = document.querySelector("#permanentAddress");
             const houseName = form.querySelector("#houseName");
             const streetName = form.querySelector("#streetName");
