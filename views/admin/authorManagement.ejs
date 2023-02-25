@@ -318,14 +318,14 @@
                              </button>
                       </div>
                       <div class="modal-body">
-                        <div id="addAlert"></div>
+                        <div id="addAuthorAlert"></div>
                         <div class="form-outline mb-1">
                           <label class="form-label" for="typeUsernameX-1">Enter Author</label>
                           <input type="text" id="addAuthorName" class="form-control form-control-lg" name="authorName" />
                           <label class="form-label mt-3" for="typeUsernameX-1">Author Details</label>
                           <textarea name="addAuthorDetails" class="form-control" id="authorDetails" style="height: 150px;" ></textarea>
                           <label class="form-label mt-3" for="typeUsernameX-1">Author Image</label>
-                          <input type="file" id="myFile1" class="form-control form-control-lg" name="authorImage" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" />
+                          <input type="file" id="myFile1" class="form-control form-control-lg" name="authorImage" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" required/>
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -421,7 +421,7 @@
                                               <div class="modal-body">
                                                 <div class="form-outline mb-1">
                                                   <label class="form-label" for="typeUsernameX-1">Change Image </label>
-                                                  <input type="file" id="authorImage" class="form-control form-control-lg" name="authorImage" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);"/>
+                                                  <input type="file" id="authorImage" class="form-control form-control-lg" name="authorImage" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" required/>
                                                   <input type="hidden" name="authorFile" value="<%= author.authorImage %>">
                                                   <input type="hidden" name="authorName" value="<%= author.authorName %>">
                                                   <input type="hidden" name="authorDetails" value="<%= author.authorDetails %>">

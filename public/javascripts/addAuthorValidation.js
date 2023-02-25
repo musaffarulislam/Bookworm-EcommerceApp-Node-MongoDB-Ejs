@@ -1,7 +1,7 @@
 function addAuthorValidation(){
     const addAuthorName = document.getElementById(`addAuthorName`);
     const addAuthorDetails = document.getElementById(`addAuthorDetails`);
-    const errorAddElement = document.getElementById(`addAlert`);
+    const errorAddElement = document.getElementById(`addAuthorAlert`);
     if(addAuthorName.value === "" || addAuthorName.value.trim()==""){
         errorAddElement.innerHTML =`<div class="alert alert-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >Author name field is empty</div>`;
         setTimeout(()=>{
@@ -9,7 +9,7 @@ function addAuthorValidation(){
         },3000)
         return false;
     }
-    if(addAuthorDetails.value.length >30){
+    if(addAuthorName.value.length >30){
         errorAddElement.innerHTML =`<div class="alert alert-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >Author Name must Less than 30 Characters</div>`;
         setTimeout(()=>{
             errorAddElement.innerHTML = ""

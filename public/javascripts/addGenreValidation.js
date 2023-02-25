@@ -1,6 +1,6 @@
 function addGenreValidation(){
     const addGenreName = document.getElementById(`addGenreName`);
-    const errorAddElement = document.getElementById(`addAlert`);
+    const errorAddElement = document.getElementById(`addGenreAlert`);
     if(addGenreName.value === "" || addGenreName.value.trim()==""){
         errorAddElement.innerHTML =`<div class="alert alert-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >Genre name field is empty</div>`;
         setTimeout(()=>{

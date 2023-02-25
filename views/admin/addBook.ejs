@@ -15,6 +15,14 @@
     <link href="../signup/css/bootstrap.css" rel="stylesheet" />
 
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+
+    <style>
+      .swal2-container {
+        z-index: 99999999 !important;
+      }
+    </style>
 
 </head>
 <body>
@@ -205,10 +213,6 @@
                               <option value="Zulu">Zulu</option>
                           </select>
                         </div>
-                        <!-- <div class="form-group form-input pt-2" >
-                          <label for="language" style="color :#bebebe">Cover Image:</label>
-                          <input type="file" name="coverImage" id="coverImage" required  style="color :#bebebe"/>
-                        </div> -->
                         <div class="form-group form-input pt-2">
                           <label for="language" style="color :#bebebe">Upload 3 Images:</label>
                             <input type="file" name="myFiles" id="myFiles" multiple required  style="color :#bebebe"/>
@@ -233,22 +237,24 @@
                                 <label for="rentPrice" class="form-label">Rent Price</label>
                             </div>
                         </div>
-                        <div class="form-submit pt-3">
-                            <button type="submit" value="Add Book" class="submit" id="submit" name="submit"/>
-                            <a href="/admin/productManagement" class="vertify-booking">back</a>
+                        <div class="form-group d-flex form-input pt-2">
+                          <a href="/admin/productManagement">
+                            <button type="submit" value="Add Book" class="submit px-3  me-3" id="submit" name="submit"/>Back</button>
+                          </a>
+                            <button type="submit" value="Add Book" class="submit px-3" id="submit" name="submit" style="background-color: red;"/>Add Book</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-                <!-- ============================================-->
+              <!-- ============================================-->
               <!-- add author ============================-->
 
               <div class="modal fade" id="addAuthor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
-                    <form id="editGenre" class="p-2" action="/admin/addAuthorInAddBook" method="post">
+                    <form id="editGenre" class="p-2" action="/admin/addAuthorInAddBook" method="post" onsubmit="return addAuthorValidation()">
                         <div class="modal-header">
                           <h5 class="modal-title text-dark" id="exampleModalLongTitle">Add Author</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -256,11 +262,14 @@
                                </button>
                         </div>
                         <div class="modal-body">
+                          <div id="addAuthorAlert"></div>
                           <div class="form-outline mb-1">
                             <label class="form-label text-dark" for="typeUsernameX-1" style="position: static;">Enter Author</label>
-                            <input type="text" id="authorName" class="form-control form-control-lg mb-3" name="authorName" required/>
+                            <input type="text" id="addAuthorName" class="form-control form-control-lg mb-3" name="authorName" required/>
                             <label class="form-label text-dark" for="typeUsernameX-1" style="position: static; font-size: 14px;">Enter Author</label>
-                            <textarea name="authorDetails" class="form-control" id="authorDetails" style="height: 150px;" required></textarea>
+                            <textarea name="authorDetails" class="form-control mb-3" id="addAuthorDetails" style="height: 150px;" required></textarea>
+                            <label class="form-label text-dark" for="typeUsernameX-1" style="position: static;">Author Image</label>
+                            <input type="file" id="myFile1" class="form-control form-control-lg" name="authorImage" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" required/>
                           </div>
                         </div>
                         <div class="modal-footer">
@@ -282,7 +291,7 @@
               <div class="modal fade" id="addGenre" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
-                    <form id="addGenre" class="p-2" action="/admin/addGenreInAddBook" method="post">
+                    <form id="addGenre" class="p-2" action="/admin/addGenreInAddBook" method="post" onsubmit="return addGenreValidation()">
                       <div class="modal-header">
                         <h5 class="modal-title text-dark" id="exampleModalLongTitle">Add Genre</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -290,9 +299,10 @@
                         </button>
                       </div>
                       <div class="modal-body">
+                        <div id="addGenreAlert"></div>
                         <div class="form-outline mb-1">
                           <label class="form-label text-dark" for="typeUsernameX-1" style="position: static;">Enter Genre</label>
-                            <input type="text" id="genre" class="form-control form-control-lg" name="genre" required/>  
+                            <input type="text" id="addGenreName" class="form-control form-control-lg" name="genre" required/>  
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -303,14 +313,26 @@
                   </div>
                 </div>
               </div>
-            <!-- model login ============================-->
+            <!-- add genre ============================-->
             <!-- ============================================-->
 
 
     </div>
 
 
+    <script>
+      function validateFile(input) {
+          let fileType = input.files[0].type;
+          if (fileType != "image/jpeg" && fileType != "image/png" && fileType != "image/jpg") {
+              input.value = "";
+              swal.fire("Invalid file format", "Please upload a JPEG, PNG, or JPG file.", "error");
+          }
+      }
+    </script>
+
     <script src="../javascripts/addBookValidation.js"></script>
+    <script src="../javascripts/addGenreValidation.js"></script>
+    <script src="../javascripts/addAuthorValidation.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     

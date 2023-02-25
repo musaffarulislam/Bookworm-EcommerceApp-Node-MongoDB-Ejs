@@ -393,7 +393,7 @@
                                       </td>
                                       <form action="/admin/homeImage" method="post" enctype="multipart/form-data">
                                         <input type="hidden" id="oldHomeImage" name="oldHomeImage" value="<%= banners.homeImage %>">
-                                        <td width="35%"><input type="file" id="homeImage" class="rounded" name="homeImage"  accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);"></td>
+                                        <td width="35%"><input type="file" id="homeImage" class="rounded" name="homeImage"  accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" required></td>
                                         <td width="15%"><button type="submit" id="btnHomeImage" class="btn btn-primary">Update</button></td>
                                       </form>
                                     </tr>
@@ -468,7 +468,7 @@
                                       </td>
                                       <form action="/admin/bigCard1Image" method="post" enctype="multipart/form-data">
                                         <input type="hidden" id="oldBigCard1Image" name="oldBigCard1Image" value="<%= banners.bigCard1Image %>">
-                                        <td width="35%"><input type="file" id="bigCard1Image" class="rounded" name="bigCard1Image" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);"></td>
+                                        <td width="35%"><input type="file" id="bigCard1Image" class="rounded" name="bigCard1Image" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" required></td>
                                         <td width="15%"><button type="submit" id="btnBigCard1Image" class="btn btn-primary">Update</button></td>
                                       </form>
                                     </tr>
@@ -546,7 +546,7 @@
                                       </td>
                                       <form action="/admin/bigCard2Image" method="post" enctype="multipart/form-data">
                                         <input type="hidden" id="oldBigCard2Image" name="oldBigCard2Image" value="<%= banners.bigCard2Image %>">
-                                        <td width="35%"><input type="file" id="bigCard2Image" class="rounded" name="bigCard2Image" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);"></td>
+                                        <td width="35%"><input type="file" id="bigCard2Image" class="rounded" name="bigCard2Image" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" required></td>
                                         <td width="15%"><button type="submit" id="btnBigCard2Image" class="btn btn-primary">Update</button></td>
                                       </form>
                                     </tr>
@@ -566,7 +566,7 @@
                                       </td>
                                       <form action="/admin/bottomImage1" method="post" enctype="multipart/form-data">
                                         <input type="hidden" id="oldBottomImage1" name="oldBottomImage1" value="<%= banners.bottomImage1 %>">
-                                        <td width="35%"><input type="file" id="bottomImage1" class="rounded" name="bottomImage1" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);"></td>
+                                        <td width="35%"><input type="file" id="bottomImage1" class="rounded" name="bottomImage1" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" required></td>
                                         <td width="15%"><button type="submit" id="btnBottomImage1" class="btn btn-primary">Update</button></td>
                                       </form>
                                     </tr>
@@ -583,7 +583,7 @@
                                       </td>
                                       <form action="/admin/bottomImage2" method="post" enctype="multipart/form-data">
                                         <input type="hidden" id="oldBottomImage2" name="oldBottomImage2" value="<%= banners.bottomImage2 %>">
-                                        <td width="35%"><input type="file" id="bottomImage2" class="rounded" name="bottomImage2" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);"></td>
+                                        <td width="35%"><input type="file" id="bottomImage2" class="rounded" name="bottomImage2" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" required></td>
                                         <td width="15%"><button type="submit" id="btnBottomImage2" class="btn btn-primary">Update</button></td>
                                       </form>
                                     </tr>
