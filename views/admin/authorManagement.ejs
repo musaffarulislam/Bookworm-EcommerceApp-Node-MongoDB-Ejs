@@ -42,21 +42,13 @@
       rel="stylesheet"
     />
 
-    <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../admin/assets/vendor/fonts/boxicons.css" />
-
-    <!-- Core CSS -->
     <link rel="stylesheet" href="../admin/assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="../admin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="../admin/assets/css/demo.css" />
-
-    <!-- Vendors CSS -->
     <link rel="stylesheet" href="../admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-
     <link rel="stylesheet" href="../admin/assets/vendor/libs/apex-charts/apex-charts.css" />
 
-
-    <!-- Helpers -->
     <script src="../admin/assets/vendor/js/helpers.js"></script>
     <script src="../admin/assets/js/config.js"></script>
 
@@ -137,9 +129,7 @@
               </ul>
             </li>
 
-            <!-- Tables -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Managments</span></li>
-            <!-- Tables -->
             <li class="menu-item">
               <a href="/admin/userManagement" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
@@ -157,9 +147,7 @@
             </li>
             
             
-            <!-- Tables -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Sub Managments</span></li>
-            <!-- Tables -->
 
                         
             <li class="menu-item active">
@@ -192,11 +180,8 @@
 
           </ul>
         </aside>
-        <!-- / Menu -->
 
-        <!-- Layout container -->
         <div class="layout-page">
-          <!-- Navbar -->
 
           <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
@@ -209,7 +194,6 @@
 
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
-                <!-- Place this tag where you want the button to render. -->
                 <li class="nav-item lh-1 me-3">
                   <a
                     class="github-button"
@@ -326,7 +310,7 @@
               <div class="modal fade" id="addAuthor" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                  <form id="editGenre" action="/admin/addAuthor" method="post" enctype="multipart/form-data">
+                  <form id="addAuthor" action="/admin/addAuthor" method="post" enctype="multipart/form-data" onsubmit="return addAuthorValidation()">
                       <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Add Author</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -334,13 +318,14 @@
                              </button>
                       </div>
                       <div class="modal-body">
+                        <div id="addAlert"></div>
                         <div class="form-outline mb-1">
                           <label class="form-label" for="typeUsernameX-1">Enter Author</label>
-                          <input type="text" id="authorName" class="form-control form-control-lg" name="authorName" required/>
+                          <input type="text" id="addAuthorName" class="form-control form-control-lg" name="authorName" />
                           <label class="form-label mt-3" for="typeUsernameX-1">Author Details</label>
-                          <textarea name="authorDetails" class="form-control" id="authorDetails" style="height: 150px;" required></textarea>
+                          <textarea name="addAuthorDetails" class="form-control" id="authorDetails" style="height: 150px;" ></textarea>
                           <label class="form-label mt-3" for="typeUsernameX-1">Author Image</label>
-                          <input type="file" id="myFile1" class="form-control form-control-lg" name="authorImage" required/>
+                          <input type="file" id="myFile1" class="form-control form-control-lg" name="authorImage" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" />
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -355,7 +340,6 @@
               <!-- Add Author ============================-->
               <!-- ============================================-->
 
-                          <!-- Bootstrap Dark Table -->
                           <div class="card">
                             <h5 class="card-header">Author Management</h5>
                             <div class="table-responsive  p-3">
@@ -481,7 +465,7 @@
                                         <div class="modal fade" id="edit<%= author._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                              <form id="editGenre" action="/admin/editAuthor/<%= author._id %>" method="post">
+                                              <form id="editGenre" action="/admin/editAuthor/<%= author._id %>" method="post" onsubmit="return editAuthorValidation('<%= author._id %>')">
                                                 <div class="modal-header">
                                                   <h5 class="modal-title" id="exampleModalLongTitle">Edit Author</h5>
                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -489,11 +473,12 @@
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
+                                                  <div id="editAlert<%= author._id %>"></div>
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Enter Author</label>
-                                                    <input type="text" id="authorName" class="form-control form-control-lg" name="authorName" value="<%= author.authorName %>"/>
+                                                    <input type="text" id="editAuthorName<%= author._id %>" class="form-control form-control-lg" name="authorName" value="<%= author.authorName %>"/>
                                                     <label class="form-label" for="typeUsernameX-1">Author Details</label>
-                                                    <textarea name="authorDetails" class="form-control" id="authorDetails" style="height: 150px;"><%= author.authorDetails %></textarea>
+                                                    <textarea id="editAuthorDetails<%= author._id %>" name="authorDetails" class="form-control" style="height: 150px;"><%= author.authorDetails %></textarea>
                                                     <input type="hidden" name="authorFile" value="<%= author.authorImage %>">
                                                     <input type="hidden" id="genredelete" class="form-control form-control-lg" name="authorDelete" value="<%= author.delete%>"/>  
                                                   </div>
@@ -515,27 +500,25 @@
                               </table>
                             </div>
                           </div>
-                          <!--/ Bootstrap Dark Table -->
             </div>
-            <!-- / Content -->
             <div class="content-backdrop fade"></div>
           </div>
-          <!-- Content wrapper -->
         </div>
-        <!-- / Layout page -->
       </div>
 
+      <script src="../javascripts/addAuthorValidation.js"></script>
+      <script src="../javascripts/editAuthorValidation.js"></script>
 
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
       
       <script>
             function validateFile(input) {
-              let fileType = input.files[0].type;
-              if (fileType != "image/jpeg" && fileType != "image/png" && fileType != "image/jpg") {
-                  input.value = "";
-                  swal.fire("Invalid file format", "Please upload a JPEG, PNG, or JPG file.", "error");
-              }
+                let fileType = input.files[0].type;
+                if (fileType != "image/jpeg" && fileType != "image/png" && fileType != "image/jpg") {
+                    input.value = "";
+                    swal.fire("Invalid file format", "Please upload a JPEG, PNG, or JPG file.", "error");
+                }
             }
       </script>
       
