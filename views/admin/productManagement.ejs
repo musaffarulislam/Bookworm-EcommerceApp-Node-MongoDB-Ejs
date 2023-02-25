@@ -53,16 +53,21 @@
         background-size: 0.65em auto, 100%;
       }
     </style>
-    <!-- Helpers -->
-    <script src="../admin/assets/vendor/js/helpers.js"></script>
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../admin/assets/vendor/js/helpers.js"></script>
     <script src="../admin/assets/js/config.js"></script>
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+
+    <style>
+      .swal2-container {
+        z-index: 99999999 !important;
+      }
+    </style>
 
   </head>
 
@@ -407,9 +412,6 @@
                                       </div>
                                     </div>
                                   </div>
-
-                                    <!-- <td class="ps-5"><%= book.retailPrice %></td>
-                                    <td class="ps-5"><%= book.rentPrice %></td> -->
                                     <% if (book.delete) {%>
                                       <td><span class="badge bg-label-success me-1">Active</span></td>
                                     <% }else{ %>
@@ -647,7 +649,7 @@
                                                 <div class="modal-body">
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Change Image 1</label>
-                                                    <input type="file" id="myFile1" class="form-control form-control-lg" name="myFile1" />
+                                                    <input type="file" id="myFile1" class="form-control form-control-lg" name="myFile1" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);"/>
                                                     <input type="hidden" name="image1" value="<%= book.image1 %>">
                                                   </div>
                                                 </div>
@@ -679,7 +681,7 @@
                                                 <div class="modal-body">
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Change Image 2</label>
-                                                    <input type="file" id="myFile2" class="form-control form-control-lg" name="myFile2"/>
+                                                    <input type="file" id="myFile2" class="form-control form-control-lg" name="myFile2" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);"/>
                                                     <input type="hidden" name="image2" value="<%= book.image2 %>">
                                                   </div>
                                                 </div>
@@ -711,7 +713,7 @@
                                                 <div class="modal-body">
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Change Image 3</label>
-                                                    <input type="file" id="myFile2" class="form-control form-control-lg" name="myFile3"/>
+                                                    <input type="file" id="myFile2" class="form-control form-control-lg" name="myFile3" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);"/>
                                                     <input type="hidden" name="image3" value="<%= book.image3 %>">
                                                   </div>
                                                 </div>
@@ -749,6 +751,17 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    
+    <script>
+      function validateFile(input) {
+        let fileType = input.files[0].type;
+        if (fileType != "image/jpeg" && fileType != "image/png" && fileType != "image/jpg") {
+            input.value = "";
+            swal.fire("Invalid file format", "Please upload a JPEG, PNG, or JPG file.", "error");
+        }
+      }
+    </script>  
+
     <script>
       $(document).ready(function() {
         $('#example').DataTable();
@@ -764,21 +777,16 @@
     <script src="../admin/assets/vendor/js/bootstrap.js"></script>
     <script src="../admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-<!-- Include Bootstrap JavaScript library -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <!-- Include Bootstrap JavaScript library -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
     <script src="../admin/assets/vendor/js/menu.js"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
     <script src="../admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
-    <!-- Main JS -->
-    <script src="../admin/assets/js/main.js"></script>
 
-    <!-- Page JS -->
+    <script src="../admin/assets/js/main.js"></script>
     <script src="../admin/assets/js/dashboards-analytics.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->

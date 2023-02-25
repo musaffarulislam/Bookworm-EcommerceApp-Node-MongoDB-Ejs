@@ -328,7 +328,7 @@
                 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
-                      <form id="addGenre" action="/admin/addGenre" method="post">
+                      <form id="addGenre" action="/admin/addGenre" method="post" onsubmit="return addGenreValidation()">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLongTitle">Add Genre</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -336,9 +336,10 @@
                           </button>
                         </div>
                         <div class="modal-body">
+                          <div id="addAlert"></div>
                           <div class="form-outline mb-1">
                             <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
-                              <input type="text" id="genre" class="form-control form-control-lg" name="genre" required/>  
+                              <input type="text" id="addGenreName" class="form-control form-control-lg" name="genre" required/>  
                           </div>
                         </div>
                         <div class="modal-footer">
@@ -381,7 +382,7 @@
                                             <i class="bx bx-dots-vertical-rounded" style="color: aliceblue;"></i>
                                           </button>
                                           <div class="dropdown-menu">
-                                            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit<%= genre._id %>"><i class="bx bx-edit-alt me-1"></i> Edit</button>
+                                            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#edit_<%= genre._id %>"><i class="bx bx-edit-alt me-1"></i> Edit</button>
                                             <% if (genre.delete) {%>
                                               <a class="dropdown-item" href="/admin/deleteGenre/<%= genre._id %>"><i class="bx bx-trash me-1"></i> Delete</a>
                                             <% }else{ %>
@@ -395,10 +396,10 @@
                                         <!-- ============================================-->
                                         <!-- Edit Genre ============================-->
 
-                                        <div class="modal fade" id="edit<%= genre._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal fade" id="edit_<%= genre._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                              <form id="editGenre" action="/admin/editGenre/<%= genre._id %>" method="post" onsubmit="return editGenre()">
+                                              <form id="editGenre" action="/admin/editGenre/<%= genre._id %>" method="post" onsubmit="return editGenreValidation('<%= genre._id %>')">
                                                 <div class="modal-header">
                                                   <h5 class="modal-title" id="exampleModalLongTitle">Edit Genre</h5>
                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -406,10 +407,10 @@
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                  <div id="editAlert"></div>
+                                                  <div id="editAlert<%= genre._id %>"></div>
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Enter Genre</label>
-                                                    <input type="text" id="editGenreName" class="form-control form-control-lg" name="editGenreName" value="<%= genre.genreName%>" required/>
+                                                    <input type="text" id="editGenreName<%= genre._id %>" class="form-control form-control-lg" name="editGenreName" value="<%= genre.genreName%>" required/>
                                                     <input type="hidden" id="genredelete" class="form-control form-control-lg" name="genreDelete" value="<%= genre.delete%>" required/>  
                                                   </div>
                                                 </div>
@@ -435,34 +436,10 @@
           </div>
         </div>
 
-
-
+        <script src="../javascripts/addGenreValidation.js"></script>
+        <script src="../javascripts/editGenreValidation.js"></script>
         <script>
-            const form = document.querySelector("#editGenre");
-            const editGenreName = form.querySelector("#editGenreName");
-            const errorElement = form.querySelector('#editAlert');
 
-            function hideErrorMessage(){
-                errorElement.innerHTML="";
-            }
-            function showErrorMessage(message){
-                errorElement.innerHTML =`<div class="alert alert-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
-            }
-            form.editGenre = () =>{
-
-                if(editGenreName.value === "" || editGenreName.value.trim()==""){
-                    showErrorMessage("Genre name field is empty");
-                    return false;
-                }
-
-                if(editGenreName.value.length >30){
-                    showErrorMessage("Genre name must be less than 30");
-                    return false;
-                }
-
-                hideErrorMessage()
-                return true;
-            }
         </script>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -477,14 +454,14 @@
         </script>
 
 
-    <script>$
-      (document).ready(function(){
-      $('#myModal').modal('show');
-      $('#closeBtn').click(function(){
-        $('#myModal').modal('hide');
-      });
-      });
-    </script>
+        <script>$
+          (document).ready(function(){
+          $('#myModal').modal('show');
+          $('#closeBtn').click(function(){
+            $('#myModal').modal('hide');
+          });
+          });
+        </script>
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

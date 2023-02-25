@@ -518,7 +518,7 @@ const editGenre = async (req, res) => {
       { _id: req.params.id },
       {
         $set: {
-          genreName: req.body.genre,
+          genreName: req.body.editGenreName,
           delete: req.body.genreDelete,
         },
       }
