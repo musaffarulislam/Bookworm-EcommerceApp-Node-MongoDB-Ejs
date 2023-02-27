@@ -596,7 +596,7 @@
                                         <% } %>
                                       </td>
                                       <form action="/admin/bottomImage2" method="post" enctype="multipart/form-data">
-                                        <% if(banners) %>
+                                        <% if(banners) {%>
                                         <input type="hidden" id="oldBottomImage2" name="oldBottomImage2" value="<%= banners.bottomImage2 %>">
                                         <% }else{ %>
                                           <input type="hidden" id="oldBottomImage2" name="oldBottomImage2" value="">
