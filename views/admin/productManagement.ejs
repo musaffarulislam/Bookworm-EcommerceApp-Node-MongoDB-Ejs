@@ -441,7 +441,7 @@
                                         <div class="modal fade" id="edit<%= book._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                           <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
-                                              <form id="editBook" action="/admin/editBook/<%= book._id %>" method="post">
+                                              <form id="editBook" action="/admin/editBook/<%= book._id %>" method="post" onsubmit="return editBookValidation()">
                                                 <div class="modal-header">
                                                   <h5 class="modal-title" id="exampleModalLongTitle">Edit Book</h5>
                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -449,9 +449,10 @@
                                                   </button>
                                                 </div>
                                                 <div class="modal-body">
+                                                  <div id="editError"></div>
                                                   <div class="form-outline mb-1">
                                                     <label class="form-label" for="typeUsernameX-1">Enter Book</label>
-                                                    <input type="text" id="bookrName" class="form-control form-control-lg" name="bookName" value="<%=book.bookName %>"/>
+                                                    <input type="text" id="bookName" class="form-control form-control-lg" name="bookName" value="<%=book.bookName %>"/>
                                                     <label class="form-label mt-3" for="typeUsernameX-1">Author Details</label>
                                                     <textarea name="bookDetails" class="form-control" id="bookDetails" style="height: 100px;"><%= book.bookDetails %></textarea>
                                                     <div class="form-group form-input pt-2">
@@ -750,6 +751,9 @@
         </div>
         <!-- / Layout page -->
       </div>
+
+      <script src="../javascripts/editBookValidation.js"></script>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
