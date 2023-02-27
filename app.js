@@ -18,11 +18,11 @@ connectdb()
 
 dotenv.config({path : '.env'});
 
-const oneDay = 1000 * 60 * 60 * 24;
+const oneWeek = 1000 * 60 * 60 * 24 * 7;
 app.use(sessions({
     secret: process.env.sessionKey,
     saveUninitialized:true,
-    cookie: { maxAge: oneDay },
+    cookie: { maxAge: oneWeek },
     resave: false 
 }));
 

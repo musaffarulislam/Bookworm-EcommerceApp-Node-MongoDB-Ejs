@@ -9,7 +9,7 @@ function editAuthorValidation(authorId){
         },3000)
         return false;
     }
-    if(editAuthorDetails.value.length >30){
+    if(editAuthorName.value.length >30){
         errorEditElement.innerHTML =`<div class="alert alert-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >Author Name must Less than 30 Characters</div>`;
         setTimeout(()=>{
             errorEditElement.innerHTML = ""
@@ -24,7 +24,7 @@ function editAuthorValidation(authorId){
         },3000)
         return false;
     }
-    if(editAuthorDetails.value.length >500){
+    if(editAuthorDetails.value.length >1000){
         errorEditElement.innerHTML =`<div class="alert alert-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >Author details must Less than 500 Characters</div>`;
         setTimeout(()=>{
             errorEditElement.innerHTML = ""

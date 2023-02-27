@@ -24,7 +24,7 @@ function addAuthorValidation(){
         },3000)
         return false;
     }
-    if(addAuthorDetails.value.length >500){
+    if(addAuthorDetails.value.length >1000){
         errorAddElement.innerHTML =`<div class="alert alert-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >Author details must Less than 500 Characters</div>`;
         setTimeout(()=>{
             errorAddElement.innerHTML = ""
