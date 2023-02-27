@@ -555,7 +555,7 @@
                                         <% } %>
                                       </td>
                                       <form action="/admin/bigCard2Image" method="post" enctype="multipart/form-data">
-                                        <% if(banners) %>
+                                        <% if(banners) {%>
                                         <input type="hidden" id="oldBigCard2Image" name="oldBigCard2Image" value="<%= banners.bigCard2Image %>">
                                         <% }else{ %>
                                           <input type="hidden" id="oldBigCard2Image" name="oldBigCard2Image" value="">
