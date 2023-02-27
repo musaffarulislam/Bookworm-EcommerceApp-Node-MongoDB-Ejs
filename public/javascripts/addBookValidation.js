@@ -34,12 +34,12 @@ function addBookValidation(e) {
   }
 
   if (bookDetails.value === "" || bookDetails.value.trim() == "") {
-    showErrorMessage("Book Name field is empty");
+    showErrorMessage("Book Details field is empty");
     return false;
   }
 
   if (bookDetails.value.length < 30) {
-    showErrorMessage("Book name must be greter than 30");
+    showErrorMessage("Book Details must be greter than 30");
     return false;
   }
 

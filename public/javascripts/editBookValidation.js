@@ -13,7 +13,6 @@ const editrentPrice = document.getElementById("rentPrice");
 const editerrorElement = document.getElementById("editError");
 
 function hideErrorEditMessage() {
-  console.log("3333333333333333333333")
   editerrorElement.innerHTML = "";
 }
 function showErrorEditMessage(message) {
@@ -24,8 +23,6 @@ function showErrorEditMessage(message) {
   }, 3000);
 }
 function editBookValidation(e) {
-  console.log("hiiiiiiiiiiiiiiiiiiiii")
-  console.log(editbookName.value,)
   if (editbookName.value === "" || editbookName.value.trim() == "") {
     showErrorEditMessage("Book Name field is empty");
     return false;
