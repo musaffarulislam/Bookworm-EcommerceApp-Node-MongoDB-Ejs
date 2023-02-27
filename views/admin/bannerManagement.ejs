@@ -579,7 +579,11 @@
                                         <% } %>
                                       </td>
                                       <form action="/admin/bottomImage1" method="post" enctype="multipart/form-data">
+                                        <% if(banners) {%>
                                         <input type="hidden" id="oldBottomImage1" name="oldBottomImage1" value="<%= banners.bottomImage1 %>">
+                                        <% }else{ %>
+                                          <input type="hidden" id="oldBottomImage1" name="oldBottomImage1" value="">
+                                        <% } %>
                                         <td width="35%"><input type="file" id="bottomImage1" class="rounded" name="bottomImage1" accept="image/png, image/jpeg, image/jpg" onchange="validateFile(this);" required></td>
                                         <td width="15%"><button type="submit" id="btnBottomImage1" class="btn btn-primary">Update</button></td>
                                       </form>
