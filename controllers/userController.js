@@ -321,39 +321,51 @@ const editUser = async (req,res) =>{
 }
 
 
-const changePassword = async (req,res) =>{
-  try{
+const changePassword = async (req, res) => {
+  try {
     const userId = req.params.id;
     const oldPassword = req.body.oldPassword;
     const newPassword = req.body.newPassword;
-    const userdb = await user.findOne({ _id: userId});
+    const userdb = await user.findOne({ _id: userId });
 
-    bcrypt.compare(oldPassword,userdb.password).then(async(result)=>{
-      if(result){
-        bcrypt.compare(newPassword,userdb.password).then(async(equal)=>{
-          if(equal){
-            return res.status(401).send({message:"New Password And Old Password Same",status:401})
-          }else{
+    bcrypt.compare(oldPassword, userdb.password).then(async (result) => {
+      if (result) {
+        bcrypt.compare(newPassword, userdb.password).then(async (equal) => {
+          if (equal) {
+            return res.status(401).send({
+              message: "New Password And Old Password Same",
+              status: 401,
+            });
+          } else {
             const hashedPassword = await bcrypt.hash(newPassword, 10);
-            await user.updateOne({_id: userId},
-              {$set:
-                {
-                  password: hashedPassword
-                }
-              })
-            req.session.user = false
-            return res.status(200).send({message:"Success",status:200})
+            await user.updateOne(
+              { _id: userId },
+              {
+                $set: {
+                  password: hashedPassword,
+                },
+              }
+            );
+            req.session.user = false;
+            return res.status(200).send({
+              message: "Success",
+              status: 200,
+            });
           }
-        })
-      }else{                  
-          return res.status(401).send({message:"Old Password not correct",status:401})
+        });
+      } else {
+        return res.status(401).send({
+          message: "Old Password not correct",
+          status: 401,
+        });
       }
-    })
-  }catch(err){
+    });
+  } catch (err) {
     console.error(`Error Edit User Info : ${err}`);
     res.redirect(`/myProfile/${req.params.id}`);
   }
-}
+};
+
 
 
 const address = async (req,res) =>{
