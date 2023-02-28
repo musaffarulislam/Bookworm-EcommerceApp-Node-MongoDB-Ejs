@@ -78,8 +78,8 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false,
     auth: {
-      user: 'bookworm.ecommerce.project@gmail.com',
-      pass: 'pcgkxadcvkebxmuo'
+      user: 'bookwormwebstore@gmail.com',
+      pass: 'gymrvnscaukrlzvu'
     }
 });
    
@@ -165,7 +165,6 @@ const userSignup = async (req, res) => {
 const renderOTP = (req,res) => {
     const userInfo = req.session.userInfo;
     warning = false;
-
     return res.render('otp',{title: 'Otp',userInfo})
 }
 
@@ -273,7 +272,17 @@ const resendOTP = async (req,res) =>{
             console.error(`Error sending email: ${error}`);
           }
           console.log(`OTP sent to ${User.email}: ${OTP}`);
-          res.redirect(`/otp?userName=${User.username}&email=${User.email}&phoneNumber=${User.phoneNumber}&age=${User.age}&password=${User.password}&block=${User.block}&expiresAt=${expirationTime}`);
+          req.session.userInfo = {
+            userName : User.username,
+            email : User.email,
+            phoneNumber : User.phoneNumber,
+            age : User.age,
+            password : User.password,
+            block : User.block,
+            expiresAt : expirationTime
+          };
+          res.redirect('/otp')
+          // res.redirect(`/otp?userName=${User.username}&email=${User.email}&phoneNumber=${User.phoneNumber}&age=${User.age}&password=${User.password}&block=${User.block}&expiresAt=${expirationTime}`);
         });
     }catch(err){
         console.error(`Error Resend OTP : ${err}`);
