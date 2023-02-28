@@ -228,7 +228,7 @@
                                                                                 class="btn btn-secondary"
                                                                                 data-dismiss="modal">Close</button>
                                                                             <button type="button"
-                                                                                class="btn btn-primary" onclick="changePassword('<%= userDetails._id %>')">Change</button>
+                                                                                class="btn btn-primary" onclick="changePasswordUser('<%= userDetails._id %>')">Change</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -854,11 +854,10 @@
                 })
             }
         
-            function changePassword(userId) {
+            function changePasswordUser(userId) {
                 const oldPassword = document.getElementById('oldPassword').value;
                 const newPassword = document.getElementById('newPassword').value;
                 const confPassword = document.getElementById('confPassword').value;
-                const changePasswordMessage = document.getElementById('changePasswordMessage');
 
                 if(oldPassword === "" || oldPassword.trim()==""){
                     swal.fire("Error!", "Old Password Input Fied Is Empty", "error");

@@ -330,13 +330,13 @@ const changePassword = async (req, res) => {
 
     bcrypt.compare(oldPassword, userdb.password).then(async (result) => {
       if (result) {
-        bcrypt.compare(newPassword, userdb.password).then(async (equal) => {
-          if (equal) {
+        bcrypt.compare(newPassword, userdb.password).then(async (status) => {
+          if (status) {
             return res.status(401).send({
-              message: "New Password And Old Password Same",
+              message: "New Password And Old Password Are Same",
               status: 401,
             });
-          } else {
+          }else {
             const hashedPassword = await bcrypt.hash(newPassword, 10);
             await user.updateOne(
               { _id: userId },
