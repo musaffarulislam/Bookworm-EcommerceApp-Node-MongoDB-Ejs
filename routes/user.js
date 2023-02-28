@@ -1,6 +1,6 @@
 const { response } = require('express');
 const express = require('express');
-const userController = require('../conteollers/userController');
+const userController = require('../controllers/userController');
 const midleware = require('../midlewares/middleware') 
 const upload = require('../midlewares/multer')
 const router = express.Router();

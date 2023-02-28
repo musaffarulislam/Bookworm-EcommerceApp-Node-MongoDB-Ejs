@@ -1,6 +1,6 @@
 const { response } = require('express');
 const express = require('express');
-const adminController = require('../conteollers/adminController');
+const adminController = require('../controllers/adminController');
 const midleware = require('../midlewares/middleware');
 const upload = require('../midlewares/multer')
 const { get } = require('mongoose');

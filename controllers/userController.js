@@ -106,7 +106,8 @@ const userSignup = async (req, res) => {
       };
 
       const OTP = Math.floor(1000 + Math.random() * 9000).toString();
-      const expirationTime = new Date(Date.now() + 5 * 60 * 1000);
+      const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+      const expirationTime = new Date(Date.now() + 5 * 60 * 1000).toLocaleString(undefined, options);
 
       await UserOTPVerification.deleteMany({email: User.email})
 
@@ -234,7 +235,8 @@ const resendOTP = async (req,res) =>{
         };
 
         const OTP = Math.floor(1000 + Math.random() * 9000).toString();
-        const expirationTime = new Date(Date.now() + 5 * 60 * 1000);
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        const expirationTime = new Date(Date.now() + 5 * 60 * 1000).toLocaleString(undefined, options);
     
         await UserOTPVerification.deleteMany({email: User.email})
 
