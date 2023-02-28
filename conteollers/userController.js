@@ -22,7 +22,11 @@ const UserOTPVerification = require('../models/userOTPVerification');
 
 
 const renderHome = async (req,res)=>{
-  const books = await book.find({delete: {$ne: false}}).populate('author').populate('genre').sort({bookName: -1});;
+  const books = await book.find({delete: {$ne: false}})
+                        .populate('author')
+                        .populate('genre')
+                        .collation({ locale: 'en', strength: 2 })
+                        .sort({ bookName: 1 });
   const banners = await banner.findOne({banner: true}).populate('bigCard1ProductId').populate('bigCard2ProductId')
   req.session.userInfo = false
   const userId = req.session.user;
