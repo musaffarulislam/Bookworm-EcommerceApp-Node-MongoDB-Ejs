@@ -341,6 +341,7 @@ const changePassword = async (req,res) =>{
                   password: hashedPassword
                 }
               })
+            req.session.user = false
             return res.status(200).send({message:"Success",status:200})
           }
         })
