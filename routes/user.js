@@ -30,6 +30,8 @@ router.post('/orderDelete',midleware.userSession,userController.orderDelete);
 
 router.post('/editUser/:id',midleware.userSession,userController.editUser);
 
+router.post('/changePassword/:id',midleware.userSession,userController.changePassword);
+
 router.post('/address/:id',midleware.userSession,userController.address);
 
 router.post('/selectAddress',midleware.userSession,userController.seleteAddress);

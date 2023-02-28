@@ -184,7 +184,57 @@
                                                 <p class="text-secondary mb-1">
                                                     <%= userDetails.email %>
                                                 </p>
-                                                        <button class="btn btn-primary">Change Password</button>
+                                                        <button class="btn btn-primary" data-toggle="modal"
+                                                        data-target="#changePassword">Change Password</button>
+                                                         <!-- Change user Image -->
+                                                         <div class="modal fade" id="changePassword"
+                                                            tabindex="-1" role="dialog"
+                                                            aria-labelledby="exampleModalCenterTitle"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered"
+                                                                role="document">
+                                                                <div class="modal-content">
+                                                                    <!-- <form id="changePassword" action="/changePassword/<%= userDetails._id %>" method="post"> -->
+                                                                    <form id="changePassword">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title"
+                                                                                id="exampleModalLongTitle">Change Password</h5>
+                                                                            <button type="button" class="close"
+                                                                                data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <div id="changePasswordMessage"></div>
+                                                                            <div class="form-outline mb-1">
+                                                                                <label class="form-label"
+                                                                                    for="typeUsernameX-1">Old Password
+                                                                                </label>
+                                                                                <input type="password" id="oldPassword" class="form-control form-control-lg" name="oldPassword"/>
+                                                                            </div>
+                                                                            <div class="form-outline mb-1">
+                                                                                <label class="form-label"
+                                                                                    for="typeUsernameX-1">New Password
+                                                                                </label>
+                                                                                <input type="password" id="newPassword" class="form-control form-control-lg" name="newPassword"/>
+                                                                                <label class="form-label"
+                                                                                    for="typeUsernameX-1">Conform Password
+                                                                                </label>
+                                                                                <input type="password" id="confPassword" class="form-control form-control-lg" name="confPassword"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-dismiss="modal">Close</button>
+                                                                            <button type="button"
+                                                                                class="btn btn-primary" onclick="changePassword('<%= userDetails._id %>')">Change</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                         <button class="btn btn-danger" data-toggle="modal"
                                                             data-target="#changeUser<%= userDetails._id %>">
                                                             <% if (!userDetails.userImage) { %>
@@ -804,6 +854,73 @@
                 })
             }
         
+            function changePassword(userId) {
+                const oldPassword = document.getElementById('oldPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confPassword = document.getElementById('confPassword').value;
+                const changePasswordMessage = document.getElementById('changePasswordMessage');
+
+                if(oldPassword === "" || oldPassword.trim()==""){
+                    swal.fire("Error!", "Old Password Input Fied Is Empty", "error");
+                    return false;
+                }
+                if(oldPassword.length < 6){
+                    swal.fire("Error!", "Old Password Minmum 6 Character Require", "error");
+                    return false;
+                }
+                if(newPassword === "" || newPassword.trim()==""){
+                    swal.fire("Error!", "New Password Input Fied Is Empty", "error");
+                    return false;
+                }
+                if(newPassword.length < 6){
+                    swal.fire("Error!", "New Password Minmum 6 Character Require", "error");
+                    return false;
+                }
+                if(newPassword != confPassword){
+                    swal.fire("Error!", "Password are not correct", "error");
+                    return false;
+                }
+                const url = window.location.origin;
+                console.log(url);
+                fetch(`${url}/changePassword/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        oldPassword,
+                        newPassword
+                    })
+                }).then((response) => {
+                    if (response.status === 200) {
+                        return response.json().then((data) => {
+                            $('#changePassword').modal('hide');
+                            $('.modal-backdrop').remove();
+                            Swal.fire({
+                                title: 'Success',
+                                title: 'Password Change Successful',
+                                icon: 'success',
+                                buttons: true,
+                                buttons: 'Ok'
+                            })
+                        })
+                    }else if(response.status === 401){
+                        return response.json().then((data) => {
+                            Swal.fire({
+                                title: 'Warning',
+                                text: data.message,
+                                icon: 'warning',
+                                buttons: true,
+                                dangerMode: true,
+                                buttons: 'cancel'
+                            });
+                        });
+                    }
+                })
+            }
+
+
             function validateFile(input) {
                 let fileType = input.files[0].type;
                 if (fileType != "image/jpeg" && fileType != "image/png" && fileType != "image/jpg") {
