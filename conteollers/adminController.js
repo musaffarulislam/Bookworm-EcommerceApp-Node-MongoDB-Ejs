@@ -220,6 +220,7 @@ const addAuthorInAddBook = async (req, res) => {
       req.session.errormsg = "Author Already Exit";
       return res.redirect("/admin/addBook");
     }
+    console.log(req.file.filename);
 
     const newAuthor = new author({
       authorName: req.body.authorName,

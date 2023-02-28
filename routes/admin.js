@@ -30,7 +30,7 @@ router.get('/deleteBook/:id',midleware.adminSession,adminController.deleteBook);
 
 router.get('/undeleteBook/:id',midleware.adminSession,adminController.undeleteBook);
 
-router.post('/addAuthorInAddBook',upload.single('authorImage'),adminController.addAuthorInAddBook);
+router.post('/addAuthorInAddBook',upload.single('authorImageAddBook'),adminController.addAuthorInAddBook);
 
 router.post('/addGenreInAddBook',adminController.addGenreInAddBook);
 
