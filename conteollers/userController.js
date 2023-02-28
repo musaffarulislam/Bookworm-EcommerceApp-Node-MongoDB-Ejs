@@ -22,11 +22,7 @@ const UserOTPVerification = require('../models/userOTPVerification');
 
 
 const renderHome = async (req,res)=>{
-  const books = await book.find({delete: {$ne: false}})
-                        .populate('author')
-                        .populate('genre')
-                        .collation({ locale: 'en', strength: 2 })
-                        .sort({ bookName: 1 });
+  const books = await book.find({delete: {$ne: false}}).populate('author').populate('genre');
   const banners = await banner.findOne({banner: true}).populate('bigCard1ProductId').populate('bigCard2ProductId')
   req.session.userInfo = false
   const userId = req.session.user;
@@ -123,7 +119,7 @@ const userSignup = async (req, res) => {
       await newOTPVerification.save();
 
       const mailOptions = {
-        from: 'bookworm.ecommerce.project@gmail.com',
+        from: 'bookwormwebstore@gmail.com',
         to: User.email,
         subject: 'OTP',
         text: `You otp :${OTP}`,
@@ -251,7 +247,7 @@ const resendOTP = async (req,res) =>{
         await newOTPVerification.save();
     
         const mailOptions = {
-          from: 'bookworm.ecommerce.project@gmail.com',
+          from: 'bookwormwebstore@gmail.com',
           to: User.email,
           subject: 'Resend OTP',
           text: `You otp : ${OTP}`,
