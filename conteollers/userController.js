@@ -78,8 +78,8 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false,
     auth: {
-      user: 'bookwormwebstore@gmail.com',
-      pass: 'gymrvnscaukrlzvu'
+      user: 'bookworm.ecommerce.project@gmail.com',
+      pass: 'lrfolrpjvppfgvfi'
     }
 });
    
@@ -142,8 +142,6 @@ const userSignup = async (req, res) => {
       await transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.error(`Error sending email: ${error}`);
-          // req.session.errormsg = "Email Not Send";
-          // res.redirect('/signup')
         }
         console.log(`OTP sent to ${User.email}: ${OTP}`);
 
