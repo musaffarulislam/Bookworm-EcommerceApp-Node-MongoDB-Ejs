@@ -32,7 +32,18 @@
 						Admin Login
 					</span>
 
-					<div id="alert"></div>
+					<!-- <div id="alert"></div> -->
+					<% if(warning) {%>
+						<div  id="warningMessage" class="py-2 mt-2">
+							<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold" role="alert" ><%= warning %></div>
+						</div>
+						<script>
+							setTimeout(()=>{
+								document.getElementById('warningMessage').innerHTML = ""
+							},5000)
+							
+						</script>
+					<% } %>
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
 						<input class="input100" type="text" id="email" name="email" placeholder="Email">
 						<span class="focus-input100"></span>

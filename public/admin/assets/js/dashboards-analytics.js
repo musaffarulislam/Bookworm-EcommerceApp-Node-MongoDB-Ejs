@@ -18,11 +18,11 @@
     totalRevenueChartOptions = {
       series: [
         {
-          name: '2021',
+          name: 'order',
           data: [18, 7, 15, 29, 18, 12, 9]
         },
         {
-          name: '2020',
+          name: 'Complete Order',
           data: [-13, -18, -9, -14, -5, -17, -15]
         }
       ],

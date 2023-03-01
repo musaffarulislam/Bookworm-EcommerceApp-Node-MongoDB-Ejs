@@ -19,7 +19,9 @@ const renderLogin = (req, res) => {
     if (session) {
       res.redirect("/admin/admin_panel");
     } else {
-      res.render("adminLogin.ejs");
+      const warning = req.session.adminError;
+      req.session.adminError = false
+      res.render("adminLogin.ejs",{warning});
     }
   } catch (err) {
     console.error(`Error Get Adimn Login Page : ${err}`);
@@ -30,13 +32,11 @@ const renderLogin = (req, res) => {
 const adminLogin = (req, res) => {
   try {
     const { email, password } = req.body;
-    if (
-      email === process.env.adminEmail &&
-      password == process.env.adminPassword
-    ) {
+    if (email === process.env.adminEmail &&password == process.env.adminPassword) {
       req.session.adminemail = req.body.email;
       res.redirect("/admin/admin_panel");
     } else {
+      req.session.adminError = "Email or Password Incorrect"
       res.redirect("/admin");
     }
   } catch (err) {
