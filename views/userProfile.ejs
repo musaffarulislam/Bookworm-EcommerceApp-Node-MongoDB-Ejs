@@ -882,7 +882,7 @@
                 const url = window.location.origin;
                 console.log(url);
                 fetch(`${url}/changePassword/${userId}`, {
-                    method: 'POST',
+                    method: 'PUT',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
