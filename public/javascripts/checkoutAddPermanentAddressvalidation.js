@@ -15,7 +15,7 @@ function showErrorMessageAddPermanantAddress(message){
     addPermanantErrorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
     setTimeout(()=>{
         addPermanantErrorElement.innerHTML =`<div></div>`
-    },3000);
+    },5000);
 }
 function submitformaddPermanentAddress(){
     // e.preventDefault()

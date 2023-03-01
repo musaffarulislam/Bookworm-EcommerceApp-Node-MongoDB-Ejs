@@ -690,7 +690,7 @@
                     selectErrorElement.innerHTML =`<div class="alert alert-warning border border-warning d-flex w-80 justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
                     setTimeout(()=>{
                         selectErrorElement.innerHTML =`<div></div>`
-                    },3000);
+                    },5000);
                 }
 
                 if(houseName === "" || houseName.trim()==""){
@@ -781,7 +781,7 @@
                     selectErrorElement.innerHTML =`<div class="alert alert-warning border border-warning d-flex w-80 justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
                     setTimeout(()=>{
                         selectErrorElement.innerHTML =`<div></div>`
-                    },3000);
+                    },5000);
                 }
 
                 if(houseName === "" || houseName.trim()==""){
@@ -867,14 +867,62 @@
                     swal.fire("Error!", "Old Password Minmum 6 Character Require", "error");
                     return false;
                 }
+
+                let numberOldRegex = /\d/;
+                let letterOldRegex = /[a-zA-Z]/;
+                let specialCharOldRegex = /[@$!%*?&]/;
+
+                if (!numberOldRegex.test(oldPassword)) {
+                    swal.fire("Error!", "Old password must contain at least one number", "error");
+                    return false;
+                }
+                
+                if (!letterOldRegex.test(oldPassword)) {
+                    swal.fire("Error!", "Old password must contain at least one letter", "error");
+                    return false;
+                }
+                
+                if (!specialCharOldRegex.test(oldPassword)) {
+                    swal.fire("Error!", "Old password must contain at least one special character", "error");
+                    return false;
+                }
+
+                if (oldPassword.length < 8 || oldPassword.length > 32) {
+                    showErrorMessage("Old password must be between 8 and 32 characters long");
+                    return false;
+                }
+
+
                 if(newPassword === "" || newPassword.trim()==""){
                     swal.fire("Error!", "New Password Input Fied Is Empty", "error");
                     return false;
                 }
-                if(newPassword.length < 6){
-                    swal.fire("Error!", "New Password Minmum 6 Character Require", "error");
+                
+                let numbernewRegex = /\d/;
+                let letternewRegex = /[a-zA-Z]/;
+                let specialCharnewRegex = /[@$!%*?&]/;
+
+                if (!numbernewRegex.test(newPassword)) {
+                    swal.fire("Error!", "New password must contain at least one number", "error");
                     return false;
                 }
+                
+                if (!letternewRegex.test(newPassword)) {
+                    swal.fire("Error!", "New password must contain at least one letter", "error");
+                    return false;
+                }
+                
+                if (!specialCharnewRegex.test(newPassword)) {
+                    swal.fire("Error!", "New password must contain at least one special character", "error");
+                    return false;
+                }
+
+                if (newPassword.length < 8 || newPassword.length > 32) {
+                    showErrorMessage("New password must be between 8 and 32 characters long");
+                    return false;
+                }
+
+
                 if(newPassword != confPassword){
                     swal.fire("Error!", "Password are not correct", "error");
                     return false;

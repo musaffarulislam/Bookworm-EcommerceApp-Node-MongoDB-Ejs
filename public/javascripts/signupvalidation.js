@@ -16,7 +16,7 @@ function showErrorMessage(message){
     errorElement.innerHTML =`<div class="alert alert-warning border border-warning w-80 d-flex justify-content-center fw-bold py-2" role="alert" >${message}</div>`;
     setTimeout(()=>{
         errorElement.innerHTML =`<div></div>`
-    },3000);
+    },5000);
 }
 function submitform(e){
     // e.preventDefault()
@@ -52,7 +52,7 @@ function submitform(e){
       } else {
         showErrorMessage("Email is not correct");
         return false;
-      }
+    }
     
     if(phonenumber.value === ""){
         showErrorMessage("Phonenumber field is empty");
@@ -69,12 +69,7 @@ function submitform(e){
         return false;
     }
 
-    if(phonenumber.value.length >12){
-        showErrorMessage("Phone Number must be 10 numbers");
-        return false;
-    }
-
-    if(phonenumber.value <= 5999999999){
+    if(phonenumber.value <= 5999999999 || phonenumber.value >= 9999999999){
         showErrorMessage("Incorrect Phone Number");
         return false;
     }
@@ -101,7 +96,7 @@ function submitform(e){
 
 
 
-    if(age.value>= 200){
+    if(age.value>= 100){
         showErrorMessage("Enter the correct Age");
         return false;
     }
@@ -121,9 +116,38 @@ function submitform(e){
         return false;
     }
 
+    if(fpassword.value.length <6){
+        showErrorMessage("Password must be greater than 6 Characters");
+        return false;
+    }
+
     if(fpassword.value == "password"){
         showErrorMessage("Password can not be password");
         return false;
+    }
+
+    let numberRegex = /\d/;
+    let letterRegex = /[a-zA-Z]/;
+    let specialCharRegex = /[@$!%*?&]/;
+
+    if (!numberRegex.test(fpassword.value)) {
+      showErrorMessage("Password must contain at least one number");
+      return false;
+    }
+    
+    if (!letterRegex.test(fpassword.value)) {
+      showErrorMessage("Password must contain at least one letter");
+      return false;
+    }
+    
+    if (!specialCharRegex.test(fpassword.value)) {
+      showErrorMessage("Password must contain at least one special character");
+      return false;
+    }
+
+    if (fpassword.value.length < 8 || fpassword.value.length > 32) {
+      showErrorMessage("Password must be between 8 and 32 characters long");
+      return false;
     }
 
 
