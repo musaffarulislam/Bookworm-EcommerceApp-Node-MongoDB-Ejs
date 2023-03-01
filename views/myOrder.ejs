@@ -336,19 +336,49 @@
                       <a id="removeCart" onclick="orderDeleteSwal('<%= order?._id %>','<%= order?.orderId %>')" class="text-muted" style="cursor: pointer;"><i class="fa fa-trash"></i> Cancel Order</a>
                       
                       <script>
-                          function orderDeleteSwal(orderId,customOrderId){
-                            // Display Swal dialog
-                            swal({
-                              title: "Are you sure?",
-                              text: `${customOrderId} Cancel or Not`,
-                              icon: "warning",
-                              buttons: true,
-                              dangerMode: true,
-                            }).then((data)=>{
-                              orderDelete(orderId)
-                            }).catch(error => {
-                              swal("Error", "Order Not Delete", "error");
-                            });
+                        function orderDeleteSwal(orderId, customOrderId) {
+                          // Display Swal dialog
+                          swal({
+                            title: "Are you sure?",
+                            text: `${customOrderId} Cancel or Not`,
+                            icon: "warning",
+                            buttons: {
+                              cancel: {
+                                text: "No",
+                                value: false,
+                                visible: true,
+                                className: "",
+                                closeModal: true,
+                              },
+                              confirm: {
+                                text: "Yes",
+                                value: true,
+                                visible: true,
+                                className: "",
+                                closeModal: true,
+                              },
+                            },
+                            dangerMode: true,
+                            closeOnClickOutside: false,
+                            closeOnEsc: false,
+                          }).then((willDelete) => {
+                            if (willDelete) {
+                              orderDelete(orderId);
+                              swal("Order Deleted", "", "success");
+                              document.querySelector(".swal-footer").style.display = "flex";
+                              document.querySelector(".swal-footer").style.justifyContent = "center";
+                            } else {
+                              swal("Order Not Deleted", "", "info");
+                              document.querySelector(".swal-footer").style.display = "flex";
+                              document.querySelector(".swal-footer").style.justifyContent = "center";
+                            }
+                          });
+
+                          // Customize Swal dialog with CSS
+                          document.querySelector(".swal-button--confirm").style.backgroundColor = "red";
+                          document.querySelector(".swal-button--cancel").style.backgroundColor = "green";
+                          document.querySelector(".swal-footer").style.display = "flex";
+                          document.querySelector(".swal-footer").style.justifyContent = "center";
                         }
                       </script>
                     </div>
