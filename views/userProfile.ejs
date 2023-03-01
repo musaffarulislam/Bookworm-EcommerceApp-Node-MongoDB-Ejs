@@ -870,7 +870,7 @@
 
                 let numberOldRegex = /\d/;
                 let letterOldRegex = /[a-zA-Z]/;
-                let specialCharOldRegex = /[@$!%*?&]/;
+                let specialCharOldRegex = /[@#$!%*?&]/;
 
                 if (!numberOldRegex.test(oldPassword)) {
                     swal.fire("Error!", "Old password must contain at least one number", "error");
@@ -900,7 +900,7 @@
                 
                 let numbernewRegex = /\d/;
                 let letternewRegex = /[a-zA-Z]/;
-                let specialCharnewRegex = /[@$!%*?&]/;
+                let specialCharnewRegex = /[@#$!%*?&]/;
 
                 if (!numbernewRegex.test(newPassword)) {
                     swal.fire("Error!", "New password must contain at least one number", "error");

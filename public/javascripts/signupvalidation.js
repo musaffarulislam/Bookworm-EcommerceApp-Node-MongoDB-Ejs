@@ -128,7 +128,7 @@ function submitform(e){
 
     let numberRegex = /\d/;
     let letterRegex = /[a-zA-Z]/;
-    let specialCharRegex = /[@$!%*?&]/;
+    let specialCharRegex = /[@#$!%*?&]/;
 
     if (!numberRegex.test(fpassword.value)) {
       showErrorMessage("Password must contain at least one number");

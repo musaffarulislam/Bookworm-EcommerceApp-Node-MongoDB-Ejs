@@ -78,8 +78,8 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false,
     auth: {
-      user: 'bookworm.ecommerce.project@gmail.com',
-      pass: 'lrfolrpjvppfgvfi'
+      user: process.env.userNodemailer,
+      pass: process.env.passNodemailer
     }
 });
    
@@ -1058,7 +1058,7 @@ const onlinePayment = async (req, res) => {
 
     const razorpayInstance = new Razorpay({
       key_id: "rzp_test_MfMHXbdBnx5BYx",
-      key_secret: "egXXr5eoXtsziGUkWHfUAm0F"
+      key_secret: process.env.razorpaySecret
     });
 
 
