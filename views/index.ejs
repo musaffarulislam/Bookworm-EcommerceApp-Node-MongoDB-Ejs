@@ -372,7 +372,7 @@
           <div class="filters-content">
             <div class="row grid" id="bookList">
               <% books.forEach((book,index) =>{ %>
-                <% if(index < 12) { %>
+                <% if(index < 9) { %>
                   <div class="col-sm-6 col-lg-4 books item <%= book?.genre?.genreName %> <%= book.language %> <%= book.rating %>" id="">
                     <div class="box">
                       <div>
@@ -654,7 +654,7 @@
                 <script>
                   document.getElementById("footerAboutUs").addEventListener("click", function() {
                     Swal.fire({
-                      title: 'SOrry',
+                      title: 'So rry',
                       text: "Page under maintenance",
                       icon: 'error',
                       showCancelButton: true,

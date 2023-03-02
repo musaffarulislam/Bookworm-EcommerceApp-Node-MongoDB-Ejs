@@ -334,6 +334,16 @@
               input.value = "";
               swal.fire("Invalid file format", "Please upload a JPEG, PNG, or JPG file.", "error");
           }
+          let fileType2 = input.files[1].type;
+          if (fileType2 != "image/jpeg" && fileType2 != "image/png" && fileType2 != "image/jpg") {
+              input.value = "";
+              swal.fire("Invalid file format", "Please upload a JPEG, PNG, or JPG file.", "error");
+          }
+          let fileType3 = input.files[2].type;
+          if (fileType3 != "image/jpeg" && fileType3 != "image/png" && fileType3 != "image/jpg") {
+              input.value = "";
+              swal.fire("Invalid file format", "Please upload a JPEG, PNG, or JPG file.", "error");
+          }
       }
     </script>
 
