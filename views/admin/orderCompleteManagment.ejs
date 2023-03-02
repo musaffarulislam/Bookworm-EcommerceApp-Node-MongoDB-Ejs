@@ -294,6 +294,7 @@
                               <table class="table table-dark py-3" id="example">
                                 <thead>
                                   <tr>
+                                    <th>Order Id</th>
                                     <th>User Name</th>
                                     <th>Product Details</th>
                                     <th>Address</th>
@@ -304,7 +305,8 @@
                                 <tbody class="table-border-bottom-0">
                                   <% orders.forEach((order) => { %>
                                   <tr>  
-                                    <td width="15%"><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><%= order?.user?.username %></strong></td>
+                                    <td width="15%"><i class="fab fa-angular fa-lg text-danger"></i> <strong><%= order?.orderId %></strong></td>
+                                    <td width="15%"><i class="fab fa-angular fa-lg"></i> <%= order?.user?.username %></td>
                                     <td width="30%">
                                         <% order.product.forEach(function(product) { %>
                                             <%= product?.productId?.bookName %> x <%= product?.quantity %><br>
