@@ -18,7 +18,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - web-root:/var/www/html
+      - web-root:/var/www/bookworm.musaffarulislam.com
       - ./nginx-conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
@@ -33,10 +33,10 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
-      - web-root:/var/www/html
+      - web-root:/var/www/bookworm.musaffarulislam.com
     depends_on:
       - webserver
-    command: certonly --webroot --webroot-path=/var/www/html --email ubuntu@ip-172-31-34-6 --agree-tos --no-eff-email --staging -d bookworm.musaffarulislam.com -d www.bookworm.musaffarulislam.com
+    command: certonly --webroot --webroot-path=/var/www/bookworm.musaffarulislam.com --email ubuntu@ip-172-31-34-6 --agree-tos --no-eff-email --staging -d bookworm.musaffarulislam.com -d www.bookworm.musaffarulislam.com
 
 volumes:
   certbot-etc:
