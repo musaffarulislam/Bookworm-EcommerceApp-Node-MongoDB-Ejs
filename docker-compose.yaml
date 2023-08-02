@@ -25,11 +25,11 @@ services:
     depends_on:
       - mongo
 
-  nginx:
+nginx:
     image: nginx:1.23.3-alpine
     restart: always
     volumes:
-      - /path/to/your/nginx.conf:/etc/nginx/nginx.conf
+      - /path/to/your/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - "8080:80"
       - "443:443"
