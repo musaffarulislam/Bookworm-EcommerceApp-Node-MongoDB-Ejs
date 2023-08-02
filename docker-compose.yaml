@@ -3,7 +3,7 @@ version: "3.8"
 services:
   mongo:
     image: mongo
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./.env
     ports:
@@ -17,7 +17,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./.env
     ports:
@@ -27,18 +27,42 @@ services:
     depends_on:
       - mongo
 
-  nginx:
-    image: nginx:1.23.3-alpine
-    restart: always
-    volumes:
-      - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
     ports:
-      - "8080:80"
-      - "443:443"
-    networks:
-      - app-network
+      - "80:80"
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
     depends_on:
       - nodejs
+    networks:
+      - app-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/bookworm.musaffarulislam.com
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/bookworm.musaffarulislam.com/Bookworm-EcommerceApp-Node-MongoDB-Ejs --email dev.musaffarulislam@gmail.com --agree-tos --no-eff-email --staging -d bookworm.musaffarulislam.com -d www.bookworm.musaffarulislam.com
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /var/www/bookworm.musaffarulislam.com/Bookworm-EcommerceApp-Node-MongoDB-Ejs/
+      o: bind
 
 networks:
   app-network:
