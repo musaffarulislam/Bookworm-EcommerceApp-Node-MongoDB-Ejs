@@ -33,11 +33,12 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
+      - "443:443" # Add port mapping for SSL
     volumes:
       - web-root:/var/www/bookworm.musaffarulislam.com
-      - ./nginx-conf:/etc/nginx/conf.d  # <-- Updated this line to point to the directory containing your nginx.conf file
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
+      - ./nginx-conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx-conf/certbot-etc:/etc/letsencrypt
+      - ./nginx-conf/certbot-var:/var/lib/letsencrypt
     depends_on:
       - nodejs
     networks:
@@ -47,8 +48,8 @@ services:
     image: certbot/certbot
     container_name: certbot
     volumes:
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
+      - ./nginx-conf/certbot-etc:/etc/letsencrypt
+      - ./nginx-conf/certbot-var:/var/lib/letsencrypt
       - web-root:/var/www/bookworm.musaffarulislam.com
     depends_on:
       - webserver
@@ -56,13 +57,14 @@ services:
 
 volumes:
   certbot-etc:
+    driver: local
   certbot-var:
+    driver: local
   web-root:
     driver: local
     driver_opts:
       type: none
-      device: /home/ubuntu/Bookworm-EcommerceApp-Node-MongoDB-Ejs/
-      o: bind
+      device: /home/ubuntu/Bookworm-EcommerceApp-Node-MongoDB-Ejs/nginx-conf/web-root
 
 networks:
   app-network:
