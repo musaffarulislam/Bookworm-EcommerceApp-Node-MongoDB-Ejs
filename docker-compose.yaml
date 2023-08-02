@@ -78,7 +78,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/ubuntu/Bookworm-EcommerceApp-Node-MongoDB-Ejs/
+      device: ${PWD}/Bookworm-EcommerceApp-Node-MongoDB-Ejs/
       o: bind
 
 networks:
