@@ -14,5 +14,4 @@ const db = async () => {
         process.exit(1);
     }
 }
-
 module.exports = db
