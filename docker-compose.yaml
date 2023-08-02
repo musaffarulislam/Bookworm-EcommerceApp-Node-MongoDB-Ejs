@@ -35,7 +35,7 @@ services:
       - "80:80"
     volumes:
       - web-root:/var/www/bookworm.musaffarulislam.com
-      - ./nginx-conf:/etc/nginx/conf.d
+      - ./nginx-conf:/etc/nginx/conf.d  # <-- Updated this line to point to the directory containing your nginx.conf file
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
     depends_on:
