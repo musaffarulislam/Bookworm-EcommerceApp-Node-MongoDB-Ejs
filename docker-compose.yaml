@@ -36,6 +36,7 @@ services:
       - "443:443" # Add port mapping for SSL
     volumes:
       - ./nginx-conf/nginx.conf:/etc/nginx/nginx.conf
+      - /app:/var/www/bookworm.musaffarulislam.com # <-- Update this line with the correct path to your Node.js app
     depends_on:
       - nodejs
     networks:
