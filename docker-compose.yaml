@@ -40,17 +40,6 @@ services:
     depends_on:
       - nodejs
 
-  letsencrypt:
-    container_name: 'certbot-service'
-    image: certbot/certbot
-    command: sh -c "certbot certonly --webroot -w /tmp/acme_challenge -d bookworm.musaffarulislam.com --text --agree-tos --email dev.musaffarulislam@gmail.com --rsa-key-size 4096 --verbose --keep-until-expiring --preferred-challenges=http"
-    entrypoint: ""
-    volumes:
-      - "/etc/letsencrypt:/etc/letsencrypt"
-      - "/tmp/acme_challenge:/tmp/acme_challenge"
-    environment:
-      - TERM=xterm
-
 networks:
   app-network:
     driver: bridge
