@@ -27,14 +27,14 @@ app.use(sessions({
 }));
 
 
-//to prevent storing cache
 app.use((req, res, next) =>{
   res.set(
     "Cache-Control",
     "no-cache, private, no-store, must-revalidate",
   );
   next();
-})
+}) 
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
