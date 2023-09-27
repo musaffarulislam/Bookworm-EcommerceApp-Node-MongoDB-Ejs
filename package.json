@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "lint:ejs": "ejslint views/index.ejs"
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
