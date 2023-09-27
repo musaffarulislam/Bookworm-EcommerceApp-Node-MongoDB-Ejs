@@ -33,7 +33,7 @@ const renderHome = async (req,res)=>{
   }
   const warning = req.session.errormsg;
   req.session.errormsg = false;
-  res.render('index',{ title: "Home",banners,userDetails,warning});
+  res.render('index.ejs',{ title: "Home",banners,userDetails,warning});
 }
 
 
