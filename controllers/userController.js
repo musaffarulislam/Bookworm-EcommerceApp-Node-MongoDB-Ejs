@@ -120,7 +120,7 @@ const userSignup = async (req, res) => {
       await newOTPVerification.save();
 
       const mailOptions = {
-        from: `${process.env.userNodemailer}`,
+        from: 'bookwormwebstore@gmail.com',
         to: User.email,
         subject: 'OTP',
         text: `You otp :${OTP}`,
