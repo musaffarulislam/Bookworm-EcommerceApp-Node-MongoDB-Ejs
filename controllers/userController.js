@@ -22,17 +22,21 @@ const UserOTPVerification = require('../models/userOTPVerification');
 
 
 const renderHome = async (req,res)=>{
-  const books = await book.find({delete: {$ne: false}}).populate('author').populate('genre');
-  const banners = await banner.findOne({banner: true}).populate('bigCard1ProductId').populate('bigCard2ProductId')
-  req.session.userInfo = false
-  const userId = req.session.user;
-  let userDetails = false;
-  if(userId){
-    userDetails = await user.findOne({_id: userId})
+  try{
+    const books = await book.find({delete: {$ne: false}}).populate('author').populate('genre');
+    const banners = await banner.findOne({banner: true}).populate('bigCard1ProductId').populate('bigCard2ProductId')
+    req.session.userInfo = false
+    const userId = req.session.user;
+    let userDetails = false;
+    if(userId){
+      userDetails = await user.findOne({_id: userId})
+    }
+    const warning = req.session.errormsg;
+    req.session.errormsg = false;
+    res.render('index',{ title: "Home",books,banners,userDetails,warning});
+  }catch(error){
+    console.log("render home r=error",error)
   }
-  const warning = req.session.errormsg;
-  req.session.errormsg = false;
-  res.render('index',{ title: "Home",books,banners,userDetails,warning});
 }
 
 
