@@ -48,19 +48,13 @@
   <body>
     
 
-    <!-- ===============================================-->
-    <!--    Main Content-->
-    <!-- ===============================================-->
-    <main class="main" id="top">
+    <!-- <main class="main" id="top">
 
 
-      <!-- ============================================-->
-      <!-- Navbar ============================-->
       <header class="header_area sticky-header">
         <div class="main_menu" style="background-color: #ffb30e;">
           <nav class="navbar navbar-expand-lg navbar-light main_box">
             <div class="container">
-              <!-- Brand and toggle get grouped for better mobile display -->
               <a class="navbar-brand logo_h" href="/"><img class="" src="nav/img/logo3.png" alt="Bookworm logo" style="width:160px"></a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +62,6 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
                 <ul class="nav navbar-nav menu_nav ml-auto">
                   <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
@@ -76,7 +69,6 @@
                   <% if (userDetails) { %>
                     <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
                     <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
-                    <!-- <span class="badge rounded-pill badge-notification bg-danger">1</span></a></li> -->
                   <% }else{ %>
                     <li class="nav-item cartText"><a id="cartIdText" class="nav-link">Cart</a></li>
                     <li class="nav-item cartIcon"><a id="cartIdIcon" class="nav-link"><i class="fas fa-shopping-cart"></i></a></li>
@@ -140,15 +132,9 @@
           </nav>
         </div>
       </header>
-      <!-- Navbar ============================-->
-      <!-- ============================================-->
-
-
-      <!-- ============================================-->
-      <!-- Incorrect Warning ============================-->
+      
 
       <% if(warning) {%>
-      <!-- Modal -->
      <script>
       window.addEventListener("load", ()=>{
         Swal.fire({
@@ -167,12 +153,6 @@
      </script>
       <% } %>
 
-      <!-- Incorrect Warning ============================-->
-      <!-- ============================================-->
-
-
-      <!-- ============================================-->
-      <!-- model login ============================-->
       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -185,7 +165,7 @@
             </div>
 
             <div class="modal-body">
-                <!-- <form id="login" action="/login" method="post" onsubmit="return submitform(event)"> -->
+              
                 <form id="login" onsubmit="return submitform(event)">
                     <div id="alert"></div>
                     <div class="form-outline mb-1">
@@ -201,24 +181,17 @@
                     </div>
                 </form>
             </div>
-            <!-- <div class="modal-footer" style="justify-content: center;"> -->
+            
             <div class="modal-footer d-flex justify-content-center">
               <div>
                 <p class="mb-0">Don't have an account? <a class="fw-bold text-dark" href="/signup">Sign Up</a></p>
               </div>
-              <!-- <div>
-                <p class="mb-0"><a class="fw-bold text-dark" href="/signup">Forgotten Password</a></p>
-              </div> -->
+              
             </div>
         </div>
         </div>
       </div> 
-      <!-- model login ============================-->
-      <!-- ============================================-->
-
-
-      <!-- ============================================-->
-      <!-- starting / search ============================-->
+      
       <section class="py-5 overflow-hidden bg-primary" id="home">
         <div class="container">
           <div class="row flex-center">
@@ -260,9 +233,7 @@
                             <input class="form-control input-box form-foodwagon-control" id="searchBook" type="text" placeholder="Enter Book Name" onkeyup="searchBookInput()" >
                           </div>
                         </div>
-                        <!-- <div class="d-grid gap-3 col-sm-auto">
-                          <button class="btn btn-danger" type="submit">Find Book</button>
-                        </div> -->
+                        
                       </form>
                     </div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -273,9 +244,7 @@
                             <input class="form-control input-box form-foodwagon-control" id="searchAuthor" type="text" placeholder="Enter Author Name" onkeyup="searchAuthorInput()" />
                           </div>
                         </div>
-                        <!-- <div class="d-grid gap-3 col-sm-auto">
-                          <button class="btn btn-danger" type="submit">Find Author</button>
-                        </div> -->
+                        
                       </form>
                     </div>
                   </div>
@@ -284,14 +253,7 @@
             </div>
           </div>
         </div>
-      </section>
-        <!-- starting feactures ============================-->
-      <!-- ============================================-->
-
-
-
-      <!-- ============================================-->
-      <!-- starting feactures ============================-->
+      </section> 
       <section class="py-0 bg-primary-gradient">
 
         <div class="container">
@@ -322,15 +284,11 @@
               </div>
             </div>
           </div>
-        </div><!-- end of .container-->
+        </div>
 
       </section>
-      <!-- starting feactures ============================-->
-      <!-- ============================================-->
 
 
-      <!-- ============================================-->
-      <!-- card ============================-->
       <section class="food_section layout_padding-bottom">
         <div class="container">
           <div class="heading_container heading_center">
@@ -504,7 +462,6 @@
       <section>
         <div class="bg-holder" style="background-image:url(template/assets/img/gallery/cta-one-bg.png);background-position:center;background-size:cover;">
         </div>
-        <!--/.bg-holder-->
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-xxl-10">
@@ -595,7 +552,6 @@
       <section class="py-0">
         <div class="bg-holder" style="background-image:url(template/assets/img/gallery/cta-two-bg.png);background-position:center;background-size:cover;">
         </div>
-        <!--/.bg-holder-->
         <div class="container">
           <div class="row flex-center">
             <div class="col-xxl-9 py-7 text-center">
@@ -699,7 +655,6 @@
           <hr class="border border-800" />
           <div class="row flex-center pb-3">
             <div class="col-md-6 order-0">
-              <!-- <p class="text-200 text-center text-md-start">All rights Reserved &copy; Your Company, 2021</p> -->
             </div>
             <div class="col-md-6 order-1">
               <p class="text-200 text-center text-md-end"> Made with&nbsp;
@@ -709,9 +664,9 @@
               </p>
             </div>
           </div>
-        </div><!-- end of .container-->
+        </div>
       </section>
-    </main>
+    </main> -->
     
     
     
