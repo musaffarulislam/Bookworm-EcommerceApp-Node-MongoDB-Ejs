@@ -107,10 +107,19 @@ const unblockUser = async (req, res) => {
 const renderProductManagement = async (req, res) => {
   try {
     const books = await book.find().populate("author").populate("genre");
+    console.log("this is books in renderProductManagement", books)
     const authors = await author.find();
+    console.log("this is authors in renderProductManagement", authors)
     const genres = await genre.find();
+    console.log("this is genres in renderProductManagement", genres)
 
-    res.render("admin/productManagement.ejs", { books, genres, authors });
+    // res.render("admin/productManagement.ejs", { books, genres, authors });
+    res.status(200).json({
+      message: "books from",
+      books: books,
+      authors: authors,
+      genres: genres
+    })
   } catch (err) {
     console.error(`Error Get Product Management : ${err}`);
     res.redirect("/admin/admin_panel");
@@ -160,8 +169,12 @@ const addBook = async (req, res) => {
       rentPrice: req.body.rentPrice,
       delete: true,
     });
-    newBook.save();
-    res.redirect("/admin/productManagement");
+    const savedBook = newBook.save();
+    // res.redirect("/admin/productManagement");
+    return res.status(200).json({
+      message: "books",
+      savedBook: savedBook
+    });
   } catch (err) {
     console.error(`Error Add Book: ${err}`);
     res.redirect("/admin/productManagement");
