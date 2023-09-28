@@ -46,7 +46,8 @@ router.post('/changeImage3/:id',upload.single('myFile3'),adminController.changeI
 
 router.get('/authorManagement',midleware.adminSession,adminController.renderAuthorManagement);
 
-router.post('/addAuthor',upload.single('authorImage'),adminController.addAuthor);
+router.post('/addAuthor',adminController.addAuthor);
+// router.post('/addAuthor',upload.single('authorImage'),adminController.addAuthor);
 
 router.post('/changeAuthorImage/:id',upload.single('authorImage'),adminController.changeAuthorImage);
 
