@@ -22,7 +22,8 @@ router.get('/productManagement',midleware.adminSession,adminController.renderPro
 
 router.get('/addBook',midleware.adminSession,adminController.renderAddBook);
 
-router.post('/addBook',upload.array('myFiles', 3),adminController.addBook);
+// router.post('/addBook',upload.array('myFiles', 3),adminController.addBook);
+router.post('/addBook',adminController.addBook);
 
 router.post('/editBook/:id',midleware.adminSession,adminController.editBook);
 
@@ -30,7 +31,8 @@ router.get('/deleteBook/:id',midleware.adminSession,adminController.deleteBook);
 
 router.get('/undeleteBook/:id',midleware.adminSession,adminController.undeleteBook);
 
-router.post('/addAuthorInAddBook',upload.single('authorImageAddBook'),adminController.addAuthorInAddBook);
+// router.post('/addAuthorInAddBook',upload.single('authorImageAddBook'),adminController.addAuthorInAddBook);
+router.post('/addAuthorInAddBook',adminController.addAuthorInAddBook);
 
 router.post('/addGenreInAddBook',adminController.addGenreInAddBook);
 

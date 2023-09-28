@@ -25,7 +25,7 @@ const renderHome = async (req,res)=>{
   try{
     console.log("render cntrlr ", 1)
     const books = await book.find({delete: {$ne: false}}).populate('author').populate('genre');
-    console.log("render cntrlr ", 2)
+    console.log("render cntrlr ", 2, "books =>", books)
     const banners = await banner.findOne({banner: true}).populate('bigCard1ProductId').populate('bigCard2ProductId')
     console.log("render cntrlr ", 3)
     req.session.userInfo = false

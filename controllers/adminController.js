@@ -148,9 +148,9 @@ const addBook = async (req, res) => {
       author: req.body.author,
       genre: req.body.genre,
       language: req.body.language,
-      image1: req.files[0].filename,
-      image2: req.files[1].filename,
-      image3: req.files[2].filename,
+      // image1: req.files[0].filename,
+      // image2: req.files[1].filename,
+      // image3: req.files[2].filename,
       rating: req.body.rating,
       pages: req.body.pages,
       retailPrice: req.body.retailPrice,
@@ -225,7 +225,7 @@ const addAuthorInAddBook = async (req, res) => {
     const newAuthor = new author({
       authorName: req.body.authorName,
       authorDetails: req.body.authorDetails,
-      authorImage: req.file.filename,
+      // authorImage: req.file.filename,
       delete: true,
     });
     await newAuthor.save();

@@ -23,17 +23,21 @@ const bookScheme = new Scheme({
     },
     coverImage : {
         type : String,
+        default: "../books/book-authorImage-1675596685094.jpeg",
     },
     image1 : {
         type : String,
+        default: "../books/book-authorImage-1675596685094.jpeg",
         required : true
     },
     image2 : {
         type : String,
+        default: "../books/book-authorImage-1675596685094.jpeg",
         required : true
     },
     image3 : {
         type : String,
+        default: "../books/book-authorImage-1675596685094.jpeg",
         required : true
     },
     rating : {
