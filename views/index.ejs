@@ -373,7 +373,7 @@
             <div class="row grid" id="bookList">
               <!-- <% books.forEach((book,index) =>{ %>
                 <% if(index < 9) { %> -->
-                  <div class="col-sm-6 col-lg-4 books item <%= book?.genre?.genreName %> <%= book.language %> <%= book.rating %>" id="">
+                  <!-- <div class="col-sm-6 col-lg-4 books item <%= book?.genre?.genreName %> <%= book.language %> <%= book.rating %>" id=""> -->
                     <div class="box">
                       <div>
                           <div class="img-box">
@@ -483,21 +483,21 @@
                                   </svg>
                                 </a> -->
                                 <script>
-                                  document.getElementById("noLoginaddIcon<%= book._id %>").addEventListener("click", function() {
-                                    Swal.fire({
-                                      title: 'Not Login',
-                                      text: "Please Login First",
-                                      icon: 'error',
-                                      showCancelButton: true,
-                                      confirmButtonColor: '#3085d6',
-                                      cancelButtonColor: '#d33',
-                                      confirmButtonText: 'Log In'
-                                    }).then((result) => {
-                                      if (result.value) {
-                                        $('#exampleModalCenter').modal('show');
-                                      }
-                                    })
-                                  })
+                                  // document.getElementById("noLoginaddIcon<%= book._id %>").addEventListener("click", function() {
+                                  //   Swal.fire({
+                                  //     title: 'Not Login',
+                                  //     text: "Please Login First",
+                                  //     icon: 'error',
+                                  //     showCancelButton: true,
+                                  //     confirmButtonColor: '#3085d6',
+                                  //     cancelButtonColor: '#d33',
+                                  //     confirmButtonText: 'Log In'
+                                  //   }).then((result) => {
+                                  //     if (result.value) {
+                                  //       $('#exampleModalCenter').modal('show');
+                                  //     }
+                                  //   })
+                                  // })
                                   
                                   document.getElementById("close-modal").addEventListener("click", function() {
                                     $('#exampleModalCenter').modal('hide');
@@ -507,7 +507,7 @@
                             </div>
                           </div>
                       </div>
-                    </div>
+                    <!-- </div> -->
                   </div>
                 <!-- <% } %>
               <% }) %> -->
@@ -574,7 +574,7 @@
               <div class="card card-span mb-3 shadow-lg">
                 <div class="card-body py-0">
                   <div class="row justify-content-center">
-                    <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="<%= banners.bigCard1Image %>" alt="bigCard1Image" /></div>
+                    <!-- <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-0 order-md-1"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-end rounded-md-top-0" src="<%= banners.bigCard1Image %>" alt="bigCard1Image" /></div> -->
                     <!-- <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
                       <h1 class="card-title mt-xl-5 mb-4">         
                           <%= banners.bigCard1Heading1 %>
@@ -586,7 +586,7 @@
                        </p>
                       <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6" href="/book-details/<%= banners?.bigCard1ProductId?._id %>">PROCEED TO ORDER<i class="fas fa-chevron-right ms-2"></i></a></div>
                     </div> -->
-                  </div>
+                  <!-- </div> -->
                 </div>
               </div>
             </div>
@@ -604,7 +604,7 @@
               <div class="card card-span mb-3 shadow-lg">
                 <div class="card-body py-0">
                   <div class="row justify-content-center">
-                    <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-md-0"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-start rounded-md-top-0" src="<%= banners.bigCard2Image %>" alt="..." /></div>
+                    <!-- <div class="col-md-5 col-xl-7 col-xxl-8 g-0 order-md-0"><img class="img-fluid w-100 fit-cover h-100 rounded-top rounded-md-start rounded-md-top-0" src="<%= banners.bigCard2Image %>" alt="..." /></div> -->
                     <!-- <div class="col-md-7 col-xl-5 col-xxl-4 p-4 p-lg-5">
                       <h1 class="card-title mt-xl-5 mb-4">
                         <%= banners.bigCard2Heading1 %>
@@ -617,7 +617,7 @@
                       <div class="d-grid bottom-0"><a class="btn btn-lg btn-primary mt-xl-6"
                          href="/book-details/<%= banners?.bigCard2ProductId?._id %>">PROCEED TO ORDER<i class="fas fa-chevron-right ms-2"></i></a></div>
                     </div> -->
-                  </div>
+                  <!-- </div> -->
                 </div>
               </div>
             </div>
@@ -710,7 +710,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-3 col-xxl-2 d-flex justify-content-center mb-3">
               <!-- <% if(userDetails) {%> -->
-              <h5 class="lh-lg text-white"><a class="text-200 text-decoration-none" href="/myOrder/<%= userDetails._id %>">Orders</a></h5>
+              <!-- <h5 class="lh-lg text-white"><a class="text-200 text-decoration-none" href="/myOrder/<%= userDetails._id %>">Orders</a></h5> -->
               <!-- <% }else{ %> -->
                 <h5 class="lh-lg text-white"><a class="text-200 text-decoration-none" id="footerOrders" href="#!">Orders</a></h5>
                 <script>
