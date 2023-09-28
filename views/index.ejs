@@ -51,7 +51,87 @@
     <main class="main" id="top">
 
 
-
+      <header class="header_area sticky-header">
+        <div class="main_menu" style="background-color: #ffb30e;">
+          <nav class="navbar navbar-expand-lg navbar-light main_box">
+            <div class="container">
+              <a class="navbar-brand logo_h" href="/"><img class="" src="nav/img/logo3.png" alt="Bookworm logo" style="width:160px"></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <div class="collapse navbar-collapse offset justify-content-end" id="navbarSupportedContent">
+                <ul class="nav navbar-nav menu_nav ml-auto">
+                  <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/book">Book</a></li>
+                  <% if (userDetails) { %>
+                    <li class="nav-item cartText"><a class="nav-link" href="/cart/<%= userDetails._id %>">Cart</a></li>
+                    <li class="nav-item cartIcon"><a class="nav-link" href="/cart/<%= userDetails._id %>"><i class="fas fa-shopping-cart"></i>
+                  <% }else{ %>
+                    <li class="nav-item cartText"><a id="cartIdText" class="nav-link">Cart</a></li>
+                    <li class="nav-item cartIcon"><a id="cartIdIcon" class="nav-link"><i class="fas fa-shopping-cart"></i></a></li>
+                    <script>
+                      document.getElementById("cartIdText").addEventListener("click", function() {
+                        Swal.fire({
+                          title: 'Not Login',
+                          text: "Please Login First",
+                          icon: 'error',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: 'Log In'
+                        }).then((result) => {
+                          if (result.value) {
+                            $('#exampleModalCenter').modal('show');
+                          }
+                        })
+                      })
+                      document.getElementById("close-modal").addEventListener("click", function() {
+                        $('#exampleModalCenter').modal('hide');
+                      });
+                    </script>
+                    <script>
+                      document.getElementById("cartIdIcon").addEventListener("click", function() {
+                        Swal.fire({
+                          title: 'Not Login',
+                          text: "Please Login First",
+                          icon: 'error',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: 'Log In'
+                        }).then((result) => {
+                          if (result.value) {
+                            $('#exampleModalCenter').modal('show');
+                          }
+                        })
+                      })
+                      document.getElementById("close-modal").addEventListener("click", function() {
+                        $('#exampleModalCenter').modal('hide');
+                      });
+                    </script>
+                  <% } %>
+                  <% if(userDetails) {%>
+                    <li class="nav-item submenu dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false"><i class="fas fa-user-circle me-2"></i></a>
+                      <ul class="dropdown-menu">
+                        <li class="nav-item"><a class="nav-link" href="/myProfile/<%= userDetails._id %>"><%= userDetails.username %></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/myOrder/<%= userDetails._id %>">My Orders</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                      </ul>
+                    </li>
+                  <% }else{ %>
+                    <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#exampleModalCenter">Log In</a></li>	
+                  <% } %>  
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </header>
       
 
       <% if(warning) {%>
@@ -209,7 +289,7 @@
       </section>
 
 
-     
+    
     </main>
     
     
