@@ -20,8 +20,8 @@ const renderLogin = (req, res) => {
       res.redirect("/admin/admin_panel");
     } else {
       const warning = req.session.adminError;
-      req.session.adminError = false;
-      res.render("adminLogin.ejs", { warning });
+      req.session.adminError = false
+      res.render("adminLogin.ejs",{warning});
     }
   } catch (err) {
     console.error(`Error Get Adimn Login Page : ${err}`);
@@ -32,14 +32,11 @@ const renderLogin = (req, res) => {
 const adminLogin = (req, res) => {
   try {
     const { email, password } = req.body;
-    if (
-      email === process.env.adminEmail &&
-      password == process.env.adminPassword
-    ) {
+    if (email === process.env.adminEmail &&password == process.env.adminPassword) {
       req.session.adminemail = req.body.email;
       res.redirect("/admin/admin_panel");
     } else {
-      req.session.adminError = "Email or Password Incorrect";
+      req.session.adminError = "Email or Password Incorrect"
       res.redirect("/admin");
     }
   } catch (err) {
@@ -107,19 +104,10 @@ const unblockUser = async (req, res) => {
 const renderProductManagement = async (req, res) => {
   try {
     const books = await book.find().populate("author").populate("genre");
-    console.log("this is books in renderProductManagement", books)
     const authors = await author.find();
-    console.log("this is authors in renderProductManagement", authors)
     const genres = await genre.find();
-    console.log("this is genres in renderProductManagement", genres)
 
-    // res.render("admin/productManagement.ejs", { books, genres, authors });
-    res.status(200).json({
-      message: "books from",
-      books: books,
-      authors: authors,
-      genres: genres
-    })
+    res.render("admin/productManagement.ejs", { books, genres, authors });
   } catch (err) {
     console.error(`Error Get Product Management : ${err}`);
     res.redirect("/admin/admin_panel");
@@ -160,21 +148,17 @@ const addBook = async (req, res) => {
       author: req.body.author,
       genre: req.body.genre,
       language: req.body.language,
-      // image1: req.files[0].filename,
-      // image2: req.files[1].filename,
-      // image3: req.files[2].filename,
+      image1: req.files[0].filename,
+      image2: req.files[1].filename,
+      image3: req.files[2].filename,
       rating: req.body.rating,
       pages: req.body.pages,
       retailPrice: req.body.retailPrice,
       rentPrice: req.body.rentPrice,
       delete: true,
     });
-    const savedBook = newBook.save();
-    // res.redirect("/admin/productManagement");
-    return res.status(200).json({
-      message: "books",
-      savedBook: savedBook
-    });
+    newBook.save();
+    res.redirect("/admin/productManagement");
   } catch (err) {
     console.error(`Error Add Book: ${err}`);
     res.redirect("/admin/productManagement");
@@ -241,7 +225,7 @@ const addAuthorInAddBook = async (req, res) => {
     const newAuthor = new author({
       authorName: req.body.authorName,
       authorDetails: req.body.authorDetails,
-      // authorImage: req.file.filename,
+      authorImage: req.file.filename,
       delete: true,
     });
     await newAuthor.save();
@@ -405,23 +389,18 @@ const renderAuthorManagement = async (req, res) => {
 
 const addAuthor = async (req, res) => {
   try {
-    const existingAuthor = await author.findOne({
-      authorName: req.body.authorName,
-    });
+    const existingAuthor = await author.findOne({ authorName: req.body.authorName});
     if (existingAuthor) {
-      console.log("this is existingAuthor ", existingAuthor);
-      req.session.errormsg = "Author Already Exit";
-      return res.redirect("/admin/authorManagement");
+        req.session.errormsg = 'Author Already Exit';
+        return res.redirect('/admin/authorManagement');
     }
     const newAuthor = new author({
       authorName: req.body.authorName,
       authorDetails: req.body.authorDetails,
-      // authorImage: req.file.filename,
+      authorImage: req.file.filename,
       delete: true,
     });
-    const savedAuthor = await newAuthor.save();
-
-    console.log("savedAuthor", savedAuthor);
+    await newAuthor.save();
 
     res.redirect("/admin/authorManagement");
   } catch (err) {
@@ -626,18 +605,15 @@ const editCoupon = async (req, res) => {
       }
     );
 
-    res.status(200).send({
-      data: "Success",
-      couponName: req.body.couponName,
-      discountPercentage: req.body.discountPercentage,
-      maximumDiscountPrice: req.body.maximumDiscountPrice,
-      minimumTotal: req.body.minTotalAmount,
-      ExpiredDate: new Date(req.body.ExpiredDate).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      }),
-    });
+    res.status(200).send(
+      {
+        data:"Success",
+        couponName: req.body.couponName,
+        discountPercentage: req.body.discountPercentage,
+        maximumDiscountPrice: req.body.maximumDiscountPrice,
+        minimumTotal: req.body.minTotalAmount,
+        ExpiredDate: new Date(req.body.ExpiredDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    })
   } catch (err) {
     console.error(`Error Edit Genre : ${err}`);
     res.redirect("/admin/couponManagement");
@@ -1048,10 +1024,12 @@ const bigCard1Discription = async (req, res) => {
         bigCard1Discription: req.body.bigCard1Discription,
       });
       newBanner.save();
-      return res.status(200).send({
-        data: "success",
-        bigCard1Discription: req.body.bigCard1Discription,
-      });
+      return res
+        .status(200)
+        .send({
+          data: "success",
+          bigCard1Discription: req.body.bigCard1Discription,
+        });
     }
     await banner.updateOne(
       { banner: true },
@@ -1061,10 +1039,12 @@ const bigCard1Discription = async (req, res) => {
         },
       }
     );
-    res.status(200).send({
-      data: "success",
-      bigCard1Discription: req.body.bigCard1Discription,
-    });
+    res
+      .status(200)
+      .send({
+        data: "success",
+        bigCard1Discription: req.body.bigCard1Discription,
+      });
   } catch (err) {
     console.error(`Error Get bigCard1Discription Management : ${err}`);
     res.redirect("/admin/admin_panel");
@@ -1079,10 +1059,12 @@ const bigCard1ProductId = async (req, res) => {
         bigCard1ProductId: req.body.bigCard1ProductId,
       });
       newBanner.save();
-      return res.status(200).send({
-        data: "success",
-        bigCard1ProductId: req.body.bigCard1ProductId,
-      });
+      return res
+        .status(200)
+        .send({
+          data: "success",
+          bigCard1ProductId: req.body.bigCard1ProductId,
+        });
     }
     await banner.updateOne(
       { banner: true },
@@ -1211,10 +1193,12 @@ const bigCard2Discription = async (req, res) => {
         bigCard2Discription: req.body.bigCard2Discription,
       });
       newBanner.save();
-      return res.status(200).send({
-        data: "success",
-        bigCard2Discription: req.body.bigCard2Discription,
-      });
+      return res
+        .status(200)
+        .send({
+          data: "success",
+          bigCard2Discription: req.body.bigCard2Discription,
+        });
     }
     await banner.updateOne(
       { banner: true },
@@ -1224,10 +1208,12 @@ const bigCard2Discription = async (req, res) => {
         },
       }
     );
-    res.status(200).send({
-      data: "success",
-      bigCard2Discription: req.body.bigCard2Discription,
-    });
+    res
+      .status(200)
+      .send({
+        data: "success",
+        bigCard2Discription: req.body.bigCard2Discription,
+      });
   } catch (err) {
     console.error(`Error Get bigCard2Discription Management : ${err}`);
     res.redirect("/admin/admin_panel");
@@ -1242,10 +1228,12 @@ const bigCard2ProductId = async (req, res) => {
         bigCard2ProductId: req.body.bigCard2ProductId,
       });
       newBanner.save();
-      return res.status(200).send({
-        data: "success",
-        bigCard2ProductId: req.body.bigCard2ProductId,
-      });
+      return res
+        .status(200)
+        .send({
+          data: "success",
+          bigCard2ProductId: req.body.bigCard2ProductId,
+        });
     }
     await banner.updateOne(
       { banner: true },

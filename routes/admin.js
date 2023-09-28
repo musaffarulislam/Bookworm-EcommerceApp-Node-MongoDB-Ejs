@@ -18,12 +18,11 @@ router.get('/blockUser/:id',midleware.adminSession,adminController.blockUser);
 
 router.get('/unblockUser/:id',midleware.adminSession,adminController.unblockUser);
 
-router.get('/productManagement',adminController.renderProductManagement);
+router.get('/productManagement',midleware.adminSession,adminController.renderProductManagement);
 
-router.get('/addBook',adminController.renderAddBook);
+router.get('/addBook',midleware.adminSession,adminController.renderAddBook);
 
-// router.post('/addBook',upload.array('myFiles', 3),adminController.addBook);
-router.post('/addBook',adminController.addBook);
+router.post('/addBook',upload.array('myFiles', 3),adminController.addBook);
 
 router.post('/editBook/:id',midleware.adminSession,adminController.editBook);
 
@@ -31,8 +30,7 @@ router.get('/deleteBook/:id',midleware.adminSession,adminController.deleteBook);
 
 router.get('/undeleteBook/:id',midleware.adminSession,adminController.undeleteBook);
 
-// router.post('/addAuthorInAddBook',upload.single('authorImageAddBook'),adminController.addAuthorInAddBook);
-router.post('/addAuthorInAddBook',adminController.addAuthorInAddBook);
+router.post('/addAuthorInAddBook',upload.single('authorImageAddBook'),adminController.addAuthorInAddBook);
 
 router.post('/addGenreInAddBook',adminController.addGenreInAddBook);
 
@@ -46,8 +44,7 @@ router.post('/changeImage3/:id',upload.single('myFile3'),adminController.changeI
 
 router.get('/authorManagement',midleware.adminSession,adminController.renderAuthorManagement);
 
-router.post('/addAuthor',adminController.addAuthor);
-// router.post('/addAuthor',upload.single('authorImage'),adminController.addAuthor);
+router.post('/addAuthor',upload.single('authorImage'),adminController.addAuthor);
 
 router.post('/changeAuthorImage/:id',upload.single('authorImage'),adminController.changeAuthorImage);
 

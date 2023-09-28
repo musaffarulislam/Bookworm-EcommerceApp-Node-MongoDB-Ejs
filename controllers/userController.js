@@ -22,31 +22,17 @@ const UserOTPVerification = require('../models/userOTPVerification');
 
 
 const renderHome = async (req,res)=>{
-  try{
-    console.log("render cntrlr ", 1)
-    const books = await book.find({delete: {$ne: false}}).populate('author').populate('genre');
-    console.log("render cntrlr ", 2, "books =>", books)
-    const banners = await banner.findOne({banner: true}).populate('bigCard1ProductId').populate('bigCard2ProductId')
-    console.log("render cntrlr ", 3)
-    req.session.userInfo = false
-    console.log("render cntrlr ", 4)
-    const userId = req.session.user;
-    console.log("render cntrlr ", 5)
-    let userDetails = false;
-    console.log("render cntrlr ", 6)
-    if(userId){
-      userDetails = await user.findOne({_id: userId})
-    }
-    console.log("render cntrlr ", 7)
-    const warning = req.session.errormsg;
-    console.log("render cntrlr ", 8)
-    req.session.errormsg = false;
-    console.log("render cntrlr ", 9)
-    res.render('index',{ title: "Home",books,banners,userDetails,warning});
-  }catch(error){
-    console.log("render cntrlr ", 10)
-    console.log("render home r=error",error)
+  const books = await book.find({delete: {$ne: false}}).populate('author').populate('genre');
+  const banners = await banner.findOne({banner: true}).populate('bigCard1ProductId').populate('bigCard2ProductId')
+  req.session.userInfo = false
+  const userId = req.session.user;
+  let userDetails = false;
+  if(userId){
+    userDetails = await user.findOne({_id: userId})
   }
+  const warning = req.session.errormsg;
+  req.session.errormsg = false;
+  res.render('index',{ title: "Home",books,banners,userDetails,warning});
 }
 
 
