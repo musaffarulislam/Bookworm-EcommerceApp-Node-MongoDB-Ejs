@@ -18,7 +18,7 @@ router.get('/blockUser/:id',midleware.adminSession,adminController.blockUser);
 
 router.get('/unblockUser/:id',midleware.adminSession,adminController.unblockUser);
 
-router.get('/productManagement',midleware.adminSession,adminController.renderProductManagement);
+router.get('/productManagement',adminController.renderProductManagement);
 
 router.get('/addBook',adminController.renderAddBook);
 
