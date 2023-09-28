@@ -46,7 +46,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-console.log("Try 3")
+console.log("Try 4")
 app.use('/admin', adminRouter);
 app.use('/', userRouter);
 
