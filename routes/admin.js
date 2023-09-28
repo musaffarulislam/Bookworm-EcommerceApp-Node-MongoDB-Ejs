@@ -20,7 +20,7 @@ router.get('/unblockUser/:id',midleware.adminSession,adminController.unblockUser
 
 router.get('/productManagement',midleware.adminSession,adminController.renderProductManagement);
 
-router.get('/addBook',midleware.adminSession,adminController.renderAddBook);
+router.get('/addBook',adminController.renderAddBook);
 
 // router.post('/addBook',upload.array('myFiles', 3),adminController.addBook);
 router.post('/addBook',adminController.addBook);
