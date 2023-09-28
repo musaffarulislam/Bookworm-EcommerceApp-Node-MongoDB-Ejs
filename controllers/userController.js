@@ -42,7 +42,8 @@ const renderHome = async (req,res)=>{
     console.log("render cntrlr ", 8)
     req.session.errormsg = false;
     console.log("render cntrlr ", 9)
-    res.render('index',{ title: "Home",books,banners,userDetails,warning});
+    // res.render('index',{ title: "Home",books,banners,userDetails,warning});
+    res.render('signup',{title: 'Signup',warning});
   }catch(error){
     console.log("render cntrlr ", 10)
     console.log("render home r=error",error)
